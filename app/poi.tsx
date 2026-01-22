@@ -1,40 +1,53 @@
-import { ActivityIndicator, FlatList, StyleSheet, Text, View, Image } from 'react-native'
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import React, { useEffect, useState } from 'react'
+import ItemList from '@/components/item_list';
+import { global_styles } from '@/model/global-css';
 import { ProductProps } from '@/model/products';
 import { BackEndService } from '@/services/backend';
-import ProductCard from '@/components/product_card'
-import ItemList from '@/components/item_list'
+import AntDesign from '@expo/vector-icons/AntDesign';
+import { router, useFocusEffect } from "expo-router";
+import React, { useState } from 'react';
+import { Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+
+const productFilters = {
+    'Site culturel': 'CulturalSite',
+    'Activités sportives': 'SportsAndLeisurePlace',
+    'Site naturel': 'NaturalHeritage'
+}
 
 export default function POI() {
     const [loading, setLoading] = useState(true);
-    const [ items, setItems] = useState<ProductProps[]>([]);
+    const [items, setItems] = useState<ProductProps[]>([]);
     const [nextPage, setNextPage] = useState('')
+    const [searchTxt, setSearchTxt] = useState('');
 
-    useEffect(() => {
-        const fetchPOI = async () => {
-            try {
-                //get the products from backend
-                const result  = await BackEndService.getPOI();
-                setItems(result['data'])
-                setNextPage(result["next"])
+    const fetchPOI = async () => {
+        try {
+            setLoading(true);
 
-                setLoading(false);
+            //get the products from backend
+            const result = await BackEndService.getPOI();
+            setItems(result['data'])
+            setNextPage(result["next"])
 
-            } catch (error) {
-                console.error("Error fetching products:", error);
-                setLoading(false); // Don't forget to stop loading on error!
-            }
-        };
+            setLoading(false);
 
-        if (items.length === 0) {
-            fetchPOI();
+        } catch (error) {
+            console.error("Error fetching products:", error);
+            setLoading(false); // Don't forget to stop loading on error!
         }
-    }, []);
+    };
+
+    // Use useFocusEffect to refetch when screen comes into focus
+    useFocusEffect(
+        React.useCallback(() => {
+            setLoading(true);
+            fetchPOI();
+        }, [])
+    );
 
     const loadMore = async () => {
-        if (loading)
-            return
+        if (loading || !nextPage) return;
+
         setLoading(true)
         //get the products from backend
         const result = await BackEndService.getNextPage(nextPage);
@@ -43,28 +56,73 @@ export default function POI() {
         setLoading(false)
     }
 
+    const search = async () => {
+        console.log("search");
+        setLoading(true);
+        const result = await BackEndService.searchPOI(searchTxt);
+        setItems(result['data']);
+        setNextPage(result["next"]);
+        setLoading(false);
+    }
+
+    const openFilter = () => {
+        router.push({
+            pathname: '/filters',
+            params: {
+                filters: JSON.stringify(productFilters)
+            }
+        });
+    }
     return (
-        <ItemList
-        products = {items}
-        loadMore={loadMore}
-        loading={loading}
-        />
+        <SafeAreaProvider>
+            <SafeAreaView style={global_styles.container}>
+                <View style={styles.search_view}>
+                    <TextInput
+                        style={styles.search_bar}
+                        onChangeText={setSearchTxt}
+                        value={searchTxt}
+                        placeholder='Rechercher'
+                        placeholderTextColor={'#555'}
+                        clearButtonMode='always'
+                        autoCorrect={false}
+                        onSubmitEditing={search}
+                    />
+
+                    <Pressable style={styles.button_menu} onPress={openFilter}>
+                        <AntDesign name="menu" size={24} color="white" />
+                    </Pressable>
+                </View>
+
+                <ItemList
+                    products={items}
+                    loadMore={loadMore}
+                    loading={loading}
+                />
+            </SafeAreaView>
+        </SafeAreaProvider>
     )
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 15,
-        backgroundColor: "#15151D",
-        gap: 10
+    search_view: {
+        padding: 10,
+        height: 50,
+        marginBottom: 10,
+        flexDirection: 'row'
     },
-    content: {
-        flex: 1,
-        margin: 10,
-    },
+    search_bar: {
+        color: 'white',
+        borderWidth: 1,
+        borderRadius: 10,
+        borderColor: "#33334d",
+        backgroundColor: "#222232",
+        padding: 10,
+        fontFamily: "f-regular",
+        flex: 1
 
-    list: {
-        flex: 1,
+    },
+    button_menu: {
+        margin: 5,
+        paddingLeft: 5
     }
 })  

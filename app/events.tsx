@@ -1,10 +1,10 @@
-import { ActivityIndicator, FlatList, StyleSheet, Text, View, Image } from 'react-native'
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import React, { useEffect, useState } from 'react'
+import ItemList from '@/components/item_list';
+import { global_styles } from '@/model/global-css';
 import { ProductProps } from '@/model/products';
 import { BackEndService } from '@/services/backend';
-import ProductCard from '@/components/product_card'
-import ItemList from '@/components/item_list'
+import React, { useEffect, useState } from 'react';
+import { StyleSheet } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Events() {
     const [loading, setLoading] = useState(true);
@@ -44,26 +44,27 @@ export default function Events() {
     }
 
     return (
-        <ItemList
-        products = {items}
-        loadMore={loadMore}
-        loading={loading}
-        />
+        <SafeAreaProvider>
+            <SafeAreaView style={global_styles.container}>
+                <ItemList
+                    products={items}
+                    loadMore={loadMore}
+                    loading={loading}
+                />
+            </SafeAreaView>
+        </SafeAreaProvider>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 15,
+        padding: 10,
         backgroundColor: "#15151D",
-        gap: 10
     },
     content: {
         flex: 1,
-        margin: 10,
     },
-
     list: {
         flex: 1,
     }

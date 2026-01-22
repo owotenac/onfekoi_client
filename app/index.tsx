@@ -1,7 +1,7 @@
+import { global_styles } from '@/model/global-css';
 import { router } from "expo-router";
-import { Text, View , Button, StyleSheet} from "react-native";
+import { Button, StyleSheet } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-
 
 export default function Index() {
 
@@ -30,7 +30,7 @@ export default function Index() {
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={global_styles.container}>
         <Button 
                 title='Products'
                 onPress={products}/>
@@ -52,10 +52,4 @@ export default function Index() {
 
 const styles = StyleSheet.create({
 
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: "#15151D",
-    gap: 10
-  }
 })

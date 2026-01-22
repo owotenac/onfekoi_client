@@ -1,20 +1,20 @@
-import { StyleSheet, Text, View, Image, ScrollView, ActivityIndicator } from 'react-native'
-import React, { useEffect, useState, } from 'react'
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import CarouselImage from '@/components/carousel';
+import { global_styles } from '@/model/global-css';
 import { ProductProps } from '@/model/products';
-import { Avatar } from '@kolking/react-native-avatar';
-import { appStore } from '@/model/state';
+import { BackEndService } from '@/services/backend';
 import Entypo from '@expo/vector-icons/Entypo';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { BackEndService } from '@/services/backend';
+import { Avatar } from '@kolking/react-native-avatar';
 import { useLocalSearchParams } from 'expo-router';
-import CarouselImage from '@/components/carousel'
+import React, { useEffect, useState, } from 'react';
+import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+
 
 export default function ProductDetails() {
 
     const local = useLocalSearchParams();
     const uuid = local.uuid as string;
-    //const { currentProduct } = appStore();
     const [loading, setLoading] = useState(true);
     const [item, setItem] = useState<ProductProps | null>(null);
 
@@ -75,7 +75,7 @@ export default function ProductDetails() {
 
     return (
         <SafeAreaProvider>
-            <SafeAreaView style={styles.container}>
+            <SafeAreaView style={global_styles.container}>
                 {!item ? (
                     <ActivityIndicator size="large" />
                 ) :
@@ -161,13 +161,6 @@ export default function ProductDetails() {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#15151D",
-    },
-    content: {
-
-    },
     card: {
         marginBottom: 15,
         padding: 20,

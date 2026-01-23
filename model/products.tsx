@@ -1,7 +1,7 @@
-import { ContactProps } from "./contact";
 import { AddressProps } from "./address";
+import { ContactProps } from "./contact";
 
-export type Features = {
+export type Type = {
     key: string;
     label : string
 }
@@ -27,7 +27,8 @@ export type ProductProps = {
     contact: ContactProps,
     address: AddressProps,
     createdBy: string,
-    features: Features[]
+    features: Type[]
     openingInfo: OpeningInfo
     hasRepresentation: Representation[]
+    type: Type[]
 }

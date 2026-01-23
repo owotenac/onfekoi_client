@@ -1,8 +1,9 @@
 import { create } from "zustand";
+import { Type } from "./products";
 
 type CurrentProductsFilterState = {
-    currentProductFilter: string[]
-    setProductFilter: (filterIds: string[]) => void
+    currentProductFilter: Type[]
+    setProductFilter: (filterIds: Type[]) => void
 }
 
 export const productFilterStore = create<CurrentProductsFilterState>((set) => ({

@@ -1,36 +1,45 @@
 import { Checkbox } from '@/components/checkbox';
 import { productFilterStore } from '@/model/current-filter';
 import { global_styles } from '@/model/global-css';
+import { Type } from '@/model/products';
 import { router, useLocalSearchParams } from "expo-router";
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Filters() {
 
     const { filters } = useLocalSearchParams();
-    const productFilters = filters ? JSON.parse(filters as string) : {};
+    const currentFilter = productFilterStore((state) => state.currentProductFilter);
+    const setProductFilter = productFilterStore((state) => state.setProductFilter);
 
-    // Initialize with current filter from store so user sees their previous selections
-    //const currentFilter = productFilterStore((state) => state.currentProductFilter);
-    //const [tempFilter, setTempFilter] = useState<string[]>(currentFilter);
-    const [tempFilter, setTempFilter] = useState<string[]>([]);
+    const productFilters = useMemo(() => {
+        try {
+            return filters ? JSON.parse(filters as string) : {};
+        } catch (error) {
+            console.error('Error parsing filters:', error);
+            return {};
+        }
+    }, [filters]);
 
-    const toggle = (id: string) => {
+    // Initialize with a function to ensure it only runs once
+    const [tempFilter, setTempFilter] = useState<Type[]>(() => currentFilter);
+
+    const toggle = (filterType: Type) => {
         setTempFilter((current) => {
-            if (current.includes(id)) {
-                const newFilter = current.filter((fid) => fid !== id);
-                return newFilter;
+            const exists = current.some((filter) => filter.key === filterType.key);
+
+            if (exists) {
+                return current.filter((filter) => filter.key !== filterType.key);
             } else {
-                const newFilter = [...current, id];
-                return newFilter;
+                return [...current, filterType];
             }
         });
     }
 
     const search = () => {
         // Get the function directly when you need it
-        productFilterStore.getState().setProductFilter(tempFilter);
+        setProductFilter(tempFilter);
         console.log("search with filters:", tempFilter)
         router.back()
     }
@@ -46,8 +55,8 @@ export default function Filters() {
                             <Checkbox
                                 key={String(value)}
                                 label={label}
-                                checked={tempFilter.includes(String(value))}
-                                onToggle={() => toggle(String(value))}
+                                checked={tempFilter.some((filter) => filter.key === value)}
+                                onToggle={() => toggle({ key: String(value), label })}
                             />
                         );
                     })}

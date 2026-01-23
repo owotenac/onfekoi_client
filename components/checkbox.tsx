@@ -8,12 +8,8 @@ type Props = {
 
 export function Checkbox({ label, checked, onToggle }: Props) {
 
-    const localToogle = () => {
-        onToggle()
-    }
-
   return (
-    <Pressable style={styles.container} onPress={localToogle}>
+    <Pressable style={styles.container} onPress={onToggle}>
       <View style={[styles.box, checked && styles.checked]}>
         {checked && <View style={styles.inner} />}
       </View>

@@ -5,11 +5,10 @@ import { BackEndService } from '@/services/backend';
 import Entypo from '@expo/vector-icons/Entypo';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Avatar } from '@kolking/react-native-avatar';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useNavigation } from 'expo-router';
 import React, { useEffect, useState, } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-
 
 export default function ProductDetails() {
 
@@ -17,6 +16,7 @@ export default function ProductDetails() {
     const uuid = local.uuid as string;
     const [loading, setLoading] = useState(true);
     const [item, setItem] = useState<ProductProps | null>(null);
+    const navigation = useNavigation();
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -26,6 +26,9 @@ export default function ProductDetails() {
 
                 console.log(result)
                 setItem(result)
+
+                navigation.setOptions({ title: result.name });
+
                 setLoading(false);
 
             } catch (error) {

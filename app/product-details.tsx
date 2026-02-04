@@ -1,11 +1,14 @@
 import CarouselImage from '@/components/carousel';
+import Creator_component from '@/components/creator_component';
 import { global_styles } from '@/model/global-css';
 import { ProductProps } from '@/model/products';
 import { BackEndService } from '@/services/backend';
 import Entypo from '@expo/vector-icons/Entypo';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { Avatar } from '@kolking/react-native-avatar';
-import { useLocalSearchParams, useNavigation } from 'expo-router';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { router, useLocalSearchParams, useNavigation } from 'expo-router';
 import React, { useEffect, useState, } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
@@ -67,14 +70,15 @@ export default function ProductDetails() {
 
         return (
             <View style={{flex:1}}>
-            <Text style={styles.date_text}>{item?.openingInfo.additionalInformation}</Text>
             <View style={{flex:1, flexDirection:'row'}}>
                 <MaterialCommunityIcons name="calendar-blank" size={24} color="white" />
                 <Text style={styles.date_text}>{displayDate}</Text>
             </View>
+            <Text style={styles.date_text}>{item?.openingInfo.additionalInformation}</Text>
             </View>            
         )
     }
+
 
     return (
         <SafeAreaProvider>
@@ -83,19 +87,14 @@ export default function ProductDetails() {
                     <ActivityIndicator size="large" />
                 ) :
                     (
-                        <View style={{ flex: 1 }}>
+                        <View style={{  flex: 1, alignContent: 'center',
+        alignItems: 'center'}}>
                             {/* <Image source={{ uri: item.image }} style={styles.image} resizeMode="cover" /> */}
                             <CarouselImage
                                 images={item.hasRepresentation}
                             />
                             <ScrollView style={styles.card}>
-                                <View style={styles.view_creator}>
-                                    <Avatar
-                                        size={30}
-                                        name={item.createdBy}
-                                        colorize={true} />
-                                    <Text style={styles.creator_text}>{item.createdBy}</Text>
-                                </View>
+                                <Creator_component name={item.createdBy}/>
                                 <Text style={styles.main_text}>{item.name}</Text>
                                 <Text style={styles.description}>{item.address.zip} - {item.address.city}</Text>
 
@@ -142,7 +141,7 @@ export default function ProductDetails() {
                                     </View>
                                 }
                                 {item.features &&
-                                    <View style={{ flex: 1 }}>
+                                    <View >
                                         <View style={styles.divider} />
                                         <Text style={styles.chapter}>Features</Text>
 
@@ -156,7 +155,14 @@ export default function ProductDetails() {
 
 
                             </ScrollView>
+
+                        <View style={ styles.toolbar} >
+                                <Ionicons.Button name="arrow-back-circle" size={30} color="white" backgroundColor="#ffffff00" onPress={() => router.back()}/>
+                                <MaterialIcons.Button name="favorite-border" size={30} backgroundColor="#ffffff00" color="white" />
                         </View>
+
+                        </View>
+
                     )}
             </SafeAreaView>
         </SafeAreaProvider>
@@ -165,46 +171,24 @@ export default function ProductDetails() {
 
 const styles = StyleSheet.create({
     card: {
-        marginBottom: 15,
         padding: 20,
         flex: 1,
-        margin: 5,
-    },
-    image: {
-        width: '100%',
-        height: 250,
-        marginBottom: 10
-    },
-    view_creator: {
-        flexDirection: 'row',
-        alignItems: 'flex-start',
-        marginBottom: 10,
-    },
-    avatar: {
-        width: 30,
-        height: 30,
-        borderRadius: 15,
-        backgroundColor: '#6666aa',
-    },
-    creator_text: {
-        color: "#fff",
-        marginLeft: 10,
-        marginTop: 8,
-        verticalAlign: 'middle',
-        fontSize: 12,
     },
     location_text: {
-        color: "#8888aa",
+        color: "#cccce6",
         fontSize: 14,
+        fontFamily: "f-light-italic",
     },
     main_text: {
         color: "#fff",
         fontSize: 20,
         textAlign: 'left',
-        marginBottom: 10
+        fontFamily: 'f-bold'
     },
     description: {
         color: "#ccc",
+        fontSize: 15,
+        fontFamily:"f-regular"
     },
     divider: {
         height: 1,
@@ -212,8 +196,6 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         marginTop: 15,
         marginBottom: 5,
-
-
     },
     chapter: {
         color: "#fff",
@@ -226,15 +208,27 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     contact_text: {
-        color: "#8888aa",
+        color: "#cccce6",
         fontSize: 14,
         marginLeft: 20,
-        margin: 5
+        margin: 5,
+            fontFamily:"f-regular"
     },
     date_text : {
-        color: "#8888aa",
+        color: "#cccce6",
         fontSize: 16,
         marginLeft: 20,
+    },
+    toolbar: {
+        height: 70,
+        width: '100%',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: 15,
+        marginLeft: 10
     }
 
 })

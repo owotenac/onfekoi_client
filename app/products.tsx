@@ -2,15 +2,14 @@ import ItemsComponents from '@/components/items_components';
 import { StyleSheet } from 'react-native';
 
 const productFilters = {
-    'Hebergements': 'RentalAccommodation',
-    'Activités': 'Practice',
-    'Restaurants': 'FoodEstablishment',
+
+    'Activités': 'Practice'
 }
 
 export default function Products() {
     return (
         <ItemsComponents
-        type='catalog'
+        type=''
         typeFilter={productFilters} />
     )
 }

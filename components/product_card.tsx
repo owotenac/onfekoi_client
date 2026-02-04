@@ -1,6 +1,6 @@
+import Creator_component from '@/components/creator_component';
 import { productFilterStore } from '@/model/current-filter';
 import { ProductProps, Type } from '@/model/products';
-import { Avatar } from '@kolking/react-native-avatar';
 import { router } from "expo-router";
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 
@@ -18,23 +18,13 @@ const ProductCard = (item: ProductProps) => {
 
     const clickTag = (type: Type) => {
         setProductFilter([type]);
-        console.log("click tag " + type.label)
-        router.push({
-            pathname: '/products',
-        })
     }
 
     return (
         <Pressable
             onPress={openDetails}>
             <View style={styles.card}>
-                <View style={styles.view_creator}>
-                    <Avatar
-                        size={30}
-                        name={item.createdBy}
-                        colorize={true} />
-                    <Text style={styles.creator_text}>{item.createdBy}</Text>
-                </View>
+                <Creator_component name={item.createdBy}/>
                 <Text style={styles.main_text}>{item.name}</Text>
                 <Text style={styles.location_text}>{item.address.zip} - {item.address.city}</Text>
                 <Image source={{ uri: item.image }} style={styles.image} resizeMode="cover" />
@@ -71,27 +61,6 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 10,
         borderRadius: 10
-    },
-    view_creator: {
-        flexDirection: 'row',
-        alignItems: 'flex-start',
-        marginBottom: 15,
-
-
-    },
-    avatar: {
-        width: 30,
-        height: 30,
-        borderRadius: 15,
-        backgroundColor: '#6666aa',
-    },
-    creator_text: {
-        color: "#fff",
-        marginLeft: 10,
-        marginTop: 8,
-        verticalAlign: 'middle',
-        fontSize: 12,
-        fontFamily: "f-light"
     },
     location_text: {
         color: "#cccce6",

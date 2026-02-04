@@ -7,8 +7,9 @@ import axios from 'axios';
 export class BackEndService {
 
   static api = axios.create({
+    //baseURL: 'https://onfekoi-server.vercel.app/',
     baseURL: 'http://127.0.0.1:5002',
-    timeout: 8000,
+    timeout: 80000,
   });
 
   static getItems = async (type: string) => {

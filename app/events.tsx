@@ -2,14 +2,16 @@ import ItemsComponents from '@/components/items_components';
 import { StyleSheet } from 'react-native';
 
 const eventsFilters = {
-    'LLL': 'lll',
-    'ADDD': 'ADDD'
+    'Evenement Culturel': 'CulturalEvent',
+    'Pièce de Théatre': 'TheaterEvent',
+    'Evenement Sport': 'SportsEvent',
+    'Activités': 'Practice'
 }
 
 export default function Events() {
     return (
         <ItemsComponents
-        type='events'
+        type='EntertainmentAndEvent'
         typeFilter={eventsFilters} />
     )
 }

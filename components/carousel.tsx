@@ -1,11 +1,11 @@
-import { StyleSheet, Text, View, Dimensions, Image } from 'react-native'
-import { useSharedValue } from "react-native-reanimated";
 import { Representation } from '@/model/products';
+import { Dimensions, Image, StyleSheet, View } from 'react-native';
+import { useSharedValue } from "react-native-reanimated";
 
-import React from 'react'
+import React from 'react';
 import Carousel, {
-  ICarouselInstance,
-  Pagination,
+    ICarouselInstance,
+    Pagination
 } from "react-native-reanimated-carousel";
 
 const width = Dimensions.get("window").width;
@@ -33,23 +33,17 @@ const CarouselImage = ({ images }: CarouselImageProps) => {
   };
 
     return (
-        <View style={{ flex: 1 , marginBottom: 20}}>
+        <View style={{ }}>
             <Carousel
                 ref={ref}
-                style={{ width, height: width *0.6}}
-                width={width}
+                style={{ width: 500, height: 500 *0.6}}
+                width={500}
                 data={data}
                 onProgressChange={progress}
                 renderItem={({ item, index }) => (
-                    // <View
-                    //     style={{
-                    //         flex: 1,
-                    //         borderWidth: 1,
-                    //         justifyContent: "center",
-                    //     }}
-                    // >
-                    <Image source={{ uri:  item.locator }} style={styles.image} resizeMode="cover" />
-                    // </View>
+
+                    <Image source={{ uri:  item.locator }} style={styles.image} resizeMode="contain" />
+                
                 )}
             />
 
@@ -57,7 +51,7 @@ const CarouselImage = ({ images }: CarouselImageProps) => {
                 progress={progress}
                 data={data}
                 dotStyle={{ backgroundColor: "rgb(247, 244, 244)", borderRadius: 50 }}
-                containerStyle={{ gap: 5, marginTop: 10, marginBottom: 20 }}
+                containerStyle={{ gap: 5, marginTop: 10, marginBottom: 10 }}
                 onPress={onPressPagination}
             />
         </View>
@@ -69,6 +63,6 @@ export default CarouselImage
 const styles = StyleSheet.create({
     image : {
         width: width,
-        height: 300
+        height: width *0.6,
     }
 })

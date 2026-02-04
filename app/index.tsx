@@ -1,9 +1,11 @@
+import { productFilterStore } from '@/model/current-filter';
 import { global_styles } from '@/model/global-css';
 import { router } from "expo-router";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Index() {
+  const setProductFilter = productFilterStore((state) => state.setProductFilter);
 
   const products = () => {
             router.push({
@@ -25,6 +27,18 @@ export default function Index() {
             pathname: '/events'
         })
   }
+  const foodEstablishment = () => {
+            router.push({
+            pathname: '/foodEstablishment'
+        })
+  }
+  const rentalAccommodation = () => {
+            router.push({
+            pathname: '/rentalAccommodation'
+        })
+  }
+
+
 
 
 
@@ -34,14 +48,16 @@ export default function Index() {
         <Image source={require('../assets/images/onfekoi_logo.png')} style={styles.image } resizeMode="contain" />
         <View style={styles.view_column}>
           <View style={styles.view_row}>
-          <TouchableOpacity onPress={products} style={styles.button}>
-            <Text style={styles.button_text}>Products</Text>
-            </TouchableOpacity>
-          <TouchableOpacity onPress={poi} style={styles.button}><Text style={styles.button_text}>Lieux</Text></TouchableOpacity>
+          <TouchableOpacity onPress={products} style={styles.button}><Text style={styles.button_text}>Products</Text></TouchableOpacity>
+          <TouchableOpacity onPress={poi} style={styles.button}><Text style={styles.button_text}>On visite?</Text></TouchableOpacity>
           </View>
         <View style={styles.view_row}>
-          <TouchableOpacity onPress={events} style={styles.button}><Text style={styles.button_text}>Events</Text></TouchableOpacity>
-          <TouchableOpacity onPress={tours} style={styles.button}><Text style={styles.button_text}>Tours</Text></TouchableOpacity>
+          <TouchableOpacity onPress={events} style={styles.button}><Text style={styles.button_text}>On sort?</Text></TouchableOpacity>
+          <TouchableOpacity onPress={tours} style={styles.button}><Text style={styles.button_text}>On bouge?</Text></TouchableOpacity>
+          </View>
+        <View style={styles.view_row}>
+          <TouchableOpacity onPress={foodEstablishment} style={styles.button}><Text style={styles.button_text}>On mange?</Text></TouchableOpacity>
+          <TouchableOpacity onPress={rentalAccommodation} style={styles.button}><Text style={styles.button_text}>On dort?</Text></TouchableOpacity>
           </View>
         </View>
 

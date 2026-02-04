@@ -2,16 +2,15 @@ import ItemsComponents from '@/components/items_components';
 import { StyleSheet } from 'react-native';
 
 const productFilters = {
-    'Site culturel': 'CulturalSite',
-    'Activités sportives': 'SportsAndLeisurePlace',
-    'Site naturel': 'NaturalHeritage',
-    'Service pratique': "ServiceArea"
+    'Restaurants': 'FoodEstablishment',
+    'Producteurs' : 'Producer'
 }
 
-export default function POI() {
+export default function FoodEstablishment() {
+
     return (
         <ItemsComponents
-        type='PointOfInterest'
+        type='FoodEstablishment'
         typeFilter={productFilters} />
     )
 }
@@ -19,3 +18,4 @@ export default function POI() {
 const styles = StyleSheet.create({
 
 })  
+

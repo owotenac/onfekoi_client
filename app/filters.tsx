@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#222232",
         padding: 10,
         fontFamily: "f-regular",
+        width: '100%',
     },
     group_text: {
         fontSize: 20,

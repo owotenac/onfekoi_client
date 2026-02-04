@@ -4,9 +4,8 @@ import { global_styles } from '@/model/global-css';
 import { ProductProps } from '@/model/products';
 import { BackEndService } from '@/services/backend';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { useFocusEffect } from '@react-navigation/native';
 import { router } from "expo-router";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
@@ -40,12 +39,18 @@ export default function ItemsComponents({ type, typeFilter }: ItemComponentProps
     };
 
     // Use useFocusEffect to refetch when screen comes into focus
-    useFocusEffect(
-        React.useCallback(() => {
-            setLoading(true);
+    // useFocusEffect(
+    //     React.useCallback(() => {
+    //         fetchItems();
+    //     }, [])
+    // );
+
+    useEffect(() => {
+        //if (currentFilter) {
             fetchItems();
-        }, [])
-    );
+        //}
+        
+    }, [currentFilter]);
 
     const loadMore = async () => {
         if (loading || !nextPage) return;

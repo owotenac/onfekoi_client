@@ -12,6 +12,7 @@ import { router, useLocalSearchParams, useNavigation } from 'expo-router';
 import React, { useEffect, useState, } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import MapScreen from './mapview-component';
 
 export default function ProductDetails() {
 
@@ -26,8 +27,6 @@ export default function ProductDetails() {
             try {
                 //get the products from backend
                 const result = await BackEndService.getDetailledProduct(uuid);
-
-                console.log(result)
                 setItem(result)
 
                 navigation.setOptions({ title: result.name });
@@ -106,6 +105,10 @@ export default function ProductDetails() {
                                 <Text style={styles.chapter}>Localisation</Text>
                                 <Text style={styles.location_text}>{item.address.streetAddress}</Text>
                                 <Text style={styles.location_text}>{item.address.zip} - {item.address.city}</Text>
+                                <View style={{height: 200, marginTop: 10}}>
+                                    <MapScreen {...item}/>
+                                </View>
+
                                 <View style={styles.divider} />
                                 <Text style={styles.chapter}>Contact</Text>
                                 {item.contact.name &&

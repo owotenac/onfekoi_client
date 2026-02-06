@@ -1,7 +1,17 @@
 .circle-container {
-  width: 20px; /* Set the desired width */
-  height: 20px; /* Set the desired height, must be equal to make it a circle */
-  border-radius: 50%; /* This makes it circular */
-  background-color: blue; /* Blue background color */
-  border: 10px solid red; /* Red border with thickness of 10 pixels */
+    width: 20px;
+    /* Set the desired width */
+    height: 20px;
+    /* Set the desired height, must be equal to make it a circle */
+    border-radius: 50%;
+    /* This makes it circular */
+    background-color: blue;
+    /* Blue background color */
+    border: 10px solid red;
+    /* Red border with thickness of 10 pixels */
+}
+
+/* Remove default marker styling */
+.circle-container::before {
+    content: none;
 }

@@ -1,20 +1,15 @@
+import { MapViewProps } from '@/model/mapviewprops';
+import { router } from 'expo-router';
 import { useEffect, useRef } from 'react';
 
-interface MapViewProps {
-  initialRegion: {
-    latitude: number;
-    longitude: number;
-    latitudeDelta: number;
-    longitudeDelta: number;
-  };
-  children?: any;
-  style?: any;
-}
+import '../assets/map_css/map.css';
+
 
 export default function MapView({ initialRegion, children, style }: MapViewProps) {
   const mapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+
     if (typeof window === 'undefined') return;
 
     const script1 = document.createElement('script');
@@ -35,7 +30,7 @@ export default function MapView({ initialRegion, children, style }: MapViewProps
         15
       );
 
-      map.panTo({lat: initialRegion.latitude, lng: initialRegion.longitude})
+      map.panTo({ lat: initialRegion.latitude, lng: initialRegion.longitude })
       //map.setZoom(10)
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -43,6 +38,7 @@ export default function MapView({ initialRegion, children, style }: MapViewProps
       }).addTo(map);
 
       //L.control.zoom({ zoomInText: '11' })
+      var myIcon = L.divIcon({ className: 'circle-container' })
 
       // Add markers if children exist
       if (children) {
@@ -52,25 +48,51 @@ export default function MapView({ initialRegion, children, style }: MapViewProps
             const marker = L.marker([
               child.props.coordinate.latitude,
               child.props.coordinate.longitude,
-            ]).addTo(map);
-            
-            if (child.props.title) {
-              marker.bindPopup(child.props.title);
+            ],
+              { icon: myIcon }
+            ).addTo(map);
+
+            if (child.props.title && child.props.uuid) {
+              // Create clickable popup content with HTML
+              const popupContent = `
+                <div class="custom-popup">
+                  <h3>${child.props.title}</h3>
+                  <button 
+                    class="popup-details-btn" 
+                    data-uuid="${child.props.uuid}"
+                  >
+                    View Details
+                  </button>
+                </div>
+              `;
+
+              marker.bindPopup(popupContent);
+
+              // Listen for popup open event
+              marker.on('popupopen', () => {
+                // Add click handler to the button inside the popup
+                const btn = document.querySelector(`[data-uuid="${child.props.uuid}"]`);
+                if (btn) {
+                  btn.addEventListener('click', () => {
+                    router.push(`/product-details?uuid=${child.props.uuid}`);
+                  });
+                }
+              });
             }
           }
         });
-      }
+}
     };
 
-    document.head.appendChild(script1);
+document.head.appendChild(script1);
 
-    return () => {
-      script1.remove();
-      link.remove();
-    };
+return () => {
+  script1.remove();
+  link.remove();
+};
   }, [initialRegion, children]);
 
-  return <div ref={mapRef} style={{ width: '100%', height: '100%', ...style }} />;
+return <div ref={mapRef} style={{ width: '100%', height: '100%', ...style }} />;
 }
 
 export function Marker({ coordinate, title }: any) {

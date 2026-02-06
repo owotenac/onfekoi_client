@@ -1,50 +1,56 @@
+import { productFilterStore } from '@/model/current-filter';
 import { global_styles } from '@/model/global-css';
-import { router } from "expo-router";
+import { router, useNavigation } from "expo-router";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Index() {
+    const navigation = useNavigation();
+    const setMainType = productFilterStore((state) => state.setMainType);
 
-  const products = () => {
-    router.push({
-      pathname: '/products'
-    })
-  }
   const poi = () => {
+    setMainType('PointOfInterest')
     router.push({
       pathname: '/poi'
     })
   }
   const tours = () => {
+    setMainType('Tour')
     router.push({
       pathname: '/tours'
     })
   }
   const events = () => {
+    setMainType('EntertainmentAndEvent')
     router.push({
       pathname: '/events'
     })
   }
   const foodEstablishment = () => {
+    setMainType('FoodEstablishment')    
     router.push({
       pathname: '/foodEstablishment'
     })
   }
   const rentalAccommodation = () => {
+    setMainType('RentalAccommodation')    
     router.push({
       pathname: '/rentalAccommodation'
     })
   }
+
+  //router.n
+  //navigation.setOptions({ hearderShow : false })
 
 
 
   return (
     <SafeAreaProvider>
       <SafeAreaView style={global_styles.container}>
-        <Image source={require('../assets/images/onfekoi_logo.png')} style={styles.image} resizeMode="contain" />
+        <Image source={require('../../assets/images/onfekoi_logo.png')} style={styles.image} resizeMode="contain" />
         <View style={styles.view_column}>
           <View style={styles.view_row}>
-            <TouchableOpacity onPress={products} style={styles.button}><Text style={styles.button_text}>Products</Text></TouchableOpacity>
+            <TouchableOpacity onPress={foodEstablishment} style={styles.button}><Text style={styles.button_text}>On mange?</Text></TouchableOpacity>
             <TouchableOpacity onPress={poi} style={styles.button}><Text style={styles.button_text}>On visite?</Text></TouchableOpacity>
           </View>
           <View style={styles.view_row}>
@@ -52,7 +58,6 @@ export default function Index() {
             <TouchableOpacity onPress={tours} style={styles.button}><Text style={styles.button_text}>On bouge?</Text></TouchableOpacity>
           </View>
           <View style={styles.view_row}>
-            <TouchableOpacity onPress={foodEstablishment} style={styles.button}><Text style={styles.button_text}>On mange?</Text></TouchableOpacity>
             <TouchableOpacity onPress={rentalAccommodation} style={styles.button}><Text style={styles.button_text}>On dort?</Text></TouchableOpacity>
           </View>
         </View>

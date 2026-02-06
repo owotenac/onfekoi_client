@@ -18,13 +18,14 @@ export default function RootLayout() {
 
   return (
     <Stack screenOptions={{ ...TabBarTheme, headerShown: true }}>
-      <Stack.Screen name="index" options={{ title: '' }} />
+                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                {/* <Stack.Screen name="index" options={{ title: '' }} />
       <Stack.Screen name="poi" options={{ title: 'On visite?' }} />
       <Stack.Screen name="products" options={{ title: 'Produits' }} />
       <Stack.Screen name="tours" options={{ title: 'On bouge?' }} />
       <Stack.Screen name="events" options={{ title: 'On sort?' }} />
-      <Stack.Screen name="foodEstablishment" options={{ title: 'On mange?' }} />
-      <Stack.Screen name="rentalAccommodation" options={{ title: 'On dort?' }} />
+      <Stack.Screen name="foodEstablishment" options={{ title: 'On mange?' }} /> 
+      <Stack.Screen name="rentalAccommodation" options={{ title: 'On dort?' }} /> */}
       <Stack.Screen name="filters" options={{ title: 'Filtres' }} />
       <Stack.Screen name="product-details" options={{ title: '' }} />
     </Stack>

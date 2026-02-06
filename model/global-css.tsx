@@ -24,7 +24,7 @@ export const TabBarTheme = {
   headerShadowVisible: false,
   headerTintColor: '#ffffffff',
   tabBarStyle: {
-    backgroundColor: '#ffffffff',
+    backgroundColor: '#15151D',
   },
   headerShown: true,
 }

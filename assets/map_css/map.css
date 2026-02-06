@@ -1,17 +1,35 @@
-.circle-container {
-    width: 20px;
-    /* Set the desired width */
-    height: 20px;
-    /* Set the desired height, must be equal to make it a circle */
-    border-radius: 50%;
-    /* This makes it circular */
-    background-color: blue;
-    /* Blue background color */
-    border: 10px solid red;
-    /* Red border with thickness of 10 pixels */
+    .circle-container {
+        background-color: #007AFF;
+        border: 1px solid white;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Remove default marker styling */
+    .circle-container::before {
+        content: none;
+    }
+
+
+    .custom-popup h3 {
+  margin: 0 0 12px 0;
+  font-size: 16px;
+  color: #333;
 }
 
-/* Remove default marker styling */
-.circle-container::before {
-    content: none;
+.popup-details-btn {
+  background-color: #007AFF;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  width: 100%;
+}
+
+.popup-details-btn:hover {
+  background-color: #0056b3;
 }

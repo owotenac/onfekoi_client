@@ -1,16 +1,7 @@
+import { MapViewProps } from '@/model/mapviewprops';
 import { StyleSheet } from 'react-native';
 import { WebView } from 'react-native-webview';
-
-interface MapViewProps {
-  initialRegion: {
-    latitude: number;
-    longitude: number;
-    latitudeDelta?: number;
-    longitudeDelta?: number;
-  };
-  children?: any;
-  style?: any;
-}
+import '../assets/map_css/map.css';
 
 export default function MapView({ initialRegion, children, style }: MapViewProps) {
   const markers = Array.isArray(children) ? children : children ? [children] : [];
@@ -29,6 +20,7 @@ export default function MapView({ initialRegion, children, style }: MapViewProps
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/owotenac/onfekoi_client@main/assets/map_css/map.css" />
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
         <style>
           body { margin: 0; padding: 0; }
@@ -46,9 +38,14 @@ export default function MapView({ initialRegion, children, style }: MapViewProps
             attribution: '© OpenStreetMap'
           }).addTo(map);
           
+          var myIcon = L.divIcon({className: 'circle-container'})
+
           const markers = ${JSON.stringify(markerData)};
           markers.forEach(m => {
-            const marker = L.marker([m.lat, m.lng]).addTo(map);
+            const marker = L.marker(
+              [m.lat, m.lng],
+              {icon: myIcon}
+            ).addTo(map);
             if (m.title) marker.bindPopup(m.title);
           });
         </script>

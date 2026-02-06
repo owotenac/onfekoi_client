@@ -23,6 +23,9 @@ export class BackEndService {
   });
 
   static getItems = async (type: string) => {
+    if (type =='') {
+      throw new Error('type is empty')
+    }
     //type of query: products, events, poi, tours
     const params: { [key: string]: string } = {
       'type': type
@@ -88,5 +91,30 @@ export class BackEndService {
     }
   };
 
+  static getGeolocationItems = async (type: string) => {
+    console.log("geo")
+    if (type =='') {
+      throw new Error('type is empty')
+    }
+    //type of query: products, events, poi, tours
+    const params: { [key: string]: string } = {
+      'type': type
+    };
+
+    //filter if any
+    const filters = productFilterStore.getState().currentProductFilter;
+    if (filters.length > 0) {
+      params['filters'] = filters.map((filter) => filter.key).join(',');
+    }
+    const { data } = await BackEndService.api.get('/api/geolocation', {
+      params: params
+    });
+    const products = data['data'] as ProductProps[];
+
+    return {
+      'data': products,
+      'next': data['meta']['next']
+    }
+  };
 
 }

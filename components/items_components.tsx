@@ -22,12 +22,12 @@ export default function ItemsComponents({ type, typeFilter }: ItemComponentProps
     const [searchTxt, setSearchTxt] = useState('');
     const currentFilter = productFilterStore((state) => state.currentProductFilter);
 
+
     const fetchItems = async () => {
         try {
             setLoading(true);
             //get the products from backend
             const result = await BackEndService.getItems(type);
-
             setItems(result['data']);
             setNextPage(result["next"]);
             setLoading(false);
@@ -37,13 +37,6 @@ export default function ItemsComponents({ type, typeFilter }: ItemComponentProps
             setLoading(false);
         }
     };
-
-    // Use useFocusEffect to refetch when screen comes into focus
-    // useFocusEffect(
-    //     React.useCallback(() => {
-    //         fetchItems();
-    //     }, [])
-    // );
 
     useEffect(() => {
         //if (currentFilter) {

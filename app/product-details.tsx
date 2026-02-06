@@ -7,12 +7,11 @@ import Entypo from '@expo/vector-icons/Entypo';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { router, useLocalSearchParams, useNavigation } from 'expo-router';
+import { useLocalSearchParams, useNavigation } from 'expo-router';
 import React, { useEffect, useState, } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import MapScreen from './mapview-component';
+import MapScreen from '../components/mapview-component';
 
 export default function ProductDetails() {
 
@@ -25,6 +24,7 @@ export default function ProductDetails() {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
+                console.log('fetch products ' + uuid)
                 //get the products from backend
                 const result = await BackEndService.getDetailledProduct(uuid);
                 setItem(result)
@@ -53,28 +53,28 @@ export default function ProductDetails() {
         const dateEnd = item.openingInfo.validThrough
         const strDate = new Date(dateStart).toLocaleDateString('fr-FR', {
             day: '2-digit',
-            month: 'long', 
+            month: 'long',
             year: 'numeric'
-          })
+        })
         const strDateEnd = new Date(dateEnd).toLocaleDateString('fr-FR', {
             day: '2-digit',
-            month: 'long', 
+            month: 'long',
             year: 'numeric'
-          })
+        })
 
         let displayDate = strDate
         // if it's the same date => we display only 1
-          if (dateStart != dateEnd)
+        if (dateStart != dateEnd)
             displayDate = "Du " + strDate + " au " + strDateEnd
 
         return (
-            <View style={{flex:1}}>
-            <View style={{flex:1, flexDirection:'row'}}>
-                <MaterialCommunityIcons name="calendar-blank" size={24} color="white" />
-                <Text style={styles.date_text}>{displayDate}</Text>
+            <View style={{ flex: 1 }}>
+                <View style={{ flex: 1, flexDirection: 'row' }}>
+                    <MaterialCommunityIcons name="calendar-blank" size={24} color="white" />
+                    <Text style={styles.date_text}>{displayDate}</Text>
+                </View>
+                <Text style={styles.date_text}>{item?.openingInfo.additionalInformation}</Text>
             </View>
-            <Text style={styles.date_text}>{item?.openingInfo.additionalInformation}</Text>
-            </View>            
         )
     }
 
@@ -86,28 +86,36 @@ export default function ProductDetails() {
                     <ActivityIndicator size="large" />
                 ) :
                     (
-                        <View style={{  flex: 1, alignContent: 'center',
-        alignItems: 'center'}}>
-                            {/* <Image source={{ uri: item.image }} style={styles.image} resizeMode="cover" /> */}
+                        <View style={{
+                            flex: 1, alignContent: 'center',
+                            alignItems: 'center'
+                        }}>
+                            {
+                            item.hasRepresentation &&
                             <CarouselImage
                                 images={item.hasRepresentation}
                             />
+                            }
                             <ScrollView style={styles.card}>
-                                <Creator_component name={item.createdBy}/>
+                                <Creator_component name={item.createdBy} />
                                 <Text style={styles.main_text}>{item.name}</Text>
-                                <Text style={styles.description}>{item.address.zip} - {item.address.city}</Text>
+                                <Text style={styles.description}>{item.address?.zip} - {item.address?.city}</Text>
 
                                 <View style={styles.divider} />
                                 <Text style={styles.chapter}>Description</Text>
                                 <Text style={styles.description}>{item.description}</Text>
 
+                                {item.address &&
+                                <>
                                 <View style={styles.divider} />
                                 <Text style={styles.chapter}>Localisation</Text>
                                 <Text style={styles.location_text}>{item.address.streetAddress}</Text>
                                 <Text style={styles.location_text}>{item.address.zip} - {item.address.city}</Text>
                                 <View style={{height: 200, marginTop: 10}}>
-                                    <MapScreen {...item}/>
+                                    <MapScreen item={[item]} />
                                 </View>
+                                </>
+                                }
 
                                 <View style={styles.divider} />
                                 <Text style={styles.chapter}>Contact</Text>
@@ -136,11 +144,11 @@ export default function ProductDetails() {
                                         <Text style={styles.contact_text}>{item.contact.telephone}</Text>
                                     </View>
                                 }
-                                { item.openingInfo &&
+                                {item.openingInfo &&
                                     <View style={{ flex: 1 }}>
                                         <View style={styles.divider} />
                                         <Text style={styles.chapter}>Ouverture</Text>
-                                        { openingInfo() }
+                                        {openingInfo()}
                                     </View>
                                 }
                                 {item.features &&
@@ -159,10 +167,10 @@ export default function ProductDetails() {
 
                             </ScrollView>
 
-                        <View style={ styles.toolbar} >
-                                <Ionicons.Button name="arrow-back-circle" size={30} color="white" backgroundColor="#ffffff00" onPress={() => router.back()}/>
+                            <View style={styles.toolbar} >
+                                {/* <Ionicons.Button name="arrow-back-circle" size={30} color="white" backgroundColor="#ffffff00" onPress={() => router.back()} /> */}
                                 <MaterialIcons.Button name="favorite-border" size={30} backgroundColor="#ffffff00" color="white" />
-                        </View>
+                            </View>
 
                         </View>
 
@@ -191,7 +199,7 @@ const styles = StyleSheet.create({
     description: {
         color: "#ccc",
         fontSize: 15,
-        fontFamily:"f-regular"
+        fontFamily: "f-regular"
     },
     divider: {
         height: 1,
@@ -215,9 +223,9 @@ const styles = StyleSheet.create({
         fontSize: 14,
         marginLeft: 20,
         margin: 5,
-            fontFamily:"f-regular"
+        fontFamily: "f-regular"
     },
-    date_text : {
+    date_text: {
         color: "#cccce6",
         fontSize: 16,
         marginLeft: 20,
@@ -229,7 +237,7 @@ const styles = StyleSheet.create({
         top: 0,
         left: 0,
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-end',
         padding: 15,
         marginLeft: 10
     }

@@ -56,7 +56,7 @@ export default function TabLayout() {
         name="foodEstablishment"
         options={{
           href: null,
-          title: 'On mange?',
+          title: 'On mange',
           tabBarIcon: ({ color }) => <Entypo name="map" size={24} color={color} /> 
 
         }} 
@@ -65,7 +65,7 @@ export default function TabLayout() {
         name="events"
         options={{
           href: null,
-          title: 'On visite?',
+          title: 'On sort',
           //tabBarIcon: ({ color }) => <Entypo name="map" size={24} color={color} /> 
 
         }} 
@@ -74,7 +74,7 @@ export default function TabLayout() {
         name="tours"
         options={{
           href: null,
-          title: 'On bouge?',
+          title: 'On bouge',
           //tabBarIcon: ({ color }) => <Entypo name="map" size={24} color={color} /> 
 
         }} 
@@ -83,7 +83,7 @@ export default function TabLayout() {
         name="rentalAccommodation"
         options={{
           href: null,
-          title: 'On dort?',
+          title: 'On dort',
           //tabBarIcon: ({ color }) => <Entypo name="map" size={24} color={color} /> 
 
         }} 
@@ -92,7 +92,7 @@ export default function TabLayout() {
         name="poi"
         options={{
           href: null,
-          title: 'On visite?',
+          title: 'On visite',
           //tabBarIcon: ({ color }) => <Entypo name="map" size={24} color={color} /> 
 
         }} 

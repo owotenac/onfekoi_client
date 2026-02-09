@@ -5,7 +5,6 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 function WebNavBar() {
   return (
     <View style={styles.navbar}>
-      <Text style={styles.logo}>OnFekoi</Text>
       <View style={styles.navLinks}>
         <TouchableOpacity onPress={() => router.push({ pathname: '/(tabs)' })} style={styles.navItem}>
           <AntDesign name="home" size={34} color='white' />
@@ -49,11 +48,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 16,
     backgroundColor: "#15151D",
-  },
-  logo: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#007AFF',
   },
   navLinks: {
     flexDirection: 'row',

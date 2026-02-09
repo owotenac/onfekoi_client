@@ -4,6 +4,7 @@ import { global_styles } from '@/model/global-css';
 import { ProductProps } from '@/model/products';
 import { BackEndService } from '@/services/backend';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { router } from "expo-router";
 import React, { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
@@ -96,17 +97,17 @@ export default function ItemsComponents({ type, typeFilter }: ItemComponentProps
                     />
 
                     <Pressable style={styles.button_menu} onPress={openFilter}>
-                        <AntDesign name="menu" size={24} color="white" />
+                        <MaterialIcons name="filter-list" size={24} color="white" />
                     </Pressable>
                 </View>
                 <View style={styles.view_tags}>
                     {currentFilter.map((tag, index) => (
-                        <Pressable onPress={() => closeTag(tag.key)}>
-                            <View key={tag.key} style={styles.view_tag}>
-                                <Text style={styles.tags}>
+                        <Pressable  style={styles.tags} key={tag.key} onPress={() => closeTag(tag.key)}>
+                            <View style={{flexDirection: 'row'}}>
+                                <Text style={styles.tags_text}>
                                     {tag.label}
                                 </Text>
-                                <AntDesign name="close" size={15} color="white" />
+                                <AntDesign name="close" size={15} color='#3FAE7C' />
                             </View>
                         </Pressable>
                     ))}
@@ -126,7 +127,7 @@ const styles = StyleSheet.create({
     search_view: {
         padding: 5,
         height: 50,
-        marginBottom: 5,
+        //marginBottom: 5,
         flexDirection: 'row',
         width: '100%',
     },
@@ -154,19 +155,19 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         width: '100%'
     },
-    view_tag: {
-        backgroundColor: "#7878a0",
-        borderRadius: 5,
-        paddingHorizontal: 8,
-        paddingVertical: 4,
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
     tags: {
-        color: "white",
-        fontSize: 20,
-        fontFamily: "f-light-italic",
-        marginRight: 10
+        borderWidth: 1,
+        borderColor: '#3FAE7C',
+        borderRadius: 999,
+        paddingHorizontal: 10,
+        paddingVertical: 4,
+        marginRight: 6,
+    },
+    tags_text: {
+        fontSize: 14,
+        color: '#3FAE7C',
+        fontWeight: '500',
+        marginRight: 5
     },
 
 })  

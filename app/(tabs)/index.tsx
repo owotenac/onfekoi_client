@@ -1,7 +1,8 @@
+import CategoryButton from '@/components/category_button';
 import { productFilterStore } from '@/model/current-filter';
 import { global_styles } from '@/model/global-css';
 import { router, useNavigation } from "expo-router";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Index() {
@@ -50,15 +51,40 @@ export default function Index() {
         <Image source={require('../../assets/images/onfekoi_logo.png')} style={styles.image} resizeMode="contain" />
         <View style={styles.view_column}>
           <View style={styles.view_row}>
-            <TouchableOpacity onPress={foodEstablishment} style={styles.button}><Text style={styles.button_text}>On mange?</Text></TouchableOpacity>
-            <TouchableOpacity onPress={poi} style={styles.button}><Text style={styles.button_text}>On visite?</Text></TouchableOpacity>
+            <CategoryButton
+              title="On mange"
+              imageSource={require('@/assets/images/mange.jpg')}
+              accentColor='#FFA500'
+              onPress={foodEstablishment}
+            />
+            <CategoryButton
+              title="On visite"
+              imageSource={require('@/assets/images/visite.jpg')}
+              accentColor='#487197'
+              onPress={poi}
+            />
           </View>
           <View style={styles.view_row}>
-            <TouchableOpacity onPress={events} style={styles.button}><Text style={styles.button_text}>On sort?</Text></TouchableOpacity>
-            <TouchableOpacity onPress={tours} style={styles.button}><Text style={styles.button_text}>On bouge?</Text></TouchableOpacity>
+            <CategoryButton
+              title="On sort"
+              imageSource={require('@/assets/images/sort.jpg')}
+              accentColor='#8f207c'
+              onPress={events}
+            />
+            <CategoryButton
+              title="On bouge"
+              imageSource={require('@/assets/images/bouge.jpg')}
+              accentColor='#418a45'
+              onPress={tours}
+            />
           </View>
           <View style={styles.view_row}>
-            <TouchableOpacity onPress={rentalAccommodation} style={styles.button}><Text style={styles.button_text}>On dort?</Text></TouchableOpacity>
+            <CategoryButton
+              title="On dort"
+              imageSource={require('@/assets/images/dors.jpg')}
+              accentColor='#a13628'
+              onPress={rentalAccommodation}
+            />            
           </View>
         </View>
       </SafeAreaView>
@@ -69,10 +95,10 @@ export default function Index() {
 const styles = StyleSheet.create({
 
   button: {
-    marginBottom: 10,
-    height: 100,
-    width: 150,
-    backgroundColor: '#313168',
+    //marginBottom: 10,
+    //height: 100,
+    //width: 150,
+    //backgroundColor: '#9982ec',//'#313168',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 8,
@@ -81,11 +107,22 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 25,
     fontFamily: "f-regular",
+    backgroundColor: "#00000033",
+    width: "100%",
+    textAlign: 'center',
+    padding:5
   },
   image: {
-    width: 400,
-    height: 300,
+    width: 300,
+    height: 200,
     marginBottom: 30,
+    
+  },
+  image_button: {
+    width: 200,
+    height: 200,
+    marginBottom: 30,
+        borderRadius: 30,
   },
   view_column: {
     flexDirection: 'column',

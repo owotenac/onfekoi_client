@@ -32,7 +32,7 @@ export default function CategoryButton ({ title, imageSource, accentColor, onPre
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#121212', // Ton fond Dark Mode
+    backgroundColor: '#121212', 
     padding: 15,
   },
   grid: {
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   card: {
     width: COLUMN_WIDTH,
     height: 160,
-    backgroundColor: '#1E1E26', // Violet très foncé/gris
+    backgroundColor: '#1E1E26', 
     borderRadius: 15,
     overflow: 'hidden',
     marginBottom: 15,

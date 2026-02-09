@@ -1,12 +1,11 @@
 import CarouselImage from '@/components/carousel';
-import Creator_component from '@/components/creator_component';
 import { global_styles } from '@/model/global-css';
 import { ProductProps } from '@/model/products';
 import { BackEndService } from '@/services/backend';
-import Entypo from '@expo/vector-icons/Entypo';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
+import QuickActionsBar from '@/components/toolbar_actions';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import React, { useEffect, useState, } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -29,7 +28,7 @@ export default function ProductDetails() {
                 const result = await BackEndService.getDetailledProduct(uuid);
                 setItem(result)
 
-                navigation.setOptions({ title: result.name });
+                //navigation.setOptions({ title: result.name });
 
                 setLoading(false);
 
@@ -86,92 +85,96 @@ export default function ProductDetails() {
                     <ActivityIndicator size="large" />
                 ) :
                     (
-                        <View style={{
-                            flex: 1, alignContent: 'center',
-                            alignItems: 'center'
-                        }}>
-                            {
-                            item.hasRepresentation &&
-                            <CarouselImage
-                                images={item.hasRepresentation}
-                            />
-                            }
-                            <ScrollView style={styles.card}>
-                                <Creator_component name={item.createdBy} />
-                                <Text style={styles.main_text}>{item.name}</Text>
-                                <Text style={styles.description}>{item.address?.zip} - {item.address?.city}</Text>
-
-                                <View style={styles.divider} />
-                                <Text style={styles.chapter}>Description</Text>
-                                <Text style={styles.description}>{item.description}</Text>
-
-                                {item.address &&
-                                <>
-                                <View style={styles.divider} />
-                                <Text style={styles.chapter}>Localisation</Text>
-                                <Text style={styles.location_text}>{item.address.streetAddress}</Text>
-                                <Text style={styles.location_text}>{item.address.zip} - {item.address.city}</Text>
-                                <View style={{height: 200, marginTop: 10}}>
-                                    <MapScreen item={[item]} />
-                                </View>
-                                </>
-                                }
-
-                                <View style={styles.divider} />
-                                <Text style={styles.chapter}>Contact</Text>
-                                {item.contact.name &&
-                                    <View style={styles.row_contact}>
-                                        <MaterialCommunityIcons name="head-outline" size={24} color="white" />
-                                        <Text style={styles.contact_text}>{item.contact.name}</Text>
-                                    </View>
-                                }
-
-                                {item.contact.homepage &&
-                                    <View style={styles.row_contact}>
-                                        <MaterialCommunityIcons name="web" size={24} color="white" />
-                                        <Text style={styles.contact_text}>{item.contact.homepage}</Text>
-                                    </View>
-                                }
-                                {item.contact.email &&
-                                    <View style={styles.row_contact}>
-                                        <Entypo name="mail" size={24} color="white" />
-                                        <Text style={styles.contact_text}>{item.contact.email}</Text>
-                                    </View>
-                                }
-                                {item.contact.telephone &&
-                                    <View style={styles.row_contact}>
-                                        <Entypo name="phone" size={24} color="white" />
-                                        <Text style={styles.contact_text}>{item.contact.telephone}</Text>
-                                    </View>
-                                }
-                                {item.openingInfo &&
-                                    <View style={{ flex: 1 }}>
-                                        <View style={styles.divider} />
-                                        <Text style={styles.chapter}>Ouverture</Text>
-                                        {openingInfo()}
-                                    </View>
-                                }
-                                {item.features &&
-                                    <View >
-                                        <View style={styles.divider} />
-                                        <Text style={styles.chapter}>Features</Text>
-
-                                        {item.features.map((feature, index) => (
-                                            <Text key={feature.key} style={styles.contact_text}>
-                                                {feature.label}
-                                            </Text>
-                                        ))}
-                                    </View>
-                                }
-
-
-                            </ScrollView>
-
+                        <View style={{flex: 1}}>
                             <View style={styles.toolbar} >
-                                {/* <Ionicons.Button name="arrow-back-circle" size={30} color="white" backgroundColor="#ffffff00" onPress={() => router.back()} /> */}
+                                <View style={styles.top_view}>
+                                    <Text style={styles.main_text}>{item.name}</Text>
+                                    <Text style={styles.description}>{item.address?.zip} - {item.address?.city}</Text>
+                                </View>
                                 <MaterialIcons.Button name="favorite-border" size={30} backgroundColor="#ffffff00" color="white" />
                             </View>
 
+                            <View style={{
+                                flex:1,
+                                alignContent: 'center',
+                                alignItems: 'center'
+                            }}>
+
+                                {
+                                    item.hasRepresentation &&
+                                    <CarouselImage
+                                        images={item.hasRepresentation}
+                                    />
+                                }
+                                <QuickActionsBar 
+                                    {...item} />
+                                <ScrollView style={styles.card}>
+
+                                    <View style={styles.divider} />
+                                    <Text style={styles.chapter}>Description</Text>
+                                    <Text style={styles.description}>{item.description}</Text>
+
+                                    {/* <View style={styles.divider} />
+                                    <Text style={styles.chapter}>Contact</Text>
+                                    {item.contact.name &&
+                                        <View style={styles.row_contact}>
+                                            <MaterialCommunityIcons name="head-outline" size={24} color="white" />
+                                            <Text style={styles.contact_text}>{item.contact.name}</Text>
+                                        </View>
+                                    }
+
+                                    {item.contact.homepage &&
+                                        <View style={styles.row_contact}>
+                                            <MaterialCommunityIcons name="web" size={24} color="white" />
+                                            <Text style={styles.contact_text}>{item.contact.homepage}</Text>
+                                        </View>
+                                    }
+                                    {item.contact.email &&
+                                        <View style={styles.row_contact}>
+                                            <Entypo name="mail" size={24} color="white" />
+                                            <Text style={styles.contact_text}>{item.contact.email}</Text>
+                                        </View>
+                                    }
+                                    {item.contact.telephone &&
+                                        <View style={styles.row_contact}>
+                                            <Entypo name="phone" size={24} color="white" />
+                                            <Text style={styles.contact_text}>{item.contact.telephone}</Text>
+                                        </View>
+                                    }
+                                    {item.openingInfo &&
+                                        <View style={{ flex: 1 }}>
+                                            <View style={styles.divider} />
+                                            <Text style={styles.chapter}>Ouverture</Text>
+                                            {openingInfo()}
+                                        </View>
+                                    } */}
+                                    {item.address &&
+                                        <>
+                                            <View style={styles.divider} />
+                                            <Text style={styles.chapter}>Localisation</Text>
+                                            <Text style={styles.location_text}>{item.address.streetAddress}</Text>
+                                            <Text style={styles.location_text}>{item.address.zip} - {item.address.city}</Text>
+                                            <View style={{ height: 200, marginTop: 10 }}>
+                                                <MapScreen item={[item]} />
+                                            </View>
+                                        </>
+                                    }                                    
+                                    {item.features &&
+                                        <View >
+                                            <View style={styles.divider} />
+                                            <Text style={styles.chapter}>Equipements</Text>
+
+                                            {item.features.map((feature, index) => (
+                                                <Text key={feature.key} style={styles.contact_text}>
+                                                    {feature.label}
+                                                </Text>
+                                            ))}
+                                        </View>
+                                    }
+
+
+                                </ScrollView>
+                            </View>
                         </View>
 
                     )}
@@ -186,7 +189,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     location_text: {
-        color: "#cccce6",
+        color: "#fff",
         fontSize: 14,
         fontFamily: "f-light-italic",
     },
@@ -194,51 +197,54 @@ const styles = StyleSheet.create({
         color: "#fff",
         fontSize: 20,
         textAlign: 'left',
-        fontFamily: 'f-bold'
+        fontFamily: 'f-bold',
+        textTransform: 'capitalize'
     },
     description: {
-        color: "#ccc",
+        color: "#fff",
         fontSize: 15,
-        fontFamily: "f-regular"
+        fontFamily: "f-light",
+        lineHeight: 22
     },
     divider: {
         height: 1,
-        borderColor: '#777',
+        borderColor: '#555',
         borderWidth: 1,
         marginTop: 15,
         marginBottom: 5,
     },
     chapter: {
         color: "#fff",
-        fontSize: 14,
+        fontSize: 16,
         fontWeight: 500,
         textAlign: 'left',
-        marginBottom: 10
+        marginBottom: 10,
+        fontFamily: "f-bold"
     },
     row_contact: {
         flexDirection: 'row'
     },
     contact_text: {
-        color: "#cccce6",
+        color: "#fff",
         fontSize: 14,
         marginLeft: 20,
         margin: 5,
         fontFamily: "f-regular"
     },
     date_text: {
-        color: "#cccce6",
+        color: "#fff",
         fontSize: 16,
         marginLeft: 20,
     },
     toolbar: {
-        height: 70,
         width: '100%',
-        position: 'absolute',
-        top: 0,
-        left: 0,
         flexDirection: 'row',
-        justifyContent: 'flex-end',
-        padding: 15,
+        justifyContent: "space-between",
+    },
+    top_view: {
+        padding: 5,
+        gap: 5,
+        marginBottom: 10,
         marginLeft: 10
     }
 

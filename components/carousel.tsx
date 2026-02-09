@@ -36,13 +36,13 @@ const CarouselImage = ({ images }: CarouselImageProps) => {
         <View style={{ }}>
             <Carousel
                 ref={ref}
-                style={{ width: 500, height: 500 *0.6}}
-                width={500}
+                style={{ width: 400, height: 400 *0.6}}
+                width={400}
                 data={data}
                 onProgressChange={progress}
                 renderItem={({ item, index }) => (
 
-                    <Image source={{ uri:  item.locator }} style={styles.image} resizeMode="contain" />
+                    <Image source={{ uri:  item.locator }} style={styles.image} resizeMode="cover" />
                 
                 )}
             />
@@ -50,7 +50,7 @@ const CarouselImage = ({ images }: CarouselImageProps) => {
             <Pagination.Basic
                 progress={progress}
                 data={data}
-                dotStyle={{ backgroundColor: "rgb(247, 244, 244)", borderRadius: 50 }}
+                dotStyle={{ backgroundColor: "rgb(255, 255, 255)", borderRadius: 50 }}
                 containerStyle={{ gap: 5, marginTop: 10, marginBottom: 10 }}
                 onPress={onPressPagination}
             />

@@ -2,7 +2,6 @@ import Creator_component from '@/components/creator_component';
 import { productFilterStore } from '@/model/current-filter';
 import { ProductProps, Type } from '@/model/products';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { router } from "expo-router";
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 
@@ -37,9 +36,9 @@ const ProductCard = (item: ProductProps) => {
                 <View style = {styles.interaction_view} >
                     <Ionicons name="heart-outline" size={24} color="white" />
                     <Text style={styles.like_text}>{getRandomNumber()}</Text>                    
-                    <MaterialIcons name="share" size={24} color="white" />
+                    <Ionicons name="paper-plane-outline" size={24} color="white" />
                 </View>
-                <Text style={styles.description}>{item.shortDescription}</Text>
+                <Text numberOfLines={3} ellipsizeMode='tail' style={styles.description}>{item.shortDescription}</Text>
                 <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10, marginTop: 10 }}>
                     {item.type.map((tag, index) => (
                         <Pressable style={styles.tags} key={tag.key} onPress={() => clickTag({ key: String(tag.key), label: tag.label })}>
@@ -89,7 +88,7 @@ const styles = StyleSheet.create({
     description: {
         color: "#fff",
         fontSize: 15,
-        fontFamily: "f-regular"
+        fontFamily: "f-regular",
     },
     divider: {
         height: 1,
@@ -116,13 +115,13 @@ const styles = StyleSheet.create({
         //justifyContent: 'space-between',
         alignItems: 'flex-end', 
         marginTop: 5,
-        marginBottom: 10,
+        marginBottom: 13,
         gap: 2,
     }, 
     like_text : {
-        fontSize: 10,
+        fontSize: 12,
         color: 'white',
         marginRight: 15,
-        verticalAlign: 'bottom'
+        //verticalAlign: 'bottom'
     }
 })

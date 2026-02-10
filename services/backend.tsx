@@ -1,5 +1,5 @@
 import { productFilterStore } from "@/model/current-filter";
-//import { Platform } from "react-native";
+// import { Platform } from "react-native";
 import { ProductProps } from "../model/products";
 
 import axios from 'axios';

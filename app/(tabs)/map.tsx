@@ -1,5 +1,4 @@
 import MapScreen from '@/components/mapview-component';
-import { productFilterStore } from '@/model/current-filter';
 import { ProductProps } from '@/model/products';
 import { BackEndService } from '@/services/backend';
 import * as Location from 'expo-location';
@@ -9,29 +8,40 @@ import { ActivityIndicator } from 'react-native';
 export default function Map() {
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState<ProductProps[]>([]);
-
-  useEffect(() => {
-    const fetchItems = async () => {
-      try {
-        setLoading(true);
-        const mainType = productFilterStore.getState().mainType;
-        let userLocation =  {coords: {latitude: 43.619301, longitude: 3.872337}} as Location.LocationObject;        
-        const result = await BackEndService.getGeolocationItems(
-          mainType,
-          userLocation.coords.latitude, 
-          userLocation.coords.longitude
-        );
-
-        setItems(result['data']);
-        setLoading(false);
-
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
+    const [location, setLocation] = useState<Location.LocationObject | null>(null);
+    
+   useEffect(() => {
+    const initialize = async () => {
+        try {
+            setLoading(true);
+            
+            //default location 
+            let userLocation =  {coords: {latitude: 43.619301, longitude: 3.872337}} as Location.LocationObject;
+            setLocation(userLocation)
+            // Get location
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status == 'granted') {
+                userLocation = await Location.getCurrentPositionAsync({});
+                setLocation(userLocation);
+            }
+            
+            // Use location in API call
+            const result = await BackEndService.getGeolocationItems(
+                "ALL", 
+                userLocation.coords.latitude, 
+                userLocation.coords.longitude
+            );
+            setItems(result['data']);
+            
+        } catch (error) {
+            console.error("Error:", error);
+        } finally {
+            setLoading(false);
+        }
     };
 
-    fetchItems();
-  }, []); // Added mainType as dependency
+    initialize();
+}, []);
 
   return (
     loading ? <ActivityIndicator size="large" /> : <MapScreen item={items} />

@@ -23,14 +23,10 @@ export default function MapView({ initialRegion, children, style }: MapViewProps
     link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
     document.head.appendChild(link);
 
-    // const link2 = document.createElement('link');
-    // link2.rel = 'stylesheet';
-    // link2.href = 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=home';
-    // document.head.appendChild(link2);
-const link2 = document.createElement('link');
-link2.rel = 'stylesheet';
-link2.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
-document.head.appendChild(link2);
+    const link2 = document.createElement('link');
+    link2.rel = 'stylesheet';
+    link2.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+    document.head.appendChild(link2);
 
     script1.onload = () => {
       const L = (window as any).L;
@@ -50,7 +46,6 @@ document.head.appendChild(link2);
       };
 
       const getIconByType = (type: string) => {
-        console.log(type)
         switch (type) {
           case 'RentalAccommodation':
             return createFAIcon('fas fa-home', globalTheme['rental']['color']);
@@ -131,6 +126,7 @@ document.head.appendChild(link2);
     return () => {
       script1.remove();
       link.remove();
+      link2.remove();
     };
   }, [initialRegion, children]);
 

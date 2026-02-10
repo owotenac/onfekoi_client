@@ -18,7 +18,7 @@ export default function TabLayout() {
         name="index"
         options={{
           title: '',
-          tabBarIcon: ({ color }) => <AntDesign name="home" size={24} color={color} /> ,
+          tabBarIcon: ({ color }) => <AntDesign name="home" size={24} color={color} />,
           href: null,
           tabBarStyle: { display: 'none' }
         }}
@@ -49,7 +49,7 @@ export default function TabLayout() {
         name="map"
         options={{
           title: 'Map',
-          tabBarIcon: ({ color }) => <Entypo name="map" size={24} color={color} /> 
+          tabBarIcon: ({ color }) => <Entypo name="map" size={24} color={color} />
         }}
       />
       <Tabs.Screen
@@ -57,9 +57,9 @@ export default function TabLayout() {
         options={{
           href: null,
           title: 'On mange',
-          tabBarIcon: ({ color }) => <Entypo name="map" size={24} color={color} /> 
+          tabBarIcon: ({ color }) => <Entypo name="map" size={24} color={color} />
 
-        }} 
+        }}
       />
       <Tabs.Screen
         name="events"
@@ -68,7 +68,7 @@ export default function TabLayout() {
           title: 'On sort',
           //tabBarIcon: ({ color }) => <Entypo name="map" size={24} color={color} /> 
 
-        }} 
+        }}
       />
       <Tabs.Screen
         name="tours"
@@ -77,25 +77,34 @@ export default function TabLayout() {
           title: 'On bouge',
           //tabBarIcon: ({ color }) => <Entypo name="map" size={24} color={color} /> 
 
-        }} 
+        }}
       />
-            <Tabs.Screen
+      <Tabs.Screen
         name="rentalAccommodation"
         options={{
           href: null,
           title: 'On dort',
           //tabBarIcon: ({ color }) => <Entypo name="map" size={24} color={color} /> 
 
-        }} 
+        }}
       />
-                  <Tabs.Screen
+      <Tabs.Screen
         name="poi"
         options={{
           href: null,
           title: 'On visite',
           //tabBarIcon: ({ color }) => <Entypo name="map" size={24} color={color} /> 
 
-        }} 
+        }}
+      />
+            <Tabs.Screen
+        name="onfekoi"
+        options={{
+          href: null,
+          title: 'ONFEKOI dans le coin',
+          //tabBarIcon: ({ color }) => <Entypo name="map" size={24} color={color} /> 
+
+        }}
       />
     </Tabs>
   );

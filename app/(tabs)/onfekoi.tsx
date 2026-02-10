@@ -21,7 +21,7 @@ export default function Onfekoi() {
             setLocation(userLocation)
             // Get location
             let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status === 'granted') {
+            if (status == 'granted') {
                 userLocation = await Location.getCurrentPositionAsync({});
                 setLocation(userLocation);
             }

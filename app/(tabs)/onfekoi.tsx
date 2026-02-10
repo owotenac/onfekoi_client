@@ -11,37 +11,78 @@ export default function Onfekoi() {
     const [location, setLocation] = useState<Location.LocationObject | null>(null);
 
 
-   useEffect(() => {
-    const initialize = async () => {
+useEffect(() => {
+  const initialize = async () => {
+    try {
+      setLoading(true);
+      
+      let userLocation: Location.LocationObject;
+      
+      // Request location permission
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      
+      if (status === 'granted') {
         try {
-            setLoading(true);
-            
-            //default location 
-            let userLocation =  {coords: {latitude: 43.619301, longitude: 3.872337}} as Location.LocationObject;
-            setLocation(userLocation)
-            // Get location
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status == 'granted') {
-                userLocation = await Location.getCurrentPositionAsync({});
-                setLocation(userLocation);
-            }
-            
-            // Use location in API call
-            const result = await BackEndService.getGeolocationItems(
-                "ALL", 
-                userLocation.coords.latitude, 
-                userLocation.coords.longitude
-            );
-            setItems(result['data']);
-            
-        } catch (error) {
-            console.error("Error:", error);
-        } finally {
-            setLoading(false);
+          // Get actual user location
+          userLocation = await Location.getCurrentPositionAsync({
+            accuracy: Location.Accuracy.Balanced, // Add accuracy option
+          });
+        } catch (locationError) {
+          console.warn("Failed to get location, using default:", locationError);
+          // Fallback to default if getCurrentPosition fails
+          userLocation = {
+            coords: {
+              latitude: 43.619301,
+              longitude: 3.872337,
+              altitude: null,
+              accuracy: null,
+              altitudeAccuracy: null,
+              heading: null,
+              speed: null,
+            },
+            timestamp: Date.now(),
+          };
         }
-    };
+      } else {
+        // Permission denied - use default location
+        console.log("Location permission denied, using default location");
+        userLocation = {
+          coords: {
+            latitude: 43.619301,
+            longitude: 3.872337,
+            altitude: null,
+            accuracy: null,
+            altitudeAccuracy: null,
+            heading: null,
+            speed: null,
+          },
+          timestamp: Date.now(),
+        };
+        
+        // Optional: Show a message to user
+        // Alert.alert("Location Access", "Using default location. Enable location for better results.");
+      }
+      
+      // Use location in API call
+      const result = await BackEndService.getGeolocationItems(
+        "ALL",
+        userLocation.coords.latitude,
+        userLocation.coords.longitude
+      );
+      
+      setItems(result['data']);
+      setLocation(userLocation);
+      
+    } catch (error) {
+      console.error("Error initializing:", error);
+      // Optional: Set some error state or show user-friendly message
+      // setError("Failed to load nearby items");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    initialize();
+  initialize();
 }, []);
 
     return (

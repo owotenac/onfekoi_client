@@ -1,4 +1,5 @@
 import { productFilterStore } from "@/model/current-filter";
+//import { Platform } from "react-native";
 import { ProductProps } from "../model/products";
 
 import axios from 'axios';
@@ -91,8 +92,7 @@ export class BackEndService {
     }
   };
 
-  static getGeolocationItems = async (type: string) => {
-    console.log("geo")
+  static getGeolocationItems = async (type: string, lat: number, lon: number) => {
     if (type =='') {
       throw new Error('type is empty')
     }
@@ -100,6 +100,10 @@ export class BackEndService {
     const params: { [key: string]: string } = {
       'type': type
     };
+
+    //add user coordinates to the query
+    params['lat'] = lat.toString();
+    params['lon'] = lon.toString();
 
     //filter if any
     const filters = productFilterStore.getState().currentProductFilter;
@@ -110,7 +114,6 @@ export class BackEndService {
       params: params
     });
     const products = data['data'] as ProductProps[];
-
     return {
       'data': products,
       'next': data['meta']['next']

@@ -28,3 +28,32 @@ export const TabBarTheme = {
   },
   headerShown: true,
 }
+
+export const globalTheme = {
+  onfekoi : {
+    key: 'ALL',
+    color: '#1c1485',
+  },
+  food : {
+    key : 'FoodEstablishment',
+    color: '#FFA500',
+  },
+  events :{
+    key : 'EntertainmentAndEvent',
+    color: '#8f207c',
+  },
+  poi :{
+    key : 'PointOfInterest',
+    color: '#487197',
+  },
+  tours :{
+    key : 'Tour',
+    color: '#418a45',
+  },
+  rental :{
+    key : 'RentalAccommodation',
+    color: '#a13628',
+  },
+
+
+}

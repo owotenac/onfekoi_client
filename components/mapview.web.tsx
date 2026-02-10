@@ -2,7 +2,9 @@ import { MapViewProps } from '@/model/mapviewprops';
 import { router } from 'expo-router';
 import { useEffect, useRef } from 'react';
 
+import { globalTheme } from '@/model/global-css';
 import '../assets/map_css/map.css';
+
 
 
 export default function MapView({ initialRegion, children, style }: MapViewProps) {
@@ -21,10 +23,49 @@ export default function MapView({ initialRegion, children, style }: MapViewProps
     link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
     document.head.appendChild(link);
 
+    // const link2 = document.createElement('link');
+    // link2.rel = 'stylesheet';
+    // link2.href = 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=home';
+    // document.head.appendChild(link2);
+const link2 = document.createElement('link');
+link2.rel = 'stylesheet';
+link2.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+document.head.appendChild(link2);
+
     script1.onload = () => {
       const L = (window as any).L;
       if (!L || !mapRef.current) return;
+      const createFAIcon = (iconClass: string, color: string) => {
+        return L.divIcon({
+          className: 'custom-fa-icon',
+          html: `
+      <div class="marker-container" style="background-color: ${color};">
+        <i class="${iconClass}"></i>
+      </div>
+    `,
+          iconSize: [36, 36],
+          iconAnchor: [18, 36],
+          popupAnchor: [0, -36]
+        });
+      };
 
+      const getIconByType = (type: string) => {
+        console.log(type)
+        switch (type) {
+          case 'RentalAccommodation':
+            return createFAIcon('fas fa-home', globalTheme['rental']['color']);
+          case 'FoodEstablishment':
+            return createFAIcon('fas fa-utensils', globalTheme['food']['color']);
+          case 'EntertainmentAndEvent':
+            return createFAIcon('fas fa-calendar-alt', globalTheme['events']['color']);
+          case 'PointOfInterest':
+            return createFAIcon('fas fa-map-marker-alt', globalTheme['poi']['color']);
+          case 'Tour':
+            return createFAIcon('fas fa-map-marker-alt', globalTheme['tours']['color']);
+          default:
+            return createFAIcon('fas fa-circle', '#007AFF');
+        }
+      };
       const map = L.map(mapRef.current).setView(
         [initialRegion.latitude, initialRegion.longitude],
         15
@@ -38,7 +79,8 @@ export default function MapView({ initialRegion, children, style }: MapViewProps
       }).addTo(map);
 
       //L.control.zoom({ zoomInText: '11' })
-      var myIcon = L.divIcon({ className: 'circle-container' })
+      //var myIcon = L.divIcon({ className: 'circle-container' })
+      //var rentalIcon = getIconByType('food')
 
       // Add markers if children exist
       if (children) {
@@ -49,7 +91,7 @@ export default function MapView({ initialRegion, children, style }: MapViewProps
               child.props.coordinate.latitude,
               child.props.coordinate.longitude,
             ],
-              { icon: myIcon }
+              { icon: getIconByType(child.props.mainType) }
             ).addTo(map);
 
             if (child.props.title && child.props.uuid) {
@@ -81,20 +123,20 @@ export default function MapView({ initialRegion, children, style }: MapViewProps
             }
           }
         });
-}
+      }
     };
 
-document.head.appendChild(script1);
+    document.head.appendChild(script1);
 
-return () => {
-  script1.remove();
-  link.remove();
-};
+    return () => {
+      script1.remove();
+      link.remove();
+    };
   }, [initialRegion, children]);
 
-return <div ref={mapRef} style={{ width: '100%', height: '100%', ...style }} />;
+  return <div ref={mapRef} style={{ width: '100%', height: '100%', ...style }} />;
 }
 
-export function Marker({ coordinate, title }: any) {
+export function Marker({ coordinate, title, uuid, mainType }: any) {
   return null; // Rendered by parent MapView
 }

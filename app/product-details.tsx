@@ -140,14 +140,14 @@ export default function ProductDetails() {
                                             <Entypo name="phone" size={24} color="white" />
                                             <Text style={styles.contact_text}>{item.contact.telephone}</Text>
                                         </View>
-                                    }
+                                    }*/}
                                     {item.openingInfo &&
                                         <View style={{ flex: 1 }}>
                                             <View style={styles.divider} />
                                             <Text style={styles.chapter}>Ouverture</Text>
                                             {openingInfo()}
                                         </View>
-                                    } */}
+                                    } 
                                     {item.address &&
                                         <>
                                             <View style={styles.divider} />

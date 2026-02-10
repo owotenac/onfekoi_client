@@ -24,6 +24,7 @@ export default function MapScreen({ item }: { item: ProductProps[] }) {
               }}
               title={loc.name}
               uuid = {loc.uuid}
+              mainType = {loc.mainType}
             />
           ))
         }

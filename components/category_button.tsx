@@ -2,27 +2,26 @@ import React from 'react';
 import { ColorValue, Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const { width } = Dimensions.get('window');
-const COLUMN_WIDTH = (width - 40) / 2; // Calcule la largeur pour 2 colonnes avec padding
+const COLUMN_WIDTH = (width - 40) / 2; 
 
 export type CategoryButtonProps = {
     title: string;
     imageSource: any;
     accentColor: ColorValue;
-    onPress?: () => void;
+    onPress: () => void;
+    sizeConstrains?: boolean
 };
 
-export default function CategoryButton ({ title, imageSource, accentColor, onPress } : CategoryButtonProps) {
+export default function CategoryButton ({ title, imageSource, accentColor, sizeConstrains = true,  onPress } : CategoryButtonProps) {
   return (
-    <TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.8}>
-      {/* Partie Haute : Image */}
+    <TouchableOpacity style={[styles.card, { width: sizeConstrains ? COLUMN_WIDTH : width - 20}]} onPress={onPress} activeOpacity={0.8}>
       <View style={styles.imageContainer}>
         <Image source={imageSource} style={styles.image} resizeMode="cover" />
       </View>
 
-      {/* Partie Basse : Texte avec rappel de couleur */}
       <View style={[styles.textContainer, { borderLeftColor: accentColor }]}>
         <Text style={styles.title}>{title}</Text>
-        <View style={[styles.indicator, { backgroundColor: accentColor }]} />
+        {/* <View style={[styles.indicator, { backgroundColor: accentColor }]} /> */}
       </View>
     </TouchableOpacity>
   );
@@ -41,7 +40,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   card: {
-    width: COLUMN_WIDTH,
+    //width: COLUMN_WIDTH,
     height: 160,
     backgroundColor: '#1E1E26', 
     borderRadius: 15,

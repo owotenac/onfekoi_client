@@ -31,4 +31,5 @@ export type ProductProps = {
     openingInfo: OpeningInfo
     hasRepresentation: Representation[]
     type: Type[]
+    mainType: string
 }

@@ -11,7 +11,7 @@ export default function MapView({ initialRegion, children, style }: MapViewProps
   );
 }
 
-export function Marker({ coordinate, title }: any) {
+export function Marker({ coordinate, title, uuid, mainType }: any) {
   return null;
 }
 

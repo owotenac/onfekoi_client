@@ -5,6 +5,7 @@
         width: 30px;
         height: 30px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+
     }
 
     /* Remove default marker styling */
@@ -32,4 +33,28 @@
 
 .popup-details-btn:hover {
   background-color: #0056b3;
+}
+
+
+.custom-fa-icon {
+  background: transparent;
+  border: none;
+}
+
+.marker-container {
+  width: 36px;
+  height: 36px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  border: 3px solid white;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.marker-container i {
+  transform: rotate(45deg);
+  color: white;
+  font-size: 18px;
 }

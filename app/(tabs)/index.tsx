@@ -1,45 +1,49 @@
 import CategoryButton from '@/components/category_button';
 import { productFilterStore } from '@/model/current-filter';
-import { global_styles } from '@/model/global-css';
-import { router, useNavigation } from "expo-router";
-import { Image, StyleSheet, View } from "react-native";
+import { global_styles, globalTheme } from '@/model/global-css';
+import { router } from "expo-router";
+import { Image, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Index() {
-    const navigation = useNavigation();
-    const setMainType = productFilterStore((state) => state.setMainType);
+  const setMainType = productFilterStore((state) => state.setMainType);
 
   const poi = () => {
-    setMainType('PointOfInterest')
+    setMainType(globalTheme['poi']['key'])
     router.push({
       pathname: '/poi'
     })
   }
   const tours = () => {
-    setMainType('Tour')
+    setMainType(globalTheme['tours']['key'])
     router.push({
       pathname: '/tours'
     })
   }
   const events = () => {
-    setMainType('EntertainmentAndEvent')
+    setMainType(globalTheme['events']['key'])
     router.push({
       pathname: '/events'
     })
   }
   const foodEstablishment = () => {
-    setMainType('FoodEstablishment')    
+    setMainType(globalTheme['food']['key'])
     router.push({
       pathname: '/foodEstablishment'
     })
   }
   const rentalAccommodation = () => {
-    setMainType('RentalAccommodation')    
+    setMainType(globalTheme['rental']['key'])
     router.push({
       pathname: '/rentalAccommodation'
     })
   }
-
+  const onfekoi = () => {
+    setMainType(globalTheme['onfekoi']['key'])
+    router.push({
+      pathname: '/onfekoi'
+    })
+  }
   //router.n
   //navigation.setOptions({ hearderShow : false })
 
@@ -49,18 +53,29 @@ export default function Index() {
     <SafeAreaProvider>
       <SafeAreaView style={global_styles.container}>
         <Image source={require('../../assets/images/onfekoi_logo.png')} style={styles.image} resizeMode="contain" />
+        <ScrollView>
         <View style={styles.view_column}>
+          {/* <View style={styles.view_row}> */}
+            <CategoryButton
+              title="ONFEKOI dans le coin"
+              imageSource={require('@/assets/images/map.jpg')}
+              accentColor= {globalTheme['onfekoi']['color']}
+              onPress={onfekoi}
+              sizeConstrains = {false}
+            />
+
+          {/* </View> */}
           <View style={styles.view_row}>
             <CategoryButton
               title="On mange"
               imageSource={require('@/assets/images/mange.jpg')}
-              accentColor='#FFA500'
+              accentColor={globalTheme['food']['color']}
               onPress={foodEstablishment}
             />
             <CategoryButton
               title="On visite"
               imageSource={require('@/assets/images/visite.jpg')}
-              accentColor='#487197'
+              accentColor={globalTheme['poi']['color']}
               onPress={poi}
             />
           </View>
@@ -68,13 +83,13 @@ export default function Index() {
             <CategoryButton
               title="On sort"
               imageSource={require('@/assets/images/sort.jpg')}
-              accentColor='#8f207c'
+              accentColor={globalTheme['events']['color']}
               onPress={events}
             />
             <CategoryButton
               title="On bouge"
               imageSource={require('@/assets/images/bouge.jpg')}
-              accentColor='#418a45'
+              accentColor={globalTheme['tours']['color']}
               onPress={tours}
             />
           </View>
@@ -82,11 +97,12 @@ export default function Index() {
             <CategoryButton
               title="On dort"
               imageSource={require('@/assets/images/dors.jpg')}
-              accentColor='#a13628'
+              accentColor={globalTheme['rental']['color']}
               onPress={rentalAccommodation}
-            />            
+            />
           </View>
         </View>
+        </ScrollView>
       </SafeAreaView>
     </SafeAreaProvider>
   );
@@ -110,19 +126,19 @@ const styles = StyleSheet.create({
     backgroundColor: "#00000033",
     width: "100%",
     textAlign: 'center',
-    padding:5
+    padding: 5
   },
   image: {
     width: 300,
     height: 200,
     marginBottom: 30,
-    
+
   },
   image_button: {
     width: 200,
     height: 200,
     marginBottom: 30,
-        borderRadius: 30,
+    borderRadius: 30,
   },
   view_column: {
     flexDirection: 'column',

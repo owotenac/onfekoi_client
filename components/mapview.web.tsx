@@ -13,6 +13,7 @@ export default function MapView({ initialRegion, children, style, onRefreshReque
 
   const leafletMapRef = useRef<any>(null);
   const mapRef = useRef<HTMLDivElement>(null);
+  const markersLayerRef = useRef<any>(null);
 
   //
   const handleRefresh = () => {
@@ -105,6 +106,13 @@ export default function MapView({ initialRegion, children, style, onRefreshReque
         map.panTo({ lat: initialRegion.latitude, lng: initialRegion.longitude })
       }
 
+      // layer for markers
+      if (!markersLayerRef.current) {
+          markersLayerRef.current = L.layerGroup().addTo(map);
+      } else {
+          markersLayerRef.current.clearLayers(); // Clean up old markers
+      }
+
       // On MOVE END
       map.on('moveend', () => {
         computeDistance();
@@ -116,7 +124,7 @@ export default function MapView({ initialRegion, children, style, onRefreshReque
 
       // Add markers if children exist
       if (children) {
-        createMarkers(L, getIconByType, map);
+        createMarkers(L, getIconByType);
       }
     };
 
@@ -158,7 +166,7 @@ export default function MapView({ initialRegion, children, style, onRefreshReque
   );
 
 
-  function createMarkers(L: any, getIconByType: (type: string) => any, map: any) {
+  function createMarkers(L: any, getIconByType: (type: string) => any) {
     const childArray = Array.isArray(children) ? children : [children];
     childArray.forEach((child: any) => {
       if (child?.props?.coordinate) {
@@ -167,7 +175,7 @@ export default function MapView({ initialRegion, children, style, onRefreshReque
           child.props.coordinate.longitude,
         ],
           { icon: getIconByType(child.props.mainType) }
-        ).addTo(map);
+        ).addTo(markersLayerRef.current);
 
         if (child.props.title && child.props.uuid) {
           // Create clickable popup content with HTML

@@ -34,8 +34,8 @@ export default function MapScreen(props: MapScreenProps) {
       <MapView
         style={styles.map}
         initialRegion={{
-          latitude: props.userLocation?.coords.latitude,
-          longitude: props.userLocation?.coords.longitude,
+          latitude: props.userLocation ? props.userLocation?.coords.latitude : items[0].address.geo.latitude,
+          longitude: props.userLocation ? props.userLocation?.coords.longitude : items[0].address.geo.longitude,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}

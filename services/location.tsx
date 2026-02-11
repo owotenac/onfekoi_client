@@ -26,7 +26,7 @@ export class UserLocation {
                 userLocation = await Promise.race([
                     Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced }),
                     new Promise<Location.LocationObject>((_, reject) =>
-                        setTimeout(() => reject(new Error('Location timeout')), 5000)
+                        setTimeout(() => reject(new Error('Location timeout')), 10000)
                     )
                 ]).catch(() => defaultLocation) as Location.LocationObject;;
             }

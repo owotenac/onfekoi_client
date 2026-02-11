@@ -155,7 +155,10 @@ export default function ProductDetails() {
                                             <Text style={styles.location_text}>{item.address.streetAddress}</Text>
                                             <Text style={styles.location_text}>{item.address.zip} - {item.address.city}</Text>
                                             <View style={{ height: 200, marginTop: 10 }}>
-                                                <MapScreen item={[item]} />
+                                                <MapScreen 
+                                                items={[item]}
+                                                userAsInitialLocation={false}
+                                                type={item.mainType}/>
                                             </View>
                                         </>
                                     }                                    

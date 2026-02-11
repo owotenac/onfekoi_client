@@ -1,14 +1,40 @@
+import { globalTheme } from '@/model/global-css';
 import { MapViewProps } from '@/model/mapviewprops';
 import { router } from 'expo-router';
-import { useEffect, useRef } from 'react';
-
-import { globalTheme } from '@/model/global-css';
+import { useEffect, useRef, useState } from 'react';
 import '../assets/map_css/map.css';
 
 
 
-export default function MapView({ initialRegion, children, style }: MapViewProps) {
+export default function MapView({ initialRegion, children, style, onRefreshRequest }: MapViewProps) {
+
+  const [showRefreshButton, setShowRefreshButton] = useState(false);
+  const [lastFetchedCenter, setLastFetchedCenter] = useState(initialRegion);
+
+  const leafletMapRef = useRef<any>(null);
   const mapRef = useRef<HTMLDivElement>(null);
+
+  //
+  const handleRefresh = () => {
+    const center = leafletMapRef.current.getCenter();
+    onRefreshRequest({ latitude: center.lat, longitude: center.lng });
+    setLastFetchedCenter({ latitude: center.lat, longitude: center.lng });
+    setShowRefreshButton(false);
+  };
+
+  //compute distance
+  const computeDistance = () => {
+    const currentCenter = leafletMapRef.current.getCenter();
+    const distance = leafletMapRef.current.distance(
+      [lastFetchedCenter.latitude, lastFetchedCenter.longitude],
+      [currentCenter.lat, currentCenter.lng]
+    );
+
+    // Show button if user moved more than 5km
+    if (distance > 5000) {
+      setShowRefreshButton(true);
+    }
+  }
 
   useEffect(() => {
 
@@ -29,16 +55,18 @@ export default function MapView({ initialRegion, children, style }: MapViewProps
     document.head.appendChild(link2);
 
     script1.onload = () => {
+
       const L = (window as any).L;
       if (!L || !mapRef.current) return;
+
       const createFAIcon = (iconClass: string, color: string) => {
         return L.divIcon({
           className: 'custom-fa-icon',
           html: `
-      <div class="marker-container" style="background-color: ${color};">
-        <i class="${iconClass}"></i>
-      </div>
-    `,
+                <div class="marker-container" style="background-color: ${color};">
+                  <i class="${iconClass}"></i>
+                </div>
+              `,
           iconSize: [36, 36],
           iconAnchor: [18, 36],
           popupAnchor: [0, -36]
@@ -61,63 +89,34 @@ export default function MapView({ initialRegion, children, style }: MapViewProps
             return createFAIcon('fas fa-circle', '#007AFF');
         }
       };
-      const map = L.map(mapRef.current).setView(
-        [initialRegion.latitude, initialRegion.longitude],
-        15
-      );
 
-      map.panTo({ lat: initialRegion.latitude, lng: initialRegion.longitude })
-      //map.setZoom(10)
+      //FIRST CREATION
+      let map = leafletMapRef.current
+      if (!map) {
+        map = L.map(mapRef.current).setView(
+          [initialRegion.latitude, initialRegion.longitude],
+          15
+        );
+        //keep it
+        leafletMapRef.current = map
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '© OpenStreetMap contributors',
+        }).addTo(map);
+        map.panTo({ lat: initialRegion.latitude, lng: initialRegion.longitude })
+      }
 
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors',
-      }).addTo(map);
-
-      //L.control.zoom({ zoomInText: '11' })
-      //var myIcon = L.divIcon({ className: 'circle-container' })
-      //var rentalIcon = getIconByType('food')
+      // On MOVE END
+      map.on('moveend', () => {
+        computeDistance();
+      });
+      // ON CLICK
+      map.on('click', function (ev: any) {
+        console.log("click " + ev)
+      });
 
       // Add markers if children exist
       if (children) {
-        const childArray = Array.isArray(children) ? children : [children];
-        childArray.forEach((child: any) => {
-          if (child?.props?.coordinate) {
-            const marker = L.marker([
-              child.props.coordinate.latitude,
-              child.props.coordinate.longitude,
-            ],
-              { icon: getIconByType(child.props.mainType) }
-            ).addTo(map);
-
-            if (child.props.title && child.props.uuid) {
-              // Create clickable popup content with HTML
-              const popupContent = `
-                <div class="custom-popup">
-                  <h3>${child.props.title}</h3>
-                  <button 
-                    class="popup-details-btn" 
-                    data-uuid="${child.props.uuid}"
-                  >
-                    View Details
-                  </button>
-                </div>
-              `;
-
-              marker.bindPopup(popupContent);
-
-              // Listen for popup open event
-              marker.on('popupopen', () => {
-                // Add click handler to the button inside the popup
-                const btn = document.querySelector(`[data-uuid="${child.props.uuid}"]`);
-                if (btn) {
-                  btn.addEventListener('click', () => {
-                    router.push(`/product-details?uuid=${child.props.uuid}`);
-                  });
-                }
-              });
-            }
-          }
-        });
+        createMarkers(L, getIconByType, map);
       }
     };
 
@@ -130,7 +129,76 @@ export default function MapView({ initialRegion, children, style }: MapViewProps
     };
   }, [initialRegion, children]);
 
-  return <div ref={mapRef} style={{ width: '100%', height: '100%', ...style }} />;
+  return (
+    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+      <div ref={mapRef} style={{ width: '100%', height: '100%', ...style }} />
+      {showRefreshButton && (
+        <button
+          style={{
+            position: 'absolute',
+            top: '16px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            backgroundColor: 'white',
+            padding: '12px 24px',
+            borderRadius: '24px',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+            border: 'none',
+            cursor: 'pointer',
+            zIndex: 1000,
+            fontSize: '16px',
+            fontWeight: '500',
+          }}
+          onClick={handleRefresh}
+        >
+          🔄 Search this area
+        </button>
+      )}
+    </div>
+  );
+
+
+  function createMarkers(L: any, getIconByType: (type: string) => any, map: any) {
+    const childArray = Array.isArray(children) ? children : [children];
+    childArray.forEach((child: any) => {
+      if (child?.props?.coordinate) {
+        const marker = L.marker([
+          child.props.coordinate.latitude,
+          child.props.coordinate.longitude,
+        ],
+          { icon: getIconByType(child.props.mainType) }
+        ).addTo(map);
+
+        if (child.props.title && child.props.uuid) {
+          // Create clickable popup content with HTML
+          const popupContent = `
+                <div class="custom-popup">
+                  <h3>${child.props.title}</h3>
+                  <button 
+                    class="popup-details-btn" 
+                    data-uuid="${child.props.uuid}"
+                  >
+                    View Details
+                  </button>
+                </div>
+              `;
+
+          marker.bindPopup(popupContent);
+
+          // Listen for popup open event
+          marker.on('popupopen', () => {
+            // Add click handler to the button inside the popup
+            const btn = document.querySelector(`[data-uuid="${child.props.uuid}"]`);
+            if (btn) {
+              btn.addEventListener('click', () => {
+                router.push(`/product-details?uuid=${child.props.uuid}`);
+              });
+            }
+          });
+        }
+      }
+    });
+  }
 }
 
 export function Marker({ coordinate, title, uuid, mainType }: any) {

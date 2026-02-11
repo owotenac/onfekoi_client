@@ -30,6 +30,9 @@ export class UserLocation {
                     )
                 ]).catch(() => defaultLocation) as Location.LocationObject;;
             }
+            else {
+                console.warn("Using default location");
+            }
 
 
         } catch (error) {
@@ -38,10 +41,7 @@ export class UserLocation {
 
         } finally {
             // return location
-            return {
-                'lat': userLocation.coords.latitude,
-                'long': userLocation.coords.longitude
-            }
+            return userLocation
         }
     };
 

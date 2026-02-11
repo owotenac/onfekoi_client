@@ -10,7 +10,7 @@ import { useLocalSearchParams, useNavigation } from 'expo-router';
 import React, { useEffect, useState, } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import MapScreen from '../components/mapview-component';
+import MapScreen from '../components/mapscreen';
 
 export default function ProductDetails() {
 

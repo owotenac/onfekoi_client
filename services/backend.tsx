@@ -1,19 +1,22 @@
+import { isFeatureEnabled } from "@/model/config";
 import { productFilterStore } from "@/model/current-filter";
-// import { Platform } from "react-native";
+import { Platform } from "react-native";
 import { ProductProps } from "../model/products";
 
 import axios from 'axios';
 
 const getBaseURL = () => {
-  // if (Platform.OS === 'android') {
-  //   return 'https://onfekoi-server.vercel.app/';
-  // }
-  // if (Platform.OS === 'web') {
-  //   return 'http://127.0.0.1:5002';
-  // }
-  // // iOS or other platforms
-  // return 'http://127.0.0.1:5002';
-  return 'https://onfekoi-server.vercel.app/';
+  if (Platform.OS === 'android') {
+    return 'https://onfekoi-server.vercel.app/';
+  }
+  if (Platform.OS === 'web') {
+    if (isFeatureEnabled('isDeployed'))
+      return 'https://onfekoi-server.vercel.app/';
+    else
+      return 'http://127.0.0.1:5002';
+  }
+  // iOS or other platforms
+  return 'http://127.0.0.1:5002';
 };
 
 export class BackEndService {

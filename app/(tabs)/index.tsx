@@ -50,58 +50,57 @@ export default function Index() {
 
 
   return (
-    <SafeAreaProvider>
-      <SafeAreaView style={global_styles.container}>
+    <SafeAreaProvider style={global_styles.container}>
+      <SafeAreaView style={{ flex: 1, width: "100%", alignItems: 'center' }}>
         <Image source={require('../../assets/images/onfekoi_logo.png')} style={styles.image} resizeMode="contain" />
-        <ScrollView>
-        <View style={styles.view_column}>
-          {/* <View style={styles.view_row}> */}
-            <CategoryButton
-              title="ONFEKOI dans le coin"
-              imageSource={require('@/assets/images/map.jpg')}
-              accentColor= {globalTheme['onfekoi']['color']}
-              onPress={onfekoi}
-              sizeConstrains = {false}
-            />
+        <ScrollView style={{  width: "100%" }}>
+            <View style={styles.view_column}>
+              {/* <View style={styles.view_row}> */}
+              <CategoryButton
+                title="ONFEKOI dans le coin"
+                imageSource={require('@/assets/images/map.jpg')}
+                accentColor={globalTheme['onfekoi']['color']}
+                onPress={onfekoi}
+                sizeConstrains={false}
+              />
 
-          {/* </View> */}
-          <View style={styles.view_row}>
-            <CategoryButton
-              title="On mange"
-              imageSource={require('@/assets/images/mange.jpg')}
-              accentColor={globalTheme['food']['color']}
-              onPress={foodEstablishment}
-            />
-            <CategoryButton
-              title="On visite"
-              imageSource={require('@/assets/images/visite.jpg')}
-              accentColor={globalTheme['poi']['color']}
-              onPress={poi}
-            />
-          </View>
-          <View style={styles.view_row}>
-            <CategoryButton
-              title="On sort"
-              imageSource={require('@/assets/images/sort.jpg')}
-              accentColor={globalTheme['events']['color']}
-              onPress={events}
-            />
-            <CategoryButton
-              title="On bouge"
-              imageSource={require('@/assets/images/bouge.jpg')}
-              accentColor={globalTheme['tours']['color']}
-              onPress={tours}
-            />
-          </View>
-          <View style={styles.view_row}>
-            <CategoryButton
-              title="On dort"
-              imageSource={require('@/assets/images/dors.jpg')}
-              accentColor={globalTheme['rental']['color']}
-              onPress={rentalAccommodation}
-            />
-          </View>
-        </View>
+              <View style={styles.view_row}>
+                <CategoryButton
+                  title="On mange"
+                  imageSource={require('@/assets/images/mange.jpg')}
+                  accentColor={globalTheme['food']['color']}
+                  onPress={foodEstablishment}
+                />
+                <CategoryButton
+                  title="On visite"
+                  imageSource={require('@/assets/images/visite.jpg')}
+                  accentColor={globalTheme['poi']['color']}
+                  onPress={poi}
+                />
+              </View>
+              <View style={styles.view_row}>
+                <CategoryButton
+                  title="On sort"
+                  imageSource={require('@/assets/images/sort.jpg')}
+                  accentColor={globalTheme['events']['color']}
+                  onPress={events}
+                />
+                <CategoryButton
+                  title="On bouge"
+                  imageSource={require('@/assets/images/bouge.jpg')}
+                  accentColor={globalTheme['tours']['color']}
+                  onPress={tours}
+                />
+              </View>
+              <View style={styles.view_row}>
+                <CategoryButton
+                  title="On dort"
+                  imageSource={require('@/assets/images/dors.jpg')}
+                  accentColor={globalTheme['rental']['color']}
+                  onPress={rentalAccommodation}
+                />
+              </View>
+            </View>
         </ScrollView>
       </SafeAreaView>
     </SafeAreaProvider>
@@ -110,42 +109,19 @@ export default function Index() {
 
 const styles = StyleSheet.create({
 
-  button: {
-    //marginBottom: 10,
-    //height: 100,
-    //width: 150,
-    //backgroundColor: '#9982ec',//'#313168',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 8,
-  },
-  button_text: {
-    color: 'white',
-    fontSize: 25,
-    fontFamily: "f-regular",
-    backgroundColor: "#00000033",
-    width: "100%",
-    textAlign: 'center',
-    padding: 5
-  },
   image: {
     width: 300,
     height: 200,
-    marginBottom: 30,
+    marginBottom: 15,
 
-  },
-  image_button: {
-    width: 200,
-    height: 200,
-    marginBottom: 30,
-    borderRadius: 30,
   },
   view_column: {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 20,
-    marginTop: 30
+    padding:20
+    //margin: 30
   },
   view_row: {
     flexDirection: 'row',

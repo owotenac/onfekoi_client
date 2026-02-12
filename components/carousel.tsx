@@ -36,8 +36,8 @@ const CarouselImage = ({ images }: CarouselImageProps) => {
         <View style={{ }}>
             <Carousel
                 ref={ref}
-                style={{ width: 400, height: 400 *0.6}}
-                width={400}
+                style={{ width: width, height: width *0.6}}
+                width={width}
                 data={data}
                 onProgressChange={progress}
                 renderItem={({ item, index }) => (

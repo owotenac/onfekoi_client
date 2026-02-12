@@ -18,30 +18,27 @@ export class UserLocation {
             timestamp: Date.now(),
         };
 
-        let userLocation = defaultLocation
         try {
-            // Try to get user's actual location
             const { status } = await Location.requestForegroundPermissionsAsync();
-            if (status === 'granted') {
-                userLocation = await Promise.race([
-                    Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced }),
-                    new Promise<Location.LocationObject>((_, reject) =>
-                        setTimeout(() => reject(new Error('Location timeout')), 10000)
-                    )
-                ]).catch(() => defaultLocation) as Location.LocationObject;;
-            }
-            else {
-                console.warn("Using default location");
-            }
+            if (status !== 'granted') return defaultLocation;
 
+            // 1. Check if GPS is actually turned on
+            const enabled = await Location.hasServicesEnabledAsync();
+            if (!enabled) return defaultLocation;
+
+            // 2. Try to get the last known location (instant)
+            const lastKnown = await Location.getLastKnownPositionAsync({});
+            if (lastKnown) return lastKnown;
+
+            // 3. If no cache, request current position but with lower accuracy 
+            // to ensure it actually returns something
+            return await Location.getCurrentPositionAsync({
+                accuracy: Location.Accuracy.Low, // Low is much faster/reliable for a quick fix
+            });
 
         } catch (error) {
-            console.error("Error initializing:", error);
-            console.warn("Failed to get location, using default");
-
-        } finally {
-            // return location
-            return userLocation
+            console.error("Location error:", error);
+            return defaultLocation;
         }
     };
 

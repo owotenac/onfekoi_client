@@ -96,7 +96,7 @@ export default function MapView({ initialRegion, children, style, onRefreshReque
       if (!map) {
         map = L.map(mapRef.current).setView(
           [initialRegion.latitude, initialRegion.longitude],
-          15
+          13
         );
         //keep it
         leafletMapRef.current = map

@@ -6,12 +6,11 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 import QuickActionsBar from '@/components/toolbar_actions';
-import { useLocalSearchParams, useNavigation } from 'expo-router';
+import { router, useLocalSearchParams, useNavigation } from 'expo-router';
 import React, { useEffect, useState, } from 'react';
-import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import MapScreen from '../components/mapscreen';
-
 export default function ProductDetails() {
 
     const local = useLocalSearchParams();
@@ -77,6 +76,12 @@ export default function ProductDetails() {
         )
     }
 
+    const handleBack = () => {
+        router.back()
+    }
+    const handleFavorite = () => {
+        //router.back()
+    }
 
     return (
         <SafeAreaProvider>
@@ -86,19 +91,6 @@ export default function ProductDetails() {
                 ) :
                     (
                         <View style={{flex: 1}}>
-                            <View style={styles.toolbar} >
-                                <View style={styles.top_view}>
-                                    <Text style={styles.main_text}>{item.name}</Text>
-                                    <Text style={styles.description}>{item.address?.zip} - {item.address?.city}</Text>
-                                </View>
-                                <MaterialIcons.Button name="favorite-border" size={30} backgroundColor="#ffffff00" color="white" />
-                            </View>
-
-                            <View style={{
-                                flex:1,
-                                alignContent: 'center',
-                                alignItems: 'center'
-                            }}>
 
                                 {
                                     item.hasRepresentation &&
@@ -106,6 +98,33 @@ export default function ProductDetails() {
                                         images={item.hasRepresentation}
                                     />
                                 }
+                            <View style={styles.floating_toolbar}>
+                                <TouchableOpacity onPress={handleBack}>
+                                <View style={styles.floating_button}>
+                                    <MaterialIcons name="arrow-back" size={30} color="white" />
+                                </View>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={handleFavorite}>
+                                <View style={styles.floating_button}>
+                                    <MaterialIcons name="favorite-border" size={30} color="white" />
+                                </View>
+                                </TouchableOpacity>
+                            </View>    
+
+                            <View style={{
+                                flex:1,
+                                alignContent: 'center',
+                                alignItems: 'center'
+                            }}>
+
+
+                            <View style={styles.toolbar} >
+                                <View style={styles.top_view}>
+                                    <Text style={styles.main_text}>{item.name}</Text>
+                                    <Text style={styles.description}>{item.address?.zip} - {item.address?.city}</Text>
+                                </View>
+                            </View>           
+                 
                                 <QuickActionsBar 
                                     {...item} />
                                 <ScrollView style={styles.card}>
@@ -201,7 +220,8 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlign: 'left',
         fontFamily: 'f-bold',
-        textTransform: 'capitalize'
+        //textTransform: 'capitalize',
+        //flexWrap: 'wrap'
     },
     description: {
         color: "#fff",
@@ -248,7 +268,24 @@ const styles = StyleSheet.create({
         padding: 5,
         gap: 5,
         marginBottom: 10,
-        marginLeft: 10
-    }
+        marginLeft: 10,
+        flexWrap: 'wrap',
+        flex:1
+        },
+        floating_toolbar: {
+            flexDirection: "row",
+            flex: 1,
+            width: "100%",
+            justifyContent: "space-between",
+            position: "absolute",
+            top : 0,
+            left: 0,
+            padding: 15
+        },
+        floating_button: {
+            backgroundColor: '#0000005b',
+            padding: 10,
+            borderRadius: 20
+        }
 
 })

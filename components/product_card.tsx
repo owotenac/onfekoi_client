@@ -1,14 +1,14 @@
 import Creator_component from '@/components/creator_component';
+import { BASE_URL_CLIENT } from '@/model/config';
 import { productFilterStore } from '@/model/current-filter';
 import { ProductProps, Type } from '@/model/products';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { router } from "expo-router";
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
-
 import React from 'react';
+import { Image, Pressable, Share, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 function getRandomNumber() {
-  return Math.floor(Math.random() * 20) + 1;
+    return Math.floor(Math.random() * 20) + 1;
 }
 
 const ProductCard = (item: ProductProps) => {
@@ -25,6 +25,21 @@ const ProductCard = (item: ProductProps) => {
         setProductFilter([type]);
     }
 
+    const handleShare = async () => {
+        try {
+            const url = `${BASE_URL_CLIENT}product-details?uuid=${item.uuid}`;
+            await Share.share({
+                message: `Regarde ce bon plan sur ONFEKOI : \n${item.name}\n${url}`,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const handleFavorites = async () => {
+
+    };
+
     return (
         <Pressable
             onPress={openDetails}>
@@ -33,14 +48,20 @@ const ProductCard = (item: ProductProps) => {
                 <Text style={styles.main_text}>{item.name}</Text>
                 <Text style={styles.location_text}>{item.address.zip} - {item.address.city}</Text>
                 <Image source={{ uri: item.image }} style={styles.image} resizeMode="cover" />
-                <View style = {styles.interaction_view} >
-                    <Ionicons name="heart-outline" size={24} color="white" />
-                    <Text style={styles.like_text}>{getRandomNumber()}</Text>                    
-                    <Ionicons name="paper-plane-outline" size={24} color="white" />
+                <View style={styles.interaction_view} >
+                    <TouchableOpacity onPress={handleFavorites}>
+                        <View style={{flexDirection:'row', alignItems:'baseline'}}>
+                        <Ionicons name="heart-outline" size={24} color="white" />
+                        <Text style={styles.like_text}>{getRandomNumber()}</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={handleShare}>
+                        <Ionicons name="paper-plane-outline" size={24} color="white" />
+                    </TouchableOpacity>
                 </View>
                 <Text numberOfLines={3} ellipsizeMode='tail' style={styles.description}>{item.shortDescription}</Text>
                 <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10, marginTop: 10 }}>
-                    {item.type.map((tag, index) => (
+                    {item.type.map((tag) => (
                         <Pressable style={styles.tags} key={tag.key} onPress={() => clickTag({ key: String(tag.key), label: tag.label })}>
                             <Text style={styles.tags_text}>
                                 #{tag.label}
@@ -48,7 +69,6 @@ const ProductCard = (item: ProductProps) => {
                         </Pressable>
                     ))}
                 </View>
-                {/* <View style={styles.divider} /> */}
             </View>
         </Pressable>
     )
@@ -110,18 +130,18 @@ const styles = StyleSheet.create({
         color: '#3FAE7C',
         fontWeight: '500',
     },
-    interaction_view : {
+    interaction_view: {
         flexDirection: 'row',
         //justifyContent: 'space-between',
-        alignItems: 'flex-end', 
+        alignItems: 'flex-end',
         marginTop: 5,
         marginBottom: 13,
         gap: 2,
-    }, 
-    like_text : {
+    },
+    like_text: {
         fontSize: 12,
         color: 'white',
         marginRight: 15,
-        //verticalAlign: 'bottom'
+        verticalAlign: 'bottom'
     }
 })

@@ -245,7 +245,7 @@ export default function MapView({ initialRegion, children, onRefreshRequest }: a
       <div id="map"></div>
       <script>
         // Initialize Map
-        var map = L.map('map', { zoomControl: true }).setView([${initialRegion.latitude}, ${initialRegion.longitude}], 15);
+        var map = L.map('map', { zoomControl: true }).setView([${initialRegion.latitude}, ${initialRegion.longitude}], 13);
         var markerLayer = L.layerGroup().addTo(map);
         var lastFetchedPos = L.latLng(${initialRegion.latitude}, ${initialRegion.longitude});
 

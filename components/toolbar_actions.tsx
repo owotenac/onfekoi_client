@@ -1,3 +1,4 @@
+import { BASE_URL_CLIENT } from '@/model/config';
 import { ProductProps } from '@/model/products';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Entypo from '@expo/vector-icons/Entypo';
@@ -5,7 +6,6 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import React from 'react';
 import { Linking, Platform, Share, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-
 const QuickActionsBar = (item: ProductProps) => {
   
   const handleCall = () => {
@@ -13,7 +13,12 @@ const QuickActionsBar = (item: ProductProps) => {
   };
 
   const handleMap = () => {
-    const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
+    const scheme = Platform.select(
+      { 
+        ios: 'maps:0,0?q=', 
+        android: 'geo:0,0?q=', 
+        web:'https://www.google.com/maps/search/?api=1&query=' 
+      });
     const url = `${scheme}${item.address.streetAddress + ', ' + item.address.city}`;
     Linking.openURL(url);
   };
@@ -24,8 +29,9 @@ const QuickActionsBar = (item: ProductProps) => {
 
   const handleShare = async () => {
     try {
+      const url = `${BASE_URL_CLIENT}product-details?uuid=${item.uuid}`;
       await Share.share({
-        message: `Regarde ce bon plan sur ONFEKOI : ${item.name}\n${item.contact.homepage || ''}`,
+        message: `Regarde ce bon plan sur ONFEKOI : \n${item.name}\n${url}`,
       });
     } catch (error) {
       console.log(error);
@@ -35,11 +41,20 @@ const QuickActionsBar = (item: ProductProps) => {
   return (
     <View style={styles.container}>
       {/* Bouton Appeler */}
-      <TouchableOpacity style={styles.actionButton} onPress={handleCall}>
-        <View style={[styles.iconCircle, { backgroundColor: '#FF5A5F' }]}>
+      <TouchableOpacity style={styles.actionButton} onPress={handleCall} disabled={!item.contact.telephone}>
+        <View style={[styles.iconCircle, { backgroundColor: item.contact.telephone ? '#FF5A5F' : '#5a5958' }]}>
+
           <AntDesign name="phone" size={20} color="white" />
         </View>
-        <Text style={styles.actionText}>Appeler</Text>
+        <Text style={[styles.actionText, {color: item.contact.telephone ? 'white' : '#5a5958' }]}>Appeler</Text>
+      </TouchableOpacity>
+
+      {/* Bouton Site Web */}
+      <TouchableOpacity style={styles.actionButton} onPress={handleWeb} disabled={!item.contact.homepage}>
+        <View style={[styles.iconCircle, { backgroundColor: item.contact.homepage ? '#4ECDC4' : '#5a5958' }]}>
+          <MaterialCommunityIcons name="web" size={20} color="white" />
+        </View>
+        <Text style={[styles.actionText, {color: item.contact.homepage ? 'white' : '#5a5958' }]}>Site web</Text>
       </TouchableOpacity>
 
       {/* Bouton Itinéraire */}
@@ -48,14 +63,6 @@ const QuickActionsBar = (item: ProductProps) => {
           <Entypo name="map" size={20} color="black" />
         </View>
         <Text style={styles.actionText}>Y aller</Text>
-      </TouchableOpacity>
-
-      {/* Bouton Site Web */}
-      <TouchableOpacity style={styles.actionButton} onPress={handleWeb}>
-        <View style={[styles.iconCircle, { backgroundColor: '#4ECDC4' }]}>
-          <MaterialCommunityIcons name="web" size={20} color="white" />
-        </View>
-        <Text style={styles.actionText}>Site web</Text>
       </TouchableOpacity>
 
       {/* Bouton Partager */}

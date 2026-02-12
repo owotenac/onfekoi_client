@@ -6,18 +6,23 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 import QuickActionsBar from '@/components/toolbar_actions';
+import { useFavorites } from '@/services/favorites';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { router, useLocalSearchParams, useNavigation } from 'expo-router';
 import React, { useEffect, useState, } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import MapScreen from '../components/mapscreen';
-export default function ProductDetails() {
 
+
+export default function ProductDetails() {
+    const { toggleFavorite, isFavorite } = useFavorites();
     const local = useLocalSearchParams();
     const uuid = local.uuid as string;
     const [loading, setLoading] = useState(true);
     const [item, setItem] = useState<ProductProps | null>(null);
     const navigation = useNavigation();
+
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -80,7 +85,9 @@ export default function ProductDetails() {
         router.back()
     }
     const handleFavorite = () => {
-        //router.back()
+        if (item) {
+            toggleFavorite(item)
+        }
     }
 
     return (
@@ -93,10 +100,12 @@ export default function ProductDetails() {
                         <View style={{flex: 1}}>
 
                                 {
-                                    item.hasRepresentation &&
+                                    item.hasRepresentation ?
                                     <CarouselImage
                                         images={item.hasRepresentation}
                                     />
+                                    :
+                                    <View style={{height:80}}></View>
                                 }
                             <View style={styles.floating_toolbar}>
                                 <TouchableOpacity onPress={handleBack}>
@@ -106,7 +115,7 @@ export default function ProductDetails() {
                                 </TouchableOpacity>
                                 <TouchableOpacity onPress={handleFavorite}>
                                 <View style={styles.floating_button}>
-                                    <MaterialIcons name="favorite-border" size={30} color="white" />
+                                   <Ionicons name="heart-outline" size={30} color= {isFavorite(item.uuid) ? 'red' : "white"}  />
                                 </View>
                                 </TouchableOpacity>
                             </View>    
@@ -220,8 +229,6 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlign: 'left',
         fontFamily: 'f-bold',
-        //textTransform: 'capitalize',
-        //flexWrap: 'wrap'
     },
     description: {
         color: "#fff",

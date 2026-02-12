@@ -10,7 +10,7 @@ function WebNavBar() {
           <AntDesign name="home" size={34} color='white' />
           <Text style={styles.navText}>Home</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push('/favorites')} style={styles.navItem}>
+        <TouchableOpacity onPress={() => router.push('/favorites_screen')} style={styles.navItem}>
           <Entypo name="heart" size={34} color='white' />
           <Text style={styles.navText}>Favorites</Text>
         </TouchableOpacity>
@@ -29,7 +29,7 @@ export default function WebTabLayout() {
       <WebNavBar />
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="index" />
-        <Stack.Screen name="favorites" />
+        <Stack.Screen name="favorites_screen" />
         <Stack.Screen name="map" />
         <Stack.Screen name="foodEstablishment" />
         <Stack.Screen name="poi" />

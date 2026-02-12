@@ -2,16 +2,14 @@ import Creator_component from '@/components/creator_component';
 import { BASE_URL_CLIENT } from '@/model/config';
 import { productFilterStore } from '@/model/current-filter';
 import { ProductProps, Type } from '@/model/products';
+import { useFavorites } from '@/services/favorites';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { router } from "expo-router";
 import React from 'react';
 import { Image, Pressable, Share, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-function getRandomNumber() {
-    return Math.floor(Math.random() * 20) + 1;
-}
-
 const ProductCard = (item: ProductProps) => {
+    const { toggleFavorite, isFavorite } = useFavorites();
     const setProductFilter = productFilterStore((state) => state.setProductFilter);
 
     const openDetails = () => {
@@ -37,7 +35,7 @@ const ProductCard = (item: ProductProps) => {
     };
 
     const handleFavorites = async () => {
-
+        toggleFavorite(item)
     };
 
     return (
@@ -50,13 +48,10 @@ const ProductCard = (item: ProductProps) => {
                 <Image source={{ uri: item.image }} style={styles.image} resizeMode="cover" />
                 <View style={styles.interaction_view} >
                     <TouchableOpacity onPress={handleFavorites}>
-                        <View style={{flexDirection:'row', alignItems:'baseline'}}>
-                        <Ionicons name="heart-outline" size={24} color="white" />
-                        <Text style={styles.like_text}>{getRandomNumber()}</Text>
-                        </View>
+                        <Ionicons name="heart-outline" size={24} color= {isFavorite(item.uuid) ? 'red' : "white"}  />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={handleShare}>
-                        <Ionicons name="paper-plane-outline" size={24} color="white" />
+                        <Ionicons name="paper-plane-outline" size={24} color="white"/>
                     </TouchableOpacity>
                 </View>
                 <Text numberOfLines={3} ellipsizeMode='tail' style={styles.description}>{item.shortDescription}</Text>
@@ -136,7 +131,7 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end',
         marginTop: 5,
         marginBottom: 13,
-        gap: 2,
+        gap: 15,
     },
     like_text: {
         fontSize: 12,

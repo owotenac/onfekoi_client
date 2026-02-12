@@ -39,7 +39,7 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
-        name="favorites"
+        name="favorites_screen"
         options={{
           title: 'Favorites',
           tabBarIcon: ({ color }) => <Entypo name="heart" size={24} color={color} />,

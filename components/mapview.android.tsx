@@ -11,8 +11,8 @@ export default function MapView({ initialRegion, children, onRefreshRequest }: a
   const webViewRef = useRef<WebView>(null);
   const [showRefreshButton, setShowRefreshButton] = useState(false);
   const [currentCenter, setCurrentCenter] = useState(initialRegion);
+  const [webViewReady, setWebViewReady] = useState(false); // NEW
 
-  // 2. Map Marker Data to a simple array for the WebView
   const markersData = useMemo(() => {
     return React.Children.map(children, (child) => {
       if (!child?.props?.coordinate) return null;
@@ -28,7 +28,6 @@ export default function MapView({ initialRegion, children, onRefreshRequest }: a
     })?.filter(Boolean) || [];
   }, [children]);
 
-  // 3. The Stable HTML (Only defines the logic, doesn't handle updates)
   const mapHtml = useMemo(() => `
     <!DOCTYPE html>
     <html>
@@ -64,6 +63,7 @@ export default function MapView({ initialRegion, children, onRefreshRequest }: a
 
         // Function to update markers without reloading page
         window.updateMarkers = function(data) {
+        // Clear
           markerLayer.clearLayers();
           data.forEach(m => {
             const icon = L.divIcon({
@@ -98,21 +98,30 @@ export default function MapView({ initialRegion, children, onRefreshRequest }: a
             lastFetchedPos = map.getCenter();
           }
         });
+
+        // Signal that WebView is ready
+        window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'READY' }));
       </script>
     </body>
     </html>
-  `, []); // Empty deps means this string is created ONCE.
+  `, []);
 
   // 4. Effect: Push new marker data into the WebView whenever it changes
   useEffect(() => {
-    if (webViewRef.current && markersData.length > 0) {
-      const js = `window.updateMarkers(${JSON.stringify(markersData)}); void(0);`;
+    if (webViewRef.current && webViewReady) { // Only run if WebView is ready
+      const js = `window.updateMarkers(${JSON.stringify(markersData)}); true;`;
       webViewRef.current.injectJavaScript(js);
     }
-  }, [markersData]);
+  }, [markersData, webViewReady]); // Add webViewReady as dependency
 
   const handleMessage = (event: any) => {
     const data = JSON.parse(event.nativeEvent.data);
+    
+    if (data.type === 'READY') { // NEW
+      setWebViewReady(true);
+      return;
+    }
+    
     if (data.type === 'NAVIGATE') {
       router.push(`/product-details?uuid=${data.uuid}`);
     } 
@@ -135,11 +144,7 @@ export default function MapView({ initialRegion, children, onRefreshRequest }: a
         originWhitelist={['*']}
         source={{ html: mapHtml }}
         onMessage={handleMessage}
-        onLoadEnd={() => {
-          // Initial push of markers once webview is ready
-          const js = `window.updateMarkers(${JSON.stringify(markersData)}); void(0);`;
-          webViewRef.current?.injectJavaScript(js);
-        }}
+        // Remove onLoadEnd - we're using the READY message instead
       />
       {showRefreshButton && (
         <TouchableOpacity style={styles.refreshBtn} onPress={handleRefresh}>

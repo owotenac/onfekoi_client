@@ -1,47 +1,60 @@
 import MapScreen from '@/components/mapscreen';
+import { productFilterStore } from '@/model/current-filter';
 import { ProductProps } from '@/model/products';
 import { BackEndService } from '@/services/backend';
 import { UserLocation } from '@/services/location';
-import * as Location from 'expo-location';
-import React, { useEffect, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import React, { useCallback, useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 
 export default function Onfekoi() {
-    const [loading, setLoading] = useState(true);
-    const [items, setItems] = useState<ProductProps[]>([]);
-    const [userLocation, setUserLocation] = useState<Location.LocationObject>()
+  const [loading, setLoading] = useState(true);
+  const [items, setItems] = useState<ProductProps[]>([]);
+  const [userLocation, setUserLocation] = useState<any>();
+  const mainType = productFilterStore((state) => state.mainType);
 
-    useEffect(() => {
-        const initialize = async () => {
-            setLoading(true);
+  const fetchItems = async (lat?: number, lng?: number) => {
+    setLoading(true);
+    try {
+      const location = lat && lng 
+        ? { coords: { latitude: lat, longitude: lng } }
+        : await UserLocation.getUserLocation();
+      
+      const result = await BackEndService.getGeolocationItems(
+        'ALL',
+        location.coords.latitude,
+        location.coords.longitude,
+      );
+      setItems(result['data']);
+      if (!lat && !lng) setUserLocation(location);
+    } catch (error) {
+      console.error("Erreur lors de la mise à jour de la carte", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-            const location = await UserLocation.getUserLocation()
+  useFocusEffect(
+    useCallback(() => {
+      fetchItems();
+    }, [mainType])
+  );
 
-            // Fetch items based on location
-            const result = await BackEndService.getGeolocationItems(
-                "ALL",
-                location.coords.latitude,
-                location.coords.longitude,
-            );
+  const handleMapRefresh = (center: { latitude: number; longitude: number }) => {
+    fetchItems(center.latitude, center.longitude);
+  };
 
-            setItems(result['data']);
-            setUserLocation(location)
-            setLoading(false)
+  if (loading && items.length === 0) {
+    return <ActivityIndicator size="large" style={{ flex: 1 }} />;
+  }
 
-        };
-
-        initialize();
-    }, []);
-
-    return (
-        loading ? 
-        <ActivityIndicator size="large" /> 
-        : 
-        <MapScreen 
-            items={items} 
-            userLocation={userLocation} 
-            userAsInitialLocation={true}
-            type = {'ALL'}
-        />
-    );
+  return (
+    <MapScreen 
+      items={items} 
+      userLocation={userLocation} 
+      userAsInitialLocation={true}
+      type='ALL'
+      onRefreshRequest={handleMapRefresh}  // Pass the handler down
+    />
+  );
 }

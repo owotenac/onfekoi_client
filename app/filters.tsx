@@ -38,7 +38,7 @@ export default function Filters() {
     }
 
     const search = () => {
-        // Get the function directly when you need it
+
         setProductFilter(tempFilter);
         console.log("search with filters:", tempFilter)
         router.back()

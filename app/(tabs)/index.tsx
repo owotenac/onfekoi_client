@@ -7,38 +7,45 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Index() {
   const setMainType = productFilterStore((state) => state.setMainType);
+  const setProductFilter = productFilterStore((state) => state.setProductFilter);
 
   const poi = () => {
+    setProductFilter([])
     setMainType(globalTheme['poi']['key'])
     router.push({
       pathname: '/poi'
     })
   }
   const tours = () => {
+    setProductFilter([])
     setMainType(globalTheme['tours']['key'])
     router.push({
       pathname: '/tours'
     })
   }
   const events = () => {
+    setProductFilter([])
     setMainType(globalTheme['events']['key'])
     router.push({
       pathname: '/events'
     })
   }
   const foodEstablishment = () => {
+    setProductFilter([])
     setMainType(globalTheme['food']['key'])
     router.push({
       pathname: '/foodEstablishment'
     })
   }
   const rentalAccommodation = () => {
+    setProductFilter([])
     setMainType(globalTheme['rental']['key'])
     router.push({
       pathname: '/rentalAccommodation'
     })
   }
   const onfekoi = () => {
+    setProductFilter([])
     setMainType(globalTheme['onfekoi']['key'])
     router.push({
       pathname: '/onfekoi'

@@ -13,7 +13,6 @@ export interface MapScreenProps {
 }
 
 export default function MapScreen(props: MapScreenProps) {
-  // No local state needed anymore!
 
   return (
     <View style={styles.container}>

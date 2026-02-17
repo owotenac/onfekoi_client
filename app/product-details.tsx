@@ -27,7 +27,6 @@ export default function ProductDetails() {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                console.log('fetch products ' + uuid)
                 //get the products from backend
                 const result = await BackEndService.getDetailledProduct(uuid);
                 setItem(result)
@@ -186,7 +185,9 @@ export default function ProductDetails() {
                                                 <MapScreen 
                                                 items={[item]}
                                                 userAsInitialLocation={false}
-                                                type={item.mainType}/>
+                                                type={item.mainType}
+                                                onRefreshRequest={() => {} }
+                                                />
                                             </View>
                                         </>
                                     }                                    

@@ -1,6 +1,6 @@
 import CategoryButton from '@/components/category_button';
 import { productFilterStore } from '@/model/current-filter';
-import { global_styles, globalTheme } from '@/model/global-css';
+import { getTheme, global_styles } from '@/model/global-css';
 import { router } from "expo-router";
 import { Image, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
@@ -11,43 +11,43 @@ export default function Index() {
 
   const poi = () => {
     setProductFilter([])
-    setMainType(globalTheme['poi']['key'])
-    router.push({
+    setMainType('PointOfInterest')
+    router.replace({
       pathname: '/poi'
     })
   }
   const tours = () => {
     setProductFilter([])
-    setMainType(globalTheme['tours']['key'])
-    router.push({
+    setMainType('Tour')
+    router.replace({
       pathname: '/tours'
     })
   }
   const events = () => {
     setProductFilter([])
-    setMainType(globalTheme['events']['key'])
-    router.push({
+    setMainType('EntertainmentAndEvent')
+    router.replace({
       pathname: '/events'
     })
   }
   const foodEstablishment = () => {
     setProductFilter([])
-    setMainType(globalTheme['food']['key'])
-    router.push({
+    setMainType('FoodEstablishment')
+    router.replace({
       pathname: '/foodEstablishment'
     })
   }
   const rentalAccommodation = () => {
     setProductFilter([])
-    setMainType(globalTheme['rental']['key'])
-    router.push({
+    setMainType('RentalAccommodation')
+    router.replace({
       pathname: '/rentalAccommodation'
     })
   }
   const onfekoi = () => {
     setProductFilter([])
-    setMainType(globalTheme['onfekoi']['key'])
-    router.push({
+    setMainType('ALL')
+    router.replace({
       pathname: '/onfekoi'
     })
   }
@@ -66,7 +66,7 @@ export default function Index() {
               <CategoryButton
                 title="ONFEKOI dans le coin"
                 imageSource={require('@/assets/images/map.jpg')}
-                accentColor={globalTheme['onfekoi']['color']}
+                accentColor={getTheme('FoodEstablishment').color}
                 onPress={onfekoi}
                 sizeConstrains={false}
               />
@@ -75,13 +75,13 @@ export default function Index() {
                 <CategoryButton
                   title="On mange"
                   imageSource={require('@/assets/images/mange.jpg')}
-                  accentColor={globalTheme['food']['color']}
+                  accentColor={getTheme('ALL').color}
                   onPress={foodEstablishment}
                 />
                 <CategoryButton
                   title="On visite"
                   imageSource={require('@/assets/images/visite.jpg')}
-                  accentColor={globalTheme['poi']['color']}
+                  accentColor={getTheme('PointOfInterest').color}
                   onPress={poi}
                 />
               </View>
@@ -89,13 +89,13 @@ export default function Index() {
                 <CategoryButton
                   title="On sort"
                   imageSource={require('@/assets/images/sort.jpg')}
-                  accentColor={globalTheme['events']['color']}
+                  accentColor={getTheme('EntertainmentAndEvent').color}
                   onPress={events}
                 />
                 <CategoryButton
                   title="On bouge"
                   imageSource={require('@/assets/images/bouge.jpg')}
-                  accentColor={globalTheme['tours']['color']}
+                  accentColor={getTheme('Tour').color}
                   onPress={tours}
                 />
               </View>
@@ -103,7 +103,7 @@ export default function Index() {
                 <CategoryButton
                   title="On dort"
                   imageSource={require('@/assets/images/dors.jpg')}
-                  accentColor={globalTheme['rental']['color']}
+                  accentColor={getTheme('RentalAccommodation').color}
                   onPress={rentalAccommodation}
                 />
               </View>

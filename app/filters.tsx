@@ -4,7 +4,7 @@ import { global_styles } from '@/model/global-css';
 import { Type } from '@/model/products';
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useMemo, useState } from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Filters() {
@@ -45,11 +45,9 @@ export default function Filters() {
     }
 
     return (
-        <SafeAreaProvider>
-            <SafeAreaView style={global_styles.container}>
+        <SafeAreaProvider style={global_styles.container}>
+            <SafeAreaView style= {{width:"95%", margin: 10, gap:10}}>
                 <View style={styles.group_checkbox}>
-                    <Text style={styles.group_text}>Produits</Text>
-
                     {Object.entries(productFilters).map(([label, value]) => {
                         return (
                             <Checkbox
@@ -61,7 +59,11 @@ export default function Filters() {
                         );
                     })}
                 </View>
-                <Button title='Search' onPress={search} />
+                <TouchableOpacity onPress={search}>
+                    <View style={styles.button}>
+                        <Text style={styles.button_text}>Rechercher</Text>
+                    </View>
+                </TouchableOpacity>
             </SafeAreaView>
         </SafeAreaProvider>
     )
@@ -82,5 +84,7 @@ const styles = StyleSheet.create({
         fontFamily: "f-regular",
         color: 'white',
         marginBottom: 20
-    }
+    },
+    button: { backgroundColor: '#296597', paddingVertical: 12, paddingHorizontal: 25, borderRadius: 15 },
+    button_text: { color: 'white', fontWeight: 'bold', textAlign: 'center' }
 })

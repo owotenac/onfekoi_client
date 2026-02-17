@@ -77,15 +77,15 @@ export default function MapView({ initialRegion, children, style, onRefreshReque
       const getIconByType = (type: string) => {
         switch (type) {
           case 'RentalAccommodation':
-            return createFAIcon('fas fa-home', globalTheme['rental']['color']);
+            return createFAIcon('fas fa-home', globalTheme[type]['color']);
           case 'FoodEstablishment':
-            return createFAIcon('fas fa-utensils', globalTheme['food']['color']);
+            return createFAIcon('fas fa-utensils', globalTheme[type]['color']);
           case 'EntertainmentAndEvent':
-            return createFAIcon('fas fa-calendar-alt', globalTheme['events']['color']);
+            return createFAIcon('fas fa-calendar-alt', globalTheme[type]['color']);
           case 'PointOfInterest':
-            return createFAIcon('fas fa-map-marker-alt', globalTheme['poi']['color']);
+            return createFAIcon('fas fa-map-marker-alt', globalTheme[type]['color']);
           case 'Tour':
-            return createFAIcon('fas fa-map-marker-alt', globalTheme['tours']['color']);
+            return createFAIcon('fas fa-map-marker-alt', globalTheme[type]['color']);
           default:
             return createFAIcon('fas fa-circle', '#007AFF');
         }
@@ -159,7 +159,7 @@ export default function MapView({ initialRegion, children, style, onRefreshReque
           }}
           onClick={handleRefresh}
         >
-          🔄 Search this area
+          Rechercher ici
         </button>
       )}
     </div>

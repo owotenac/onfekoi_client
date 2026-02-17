@@ -3,7 +3,13 @@ import { StyleSheet } from 'react-native';
 
 const productFilters = {
     'Restaurants': 'FoodEstablishment',
-    'Producteurs' : 'Producer'
+    'Producteurs' : 'Producer',
+    'Glacier' : 'IceCreamShop' ,
+    'Restauration Rapide' : 'FastFoodRestaurant',
+    'Bistrot - Bar à vin' : 'BistroOrWineBar',
+    'Café ou salon de thé' : 'CafeOrTeahouse',
+    "Brasserie ou taverne" : "BrasserieOrTavern",
+    "Restaurant gastronomique" : "GourmetRestaurant"
 }
 
 export default function FoodEstablishment() {

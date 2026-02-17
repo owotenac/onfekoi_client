@@ -1,20 +1,20 @@
 import { AntDesign, Entypo } from '@expo/vector-icons';
-import { Stack, router } from 'expo-router';
+import { router, Tabs } from 'expo-router';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 function WebNavBar() {
   return (
     <View style={styles.navbar}>
       <View style={styles.navLinks}>
-        <TouchableOpacity onPress={() => router.push({ pathname: '/(tabs)' })} style={styles.navItem}>
+        <TouchableOpacity onPress={() => router.replace('/(tabs)')} style={styles.navItem}>
           <AntDesign name="home" size={34} color='white' />
           <Text style={styles.navText}>Home</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push('/favorites_screen')} style={styles.navItem}>
+        <TouchableOpacity onPress={() => router.replace('/favorites_screen')} style={styles.navItem}>
           <Entypo name="heart" size={34} color='white' />
           <Text style={styles.navText}>Favorites</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push('/map')} style={styles.navItem}>
+        <TouchableOpacity onPress={() => router.replace('/map')} style={styles.navItem}>
           <Entypo name="map" size={34} color='white' />
           <Text style={styles.navText}>Map</Text>
         </TouchableOpacity>
@@ -25,21 +25,29 @@ function WebNavBar() {
 
 export default function WebTabLayout() {
   return (
-    <>
+    <View style={{ flex: 1 }}>
       <WebNavBar />
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="index" />
-        <Stack.Screen name="favorites_screen" />
-        <Stack.Screen name="map" />
-        <Stack.Screen name="foodEstablishment" />
-        <Stack.Screen name="poi" />
-        <Stack.Screen name="events" />
-        <Stack.Screen name="tours" />
-        <Stack.Screen name="rentalAccommodation" />
-      </Stack>
-    </>
+      <Tabs
+        screenOptions={{ 
+          headerShown: false,
+          tabBarStyle: { display: 'none' }  // hide the default tab bar
+        }}
+      >
+        <Tabs.Screen name="index" options={{ href: null }} />
+        <Tabs.Screen name="home" />
+        <Tabs.Screen name="favorites_screen" />
+        <Tabs.Screen name="map" />
+        <Tabs.Screen name="foodEstablishment" options={{ href: null }} />
+        <Tabs.Screen name="poi" options={{ href: null }} />
+        <Tabs.Screen name="events" options={{ href: null }} />
+        <Tabs.Screen name="tours" options={{ href: null }} />
+        <Tabs.Screen name="rentalAccommodation" options={{ href: null }} />
+        <Tabs.Screen name="onfekoi" options={{ href: null }} />
+      </Tabs>
+    </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   navbar: {

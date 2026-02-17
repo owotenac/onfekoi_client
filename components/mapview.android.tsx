@@ -1,11 +1,8 @@
-import { globalTheme } from '@/model/global-css';
+import { getTheme, ThemeKey } from '@/model/global-css';
 import { router } from 'expo-router';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { WebView } from 'react-native-webview';
-
-// 1. Types for TS Safety
-type ThemeKey = 'onfekoi' | 'food' | 'events' | 'poi' | 'tours' | 'rental';
 
 export default function MapView({ initialRegion, children, onRefreshRequest }: any) {
   const webViewRef = useRef<WebView>(null);
@@ -16,14 +13,14 @@ export default function MapView({ initialRegion, children, onRefreshRequest }: a
   const markersData = useMemo(() => {
     return React.Children.map(children, (child) => {
       if (!child?.props?.coordinate) return null;
-      const typeKey = getTypeKey(child.props.mainType);
+      const type = child.props.mainType as ThemeKey
       return {
         latitude: child.props.coordinate.latitude,
         longitude: child.props.coordinate.longitude,
         title: child.props.title,
         uuid: child.props.uuid,
-        color: globalTheme[typeKey]?.color || '#007AFF',
-        icon: getIconClass(child.props.mainType)
+        color: getTheme(type).color || '#007AFF',
+        icon: getIconClass(type)
       };
     })?.filter(Boolean) || [];
   }, [children]);
@@ -45,8 +42,8 @@ export default function MapView({ initialRegion, children, onRefreshRequest }: a
           color: white; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
         .popup-details-btn { 
-          background: #007AFF; color: white; border: none; 
-          padding: 8px 12px; border-radius: 20px; cursor: pointer; margin-top: 8px;
+          background: #0f3763; color: white; border: none; 
+          padding: 8px 12px; border-radius: 10px; cursor: pointer; margin-top: 8px;
           font-family: sans-serif; font-weight: bold; width: 100%;
         }
       </style>
@@ -69,7 +66,7 @@ export default function MapView({ initialRegion, children, onRefreshRequest }: a
             const icon = L.divIcon({
               className: 'custom-div-icon',
               html: '<div class="marker-container" style="background-color:'+m.color+'"><i class="'+m.icon+'"></i></div>',
-              iconSize: [36, 36], iconAnchor: [18, 36]
+              iconSize: [40, 40], iconAnchor: [18, 36]
             });
             const marker = L.marker([m.latitude, m.longitude], { icon }).addTo(markerLayer);
             marker.bindPopup('<b>'+m.title+'</b><br/><button class="popup-details-btn" onclick="openDetails(\\''+m.uuid+'\\')">View Details</button>');
@@ -148,20 +145,11 @@ export default function MapView({ initialRegion, children, onRefreshRequest }: a
       />
       {showRefreshButton && (
         <TouchableOpacity style={styles.refreshBtn} onPress={handleRefresh}>
-          <Text style={styles.refreshText}>🔄 Search this area</Text>
+          <Text style={styles.refreshText}>Rechercher ici</Text>
         </TouchableOpacity>
       )}
     </View>
   );
-}
-
-// Helpers
-function getTypeKey(type: string): ThemeKey {
-  const map: Record<string, ThemeKey> = { 
-    RentalAccommodation: 'rental', FoodEstablishment: 'food', 
-    EntertainmentAndEvent: 'events', PointOfInterest: 'poi', Tour: 'tours' 
-  };
-  return map[type] || 'poi';
 }
 
 function getIconClass(type: string) {
@@ -177,7 +165,7 @@ const styles = StyleSheet.create({
   refreshBtn: {
     position: 'absolute', top: Platform.OS === 'ios' ? 60 : 40, alignSelf: 'center',
     backgroundColor: 'white', paddingVertical: 10, paddingHorizontal: 20,
-    borderRadius: 25, elevation: 5, shadowColor: '#000',
+    borderRadius: 15, elevation: 5, shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25,
   },
   refreshText: { fontWeight: '600', color: '#333' }

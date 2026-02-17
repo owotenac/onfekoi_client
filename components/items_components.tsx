@@ -22,7 +22,14 @@ export default function ItemsComponents({ type, typeFilter }: ItemComponentProps
     const [nextPage, setNextPage] = useState('');
     const [searchTxt, setSearchTxt] = useState('');
     const currentFilter = productFilterStore((state) => state.currentProductFilter);
-
+   const mainType = productFilterStore((state) => state.mainType);
+    
+   useEffect(() => {
+        if (type === mainType) {
+            fetchItems();
+        }
+       
+    }, [currentFilter]);
 
     const fetchItems = async () => {
         try {
@@ -39,12 +46,7 @@ export default function ItemsComponents({ type, typeFilter }: ItemComponentProps
         }
     };
 
-    useEffect(() => {
-        //if (currentFilter) {
-            fetchItems();
-        //}
-        
-    }, [currentFilter]);
+
 
     const loadMore = async () => {
         if (loading || !nextPage) return;
@@ -102,7 +104,7 @@ export default function ItemsComponents({ type, typeFilter }: ItemComponentProps
                 </View>
                 <View style={styles.view_tags}>
                     {currentFilter.map((tag, index) => (
-                        <Pressable  style={styles.tags} key={tag.key} onPress={() => closeTag(tag.key)}>
+                        <Pressable  style={[styles.tags, {borderColor:"#3FAE7C"}]} key={tag.key} onPress={() => closeTag(tag.key)}>
                             <View style={{flexDirection: 'row'}}>
                                 <Text style={styles.tags_text}>
                                     {tag.label}

@@ -5,7 +5,8 @@ const eventsFilters = {
     'Evenement Culturel': 'CulturalEvent',
     'Pièce de Théatre': 'TheaterEvent',
     'Evenement Sport': 'SportsEvent',
-    'Activités': 'Practice'
+    'Activités': 'Practice',
+        "Compétition sportive": "SportsCompetition" ,
 }
 
 export default function Events() {

@@ -3,8 +3,8 @@ import { productFilterStore } from '@/model/current-filter';
 import { ProductProps } from '@/model/products';
 import { BackEndService } from '@/services/backend';
 import { UserLocation } from '@/services/location';
-import { useFocusEffect } from '@react-navigation/native';
-import React, { useCallback, useState } from 'react';
+//import { useFocusEffect } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 
 export default function Onfekoi() {
@@ -25,6 +25,7 @@ export default function Onfekoi() {
         location.coords.latitude,
         location.coords.longitude,
       );
+      
       setItems(result['data']);
       if (!lat && !lng) setUserLocation(location);
     } catch (error) {
@@ -34,11 +35,16 @@ export default function Onfekoi() {
     }
   };
 
-  useFocusEffect(
-    useCallback(() => {
-      fetchItems();
-    }, [mainType])
-  );
+     useEffect(() => {
+            fetchItems();
+    }, [mainType]);
+
+  // useFocusEffect(
+  //   useCallback(() => {
+  //         console.log("map refresh")
+  //     fetchItems();
+  //   }, [mainType])
+  // );
 
   const handleMapRefresh = (center: { latitude: number; longitude: number }) => {
     fetchItems(center.latitude, center.longitude);
@@ -54,7 +60,7 @@ export default function Onfekoi() {
       userLocation={userLocation} 
       userAsInitialLocation={true}
       type='ALL'
-      onRefreshRequest={handleMapRefresh}  // Pass the handler down
+      onRefreshRequest={handleMapRefresh} 
     />
   );
 }

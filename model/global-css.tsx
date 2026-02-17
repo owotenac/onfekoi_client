@@ -1,4 +1,4 @@
-import { StyleSheet, } from 'react-native'
+import { StyleSheet, } from 'react-native';
 
 
 export const global_styles = StyleSheet.create({
@@ -30,30 +30,30 @@ export const TabBarTheme = {
 }
 
 export const globalTheme = {
-  onfekoi : {
-    key: 'ALL',
+  ALL : {
     color: '#1c1485',
   },
-  food : {
-    key : 'FoodEstablishment',
+  FoodEstablishment : {
     color: '#FFA500',
   },
-  events :{
-    key : 'EntertainmentAndEvent',
+  EntertainmentAndEvent :{
     color: '#8f207c',
   },
-  poi :{
-    key : 'PointOfInterest',
+  PointOfInterest :{
     color: '#487197',
   },
-  tours :{
-    key : 'Tour',
+  Tour :{
     color: '#418a45',
   },
-  rental :{
-    key : 'RentalAccommodation',
+  RentalAccommodation :{
     color: '#a13628',
-  },
+  } 
+}  as const;
 
+// Derive the type from the data — no need to maintain both separately
+export type ThemeKey = keyof typeof globalTheme;
 
-}
+export const getTheme = (key: ThemeKey) => ({
+  key,
+  ...globalTheme[key],
+});

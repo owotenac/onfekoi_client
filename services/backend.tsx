@@ -50,6 +50,8 @@ export class BackEndService {
       'next': data['meta']['next']
     }
   };
+
+  
   static getNextPage = async (url: string) => {
     const { data } = await BackEndService.api.get('/api/next_page', {
       params: {

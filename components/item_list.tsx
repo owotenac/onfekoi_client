@@ -1,26 +1,46 @@
-import { ActivityIndicator, FlatList, StyleSheet, Text, View, Image } from 'react-native'
-
+import ProductCard from '@/components/product_card';
+import ProductCardSponsored from '@/components/product_card_sponsored';
 import { ProductProps } from '@/model/products';
-import ProductCard from '@/components/product_card'
+import React, { useEffect, useState, } from 'react';
+import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native';
+import { injectAdSlots } from '../services/ads';
 
 type ItemListProps = {
     products: ProductProps[];
     loadMore: () => void;
     loading: boolean;
 }
+type ListItem =
+    | { type: 'item'; data: ProductProps }
+    | { type: 'ad'; id: string };
 
 export default function ItemList({ products, loadMore, loading }: ItemListProps) {
+    const [items, setItems] = useState<ListItem[]>([]);
+
+    const renderItem = ({ item }: { item: ListItem }) => {
+        if (item.type === 'ad') {
+            // return <AdCard />;
+            return <ProductCardSponsored/>
+        }
+        return <ProductCard {...item.data} />;
+    };
+
+    useEffect(() => {
+        const i = injectAdSlots(products)
+        setItems(i)
+
+    }, [])
 
     return (
 
         <View style={styles.content}>
             <FlatList style={styles.list}
-                data={products}
+                data={items}
                 numColumns={1}
-                renderItem={
-                    ({ item }) => (
-                        <ProductCard {...item} />
-                    )
+                renderItem={renderItem
+                    // ({ item }) => (
+                    //     <ProductCard {...item} />
+                    // )
                 }
                 onEndReached={loadMore}
                 onEndReachedThreshold={2}

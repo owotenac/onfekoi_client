@@ -87,7 +87,7 @@ export default function ItemsComponents({ type, typeFilter }: ItemComponentProps
         <SafeAreaProvider>
             <SafeAreaView style={global_styles.container}>
                 <View style={styles.search_view}>
-                    <TextInput
+                        <TextInput
                         style={styles.search_bar}
                         onChangeText={setSearchTxt}
                         value={searchTxt}
@@ -114,11 +114,13 @@ export default function ItemsComponents({ type, typeFilter }: ItemComponentProps
                         </Pressable>
                     ))}
                 </View>
+                { !loading && 
                 <ItemList
                     products={items}
                     loadMore={loadMore}
                     loading={loading}
                 />
+                }
             </SafeAreaView>
         </SafeAreaProvider>
     )

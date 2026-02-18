@@ -52,11 +52,13 @@ export default function MapView({ initialRegion, children, onRefreshRequest }: a
       <div id="map"></div>
       <script>
         // Initialize Map
-        var map = L.map('map', { zoomControl: true }).setView([${initialRegion.latitude}, ${initialRegion.longitude}], 13);
+        var map = L.map('map', { zoomControl: true }).setView([${initialRegion.latitude}, ${initialRegion.longitude}], 13, { preferCanvas: true });
         var markerLayer = L.layerGroup().addTo(map);
         var lastFetchedPos = L.latLng(${initialRegion.latitude}, ${initialRegion.longitude});
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '© ONFEKOI',
+        }).addTo(map);
 
         // Function to update markers without reloading page
         window.updateMarkers = function(data) {

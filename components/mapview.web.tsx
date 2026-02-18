@@ -96,12 +96,13 @@ export default function MapView({ initialRegion, children, style, onRefreshReque
       if (!map) {
         map = L.map(mapRef.current).setView(
           [initialRegion.latitude, initialRegion.longitude],
-          13
+          13,
+          { preferCanvas: true }
         );
         //keep it
         leafletMapRef.current = map
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '© OpenStreetMap contributors',
+          attribution: '© ONFEKOI',
         }).addTo(map);
         map.panTo({ lat: initialRegion.latitude, lng: initialRegion.longitude })
       }

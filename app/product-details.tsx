@@ -217,7 +217,9 @@ export default function ProductDetails() {
 
 const styles = StyleSheet.create({
     card: {
-        padding: 20,
+        //padding: 20,
+        paddingLeft: 20,
+        paddingRight: 20,
         flex: 1,
     },
     location_text: {

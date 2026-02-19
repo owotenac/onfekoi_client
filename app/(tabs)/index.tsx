@@ -1,14 +1,12 @@
+import BottomBanner from '@/components/bottombanner/bottombanner';
 import CategoryButton from '@/components/category_button';
 import { productFilterStore } from '@/model/current-filter';
 import { getTheme, global_styles } from '@/model/global-css';
 import { router } from "expo-router";
 import { Image, ScrollView, StyleSheet, View } from "react-native";
-import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
-const AD_UNIT_ID = __DEV__ 
-  ? TestIds.BANNER 
-  : 'ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX'; // Replace with your actual AdMob ad unit ID
+
 
 
 
@@ -115,14 +113,7 @@ export default function Index() {
                 />
               </View>
             </View>
-      <BannerAd
-        unitId={AD_UNIT_ID}
-        size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-        requestOptions={{ requestNonPersonalizedAdsOnly: false }}
-  onAdLoaded={() => console.log('✅ Pub chargée')}
-  onAdFailedToLoad={(error) => console.log('❌ Erreur pub:', error)}        
-      />
-
+            <BottomBanner />
         </ScrollView>
       </SafeAreaView>
     </SafeAreaProvider>

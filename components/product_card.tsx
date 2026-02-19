@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         padding: 15,
         borderRadius: 10,
-        backgroundColor: "#222232",
+        backgroundColor: "#2a2a3f",
         marginBottom: 10,
     },
     image: {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Image, StyleSheet, Text } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 
 import { NativeAd, NativeAdView, NativeAsset, NativeAssetType, NativeMediaView, TestIds } from 'react-native-google-mobile-ads';
 
@@ -36,18 +36,20 @@ const ProductCardSponsored = () => {
         // Wrap all the ad assets in the NativeAdView component, and register the view with the nativeAd prop
         <NativeAdView nativeAd={nativeAd} style={styles.card}>
             {nativeAd.icon && (
-                <NativeAsset assetType={NativeAssetType.ICON}>
+                <NativeAsset assetType={NativeAssetType.ICON} >
+                    <View style={{flexDirection:'row', gap:10, alignItems:'center'}}>
                     <Image source={{ uri: nativeAd.icon.url }} width={24} height={24} />
+                    <Text style={{ marginTop: 10,fontSize: 12, color: 'white' }}>Sponsored</Text>
+                    </View>
                 </NativeAsset>
             )}
-            <Text style={{ color: 'white' }}>Sponsored</Text>
 
             <NativeAsset assetType={NativeAssetType.HEADLINE}>
                 <Text style={styles.main_text}>
                     {nativeAd.headline}
                 </Text>
             </NativeAsset>
-            <NativeMediaView />
+            <NativeMediaView style={{height: 150, alignSelf:'center'}} />
         </NativeAdView>
 
         // <Pressable
@@ -94,7 +96,9 @@ const styles = StyleSheet.create({
         color: "#fff",
         fontSize: 20,
         textAlign: 'left',
-        fontFamily: 'f-bold'
+        //fontFamily: 'f-bold'
+        marginBottom: 10,
+        marginTop: 10
     },
     description: {
         color: "#fff",

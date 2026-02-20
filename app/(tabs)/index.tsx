@@ -17,42 +17,42 @@ export default function Index() {
   const poi = () => {
     setProductFilter([])
     setMainType('PointOfInterest')
-    router.replace({
+    router.push({
       pathname: '/poi'
     })
   }
   const tours = () => {
     setProductFilter([])
     setMainType('Tour')
-    router.replace({
+    router.push({
       pathname: '/tours'
     })
   }
   const events = () => {
     setProductFilter([])
     setMainType('EntertainmentAndEvent')
-    router.replace({
+    router.push({
       pathname: '/events'
     })
   }
   const foodEstablishment = () => {
     setProductFilter([])
     setMainType('FoodEstablishment')
-    router.replace({
+    router.push({
       pathname: '/foodEstablishment'
     })
   }
   const rentalAccommodation = () => {
     setProductFilter([])
     setMainType('RentalAccommodation')
-    router.replace({
+    router.push({
       pathname: '/rentalAccommodation'
     })
   }
   const onfekoi = () => {
     setProductFilter([])
     setMainType('ALL')
-    router.replace({
+    router.push({
       pathname: '/onfekoi'
     })
   }
@@ -110,6 +110,7 @@ export default function Index() {
                   imageSource={require('@/assets/images/dors.jpg')}
                   accentColor={getTheme('RentalAccommodation').color}
                   onPress={rentalAccommodation}
+                  sizeConstrains={false}
                 />
               </View>
             </View>
@@ -124,7 +125,7 @@ const styles = StyleSheet.create({
 
   image: {
     width: 300,
-    height: 200,
+    height: 300,
     marginBottom: 15,
 
   },

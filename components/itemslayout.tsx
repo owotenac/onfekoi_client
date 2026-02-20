@@ -2,6 +2,7 @@
 import { productFilterStore } from '@/model/current-filter';
 import { global_styles } from '@/model/global-css';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import Entypo from '@expo/vector-icons/Entypo';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { router } from "expo-router";
 import React, { JSX } from 'react';
@@ -30,6 +31,10 @@ export default function ItemsLayout<T>({
         router.push({ pathname: '/filters', params: { filters: JSON.stringify(typeFilter) } });
     };
 
+    const openMap = () => {
+        router.push({ pathname: '/map' });
+    }
+
     const closeTag = (key: string) => {
         const newFilters = currentFilter.filter((f) => f.key !== key);
         productFilterStore.getState().setProductFilter(newFilters);
@@ -52,6 +57,11 @@ export default function ItemsLayout<T>({
                     <Pressable style={styles.button_menu} onPress={openFilter}>
                         <MaterialIcons name="filter-list" size={24} color="white" />
                     </Pressable>
+
+                    <Pressable style={styles.button_menu} onPress={openMap}>
+                        <Entypo name="map" size={24} color="white" />
+                    </Pressable>
+
                 </View>
                 <View style={styles.view_tags}>
                     {currentFilter.map((tag) => (

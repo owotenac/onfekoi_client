@@ -14,10 +14,12 @@ function WebNavBar() {
           <Entypo name="heart" size={34} color='white' />
           <Text style={styles.navText}>Favorites</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.replace('/map')} style={styles.navItem}>
-          <Entypo name="map" size={34} color='white' />
-          <Text style={styles.navText}>Map</Text>
+
+        <TouchableOpacity onPress={() => router.replace('/profile')} style={styles.navItem}>
+          <Entypo name="user" size={34} color='white' />
+          <Text style={styles.navText}>Profile</Text>
         </TouchableOpacity>
+
       </View>
     </View>
   );
@@ -28,21 +30,14 @@ export default function WebTabLayout() {
     <View style={{ flex: 1 }}>
       <WebNavBar />
       <Tabs
-        screenOptions={{ 
+        screenOptions={{
           headerShown: false,
           tabBarStyle: { display: 'none' }  // hide the default tab bar
         }}
       >
-        <Tabs.Screen name="index" options={{ href: null }} />
-        <Tabs.Screen name="home" />
+        <Tabs.Screen name="index"  />
         <Tabs.Screen name="favorites_screen" />
-        <Tabs.Screen name="map" />
-        <Tabs.Screen name="foodEstablishment" options={{ href: null }} />
-        <Tabs.Screen name="poi" options={{ href: null }} />
-        <Tabs.Screen name="events" options={{ href: null }} />
-        <Tabs.Screen name="tours" options={{ href: null }} />
-        <Tabs.Screen name="rentalAccommodation" options={{ href: null }} />
-        <Tabs.Screen name="onfekoi" options={{ href: null }} />
+        <Tabs.Screen name="profile" />
       </Tabs>
     </View>
   );

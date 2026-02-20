@@ -35,9 +35,8 @@ export default function UserProfile() {
 
     return (
         <View style={global_styles.container}>
-            <Text style={styles.main_text}>Departement</Text>
-            <Text style={styles.main_text}>Herault (34)</Text>
-            <Text style={styles.small_text}>(*) Pour l'instant...</Text>
+            <Text style={styles.main_text}>Les bons plans dans l'Herault (34)</Text>
+            <Text style={styles.small_text}>Le contenu arrive bientôt dans les autres département...</Text>
             <View style={{ flex: 1, width: '100%', flexDirection: 'row' }}>
                 <FlatList
                 ref={listRef}

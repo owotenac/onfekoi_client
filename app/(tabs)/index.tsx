@@ -124,8 +124,8 @@ export default function Index() {
 const styles = StyleSheet.create({
 
   image: {
-    width: 300,
-    height: 300,
+    width: 350,
+    height: 250,
     marginBottom: 15,
 
   },

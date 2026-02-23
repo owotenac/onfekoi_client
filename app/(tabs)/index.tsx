@@ -62,12 +62,12 @@ export default function Index() {
 
 
   return (
-    <SafeAreaProvider style={global_styles.container}>
-      <SafeAreaView style={{ flex: 1, width: "100%", alignItems: 'center', overflow:'hidden' }}>
-        <ScrollView style={{  width: "100%" }}>
+    <SafeAreaProvider >
+      <SafeAreaView style={global_styles.container}>
+        <View style={styles.content}>
+        <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
             <View style={styles.view_column}>
           <Image source={require('../../assets/images/onfekoi_logo.png')} style={styles.image} resizeMode="contain" />
-              {/* <View style={styles.view_row}> */}
               <CategoryButton
                 title="ONFEKOI dans le coin"
                 imageSource={require('@/assets/images/map.jpg')}
@@ -116,13 +116,17 @@ export default function Index() {
             </View>
             <BottomBanner />
         </ScrollView>
+      </View>                
       </SafeAreaView>
     </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
-
+        content: {
+        flex: 1,
+        width: '100%',
+    },
   image: {
     width: 350,
     height: 250,

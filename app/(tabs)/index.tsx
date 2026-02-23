@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
         content: {
         flex: 1,
         width: '100%',
+        overflow: 'hidden',
     },
   image: {
     width: 350,

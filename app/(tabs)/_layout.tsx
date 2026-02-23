@@ -24,21 +24,6 @@ export default function TabLayout() {
           headerShown: false
         }}
       />
-      {/* <Tabs.Screen
-        name="home"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <AntDesign name="home" size={24} color={color} />,
-        }}
-        listeners={{
-          tabPress: (e) => {
-            e.preventDefault();
-            // @ts-ignore
-            router.push('/(tabs)');
-          },
-        }}
-      /> */}
-
       <Tabs.Screen
         name="favorites_screen"
         options={{

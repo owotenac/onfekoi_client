@@ -46,6 +46,7 @@ export default function WebTabLayout() {
 
 const styles = StyleSheet.create({
   navbar: {
+    flex: 0.1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

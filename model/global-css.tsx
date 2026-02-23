@@ -8,7 +8,6 @@ export const global_styles = StyleSheet.create({
         backgroundColor: "#15151D",
         alignContent: 'center',
         alignItems: 'center',
-        overflow:'hidden'
       },
 })
 

@@ -28,7 +28,7 @@ export class BackEndService {
   });
 
   static getItems = async (type: string) => {
-    if (type =='') {
+    if (type == '') {
       throw new Error('type is empty')
     }
     //type of query: products, events, poi, tours
@@ -41,17 +41,32 @@ export class BackEndService {
     if (filters.length > 0) {
       params['filters'] = filters.map((filter) => filter.key).join(',');
     }
-    const { data } = await BackEndService.api.get('/api/catalog', {
-      params: params
-    });
-    const products = data['data'] as ProductProps[];
-    return {
-      'data': products,
-      'next': data['meta']['next']
+    try {
+      const { data } = await BackEndService.api.get('/api/catalog', {
+        params: params
+      });
+      if (data?.error) {
+        throw new Error(`Backend error: ${data.error}`)
+      }
+
+      const products = data['data'] as ProductProps[];
+      return {
+        'data': products,
+        'next': data['meta']['next']
+      }
+
+    } catch (error: any) {
+      // ✅ Erreur HTTP (4xx, 5xx) : Axios la loge dans error.response
+      if (error.response) {
+        const status = error.response.status
+        const message = error.response.data?.error || 'Erreur inconnue du serveur'
+        throw new Error(`Erreur ${status} : ${message}`)
+      }
+      throw new Error(`Erreur réseau : ${error.message}`)
     }
   };
 
-  
+
   static getNextPage = async (url: string) => {
     console.log("Next")
     const { data } = await BackEndService.api.get('/api/next_page', {
@@ -100,7 +115,7 @@ export class BackEndService {
   };
 
   static getGeolocationItems = async (type: string, lat: number, lon: number) => {
-    if (type =='') {
+    if (type == '') {
       throw new Error('type is empty')
     }
     //type of query: products, events, poi, tours

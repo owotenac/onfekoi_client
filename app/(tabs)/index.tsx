@@ -63,10 +63,10 @@ export default function Index() {
 
   return (
     <SafeAreaProvider style={global_styles.container}>
-      <SafeAreaView style={{ flex: 1, width: "100%", alignItems: 'center' }}>
-        <Image source={require('../../assets/images/onfekoi_logo.png')} style={styles.image} resizeMode="contain" />
+      <SafeAreaView style={{ flex: 1, width: "100%", alignItems: 'center', overflow:'hidden' }}>
         <ScrollView style={{  width: "100%" }}>
             <View style={styles.view_column}>
+          <Image source={require('../../assets/images/onfekoi_logo.png')} style={styles.image} resizeMode="contain" />
               {/* <View style={styles.view_row}> */}
               <CategoryButton
                 title="ONFEKOI dans le coin"
@@ -127,6 +127,7 @@ const styles = StyleSheet.create({
     width: 350,
     height: 250,
     marginBottom: 15,
+    alignItems: 'center'
 
   },
   view_column: {

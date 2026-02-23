@@ -4,7 +4,7 @@ import { useItemsList } from '@/services/useItemsList';
 import ItemsLayout from './itemslayout';
 
 export default function ItemsComponents({ type, typeFilter }: { type: string; typeFilter: Record<string, string>; }) {
-    const { items, loading, loadMore, search, searchTxt, setSearchTxt } = useItemsList<ProductProps>(type, (result) => result['data']);
+    const { items, loading, loadMore, search, searchTxt, setSearchTxt, error } = useItemsList<ProductProps>(type, (result) => result['data']);
 
     return (
         <ItemsLayout
@@ -14,6 +14,7 @@ export default function ItemsComponents({ type, typeFilter }: { type: string; ty
             typeFilter={typeFilter}
             renderItem={({ item }) => <ProductCard {...item} />}
             keyExtractor={(_, index) => index.toString()}
+            error={error}
         />
     );
 }

@@ -10,6 +10,7 @@ export function useItemsList<T>(type: string, transformResult: (result: any) => 
     const [searchTxt, setSearchTxt] = useState('');
     const currentFilter = productFilterStore((state) => state.currentProductFilter);
     const mainType = productFilterStore((state) => state.mainType);
+    const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
         if (type === mainType) fetchItems();
@@ -22,7 +23,9 @@ export function useItemsList<T>(type: string, transformResult: (result: any) => 
             setItems(transformResult(result));
             setNextPage(result["next"]);
         } catch (error) {
-            console.error("Error fetching products:", error);
+            console.error(error);
+            setError(error instanceof Error ? error.message : 'Unknown error');
+            // return <BackendErrorScreen message={error} onRetry={fetchItems} />
         } finally {
             setLoading(false);
         }
@@ -30,20 +33,32 @@ export function useItemsList<T>(type: string, transformResult: (result: any) => 
 
     const loadMore = async () => {
         if (loading || !nextPage) return;
-        setLoading(true);
-        const result = await BackEndService.getNextPage(nextPage);
-        setItems((prev) => [...prev, ...transformResult(result)]);
-        setNextPage(result["next"]);
-        setLoading(false);
+        try {
+            setLoading(true);
+            const result = await BackEndService.getNextPage(nextPage);
+            setItems((prev) => [...prev, ...transformResult(result)]);
+            setNextPage(result["next"]);
+        } catch (error) {
+            console.error(error);
+            setError(error instanceof Error ? error.message : 'Unknown error');
+        } finally {
+            setLoading(false);
+        }
     };
 
     const search = async () => {
+        try {
         setLoading(true);
         const result = await BackEndService.searchItems(searchTxt, type);
         setItems(transformResult(result));
         setNextPage(result["next"]);
-        setLoading(false);
+        } catch (error) {
+            console.error(error);
+            setError(error instanceof Error ? error.message : 'Unknown error'); 
+        } finally {
+            setLoading(false);
+        }
     };
 
-    return { items, loading, loadMore, search, searchTxt, setSearchTxt };
+    return { items, loading, loadMore, search, searchTxt, setSearchTxt, error };
 }

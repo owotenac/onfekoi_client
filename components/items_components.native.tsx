@@ -6,7 +6,7 @@ import ItemsLayout from './itemslayout';
 
 export default function ItemsComponents({ type, typeFilter }: { type: string; typeFilter: Record<string, string>; }) {
 
-    const { items, loading, loadMore, search, searchTxt, setSearchTxt } = useItemsList<ListItem>(type, (result) => injectAdSlots(result['data']));
+    const { items, loading, loadMore, search, searchTxt, setSearchTxt, error } = useItemsList<ListItem>(type, (result) => injectAdSlots(result['data']));
 
     const renderItem = ({ item }: { item: ListItem }) => {
         if (item.type === 'ad') return <ProductCardSponsored />;
@@ -20,6 +20,7 @@ export default function ItemsComponents({ type, typeFilter }: { type: string; ty
             onSearch={search} onLoadMore={loadMore}
             typeFilter={typeFilter} renderItem={renderItem}
             keyExtractor={(item, index) => index.toString()}
+            error={error}
         />
     );
 }

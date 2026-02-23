@@ -8,6 +8,7 @@ import { router } from "expo-router";
 import React, { JSX } from 'react';
 import { ActivityIndicator, FlatList, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { BackendErrorScreen } from './backenderrorscreen';
 
 type Props<T> = {
     items: T[];
@@ -19,11 +20,13 @@ type Props<T> = {
     typeFilter: Record<string, string>;
     renderItem: ({ item }: { item: T }) => JSX.Element | null;
     keyExtractor: (item: T, index: number) => string;
+    error?: string | null;
+    
 }
 
 export default function ItemsLayout<T>({
     items, loading, searchTxt, setSearchTxt,
-    onSearch, onLoadMore, typeFilter, renderItem, keyExtractor
+    onSearch, onLoadMore, typeFilter, renderItem, keyExtractor, error
 }: Props<T>) {
     const currentFilter = productFilterStore((state) => state.currentProductFilter);
 
@@ -40,56 +43,64 @@ export default function ItemsLayout<T>({
         productFilterStore.getState().setProductFilter(newFilters);
     };
 
-    return (
-        <SafeAreaProvider>
-            <SafeAreaView style={global_styles.container}>
-                <View style={styles.search_view}>
-                    <TextInput
-                        style={styles.search_bar}
-                        onChangeText={setSearchTxt}
-                        value={searchTxt}
-                        placeholder='Rechercher'
-                        placeholderTextColor={'#555'}
-                        clearButtonMode='always'
-                        autoCorrect={false}
-                        onSubmitEditing={onSearch}
-                    />
-                    <Pressable style={styles.button_menu} onPress={openFilter}>
-                        <MaterialIcons name="filter-list" size={24} color="white" />
-                    </Pressable>
+return (
+    <SafeAreaProvider>
+        <SafeAreaView style={global_styles.container}>
 
-                    <Pressable style={styles.button_menu} onPress={openMap}>
-                        <Entypo name="map" size={24} color="white" />
-                    </Pressable>
-
-                </View>
-                <View style={styles.view_tags}>
-                    {currentFilter.map((tag) => (
-                        <Pressable style={styles.tags} key={tag.key} onPress={() => closeTag(tag.key)}>
-                            <View style={{ flexDirection: 'row' }}>
-                                <Text style={styles.tags_text}>{tag.label}</Text>
-                                <AntDesign name="close" size={15} color='#3FAE7C' />
-                            </View>
+            {error ? (
+                <BackendErrorScreen message={error} onRetry={onSearch} />
+            ) : (
+                <>
+                    <View style={styles.search_view}>
+                        <TextInput
+                            style={styles.search_bar}
+                            onChangeText={setSearchTxt}
+                            value={searchTxt}
+                            placeholder='Rechercher'
+                            placeholderTextColor={'#555'}
+                            clearButtonMode='always'
+                            autoCorrect={false}
+                            onSubmitEditing={onSearch}
+                        />
+                        <Pressable style={styles.button_menu} onPress={openFilter}>
+                            <MaterialIcons name="filter-list" size={24} color="white" />
                         </Pressable>
-                    ))}
-                </View>
-                <View style={styles.content}>
-                    <FlatList
-                        style={styles.list}
-                        data={items}
-                        renderItem={renderItem}
-                        onEndReached={onLoadMore}
-                        onEndReachedThreshold={2}
-                        windowSize={4}
-                        keyExtractor={keyExtractor}
-                        ListFooterComponent={() => (
-                            <View>{loading && <ActivityIndicator size="large" />}</View>
-                        )}
-                    />
-                </View>
-            </SafeAreaView>
-        </SafeAreaProvider>
-    );
+                        <Pressable style={styles.button_menu} onPress={openMap}>
+                            <Entypo name="map" size={24} color="white" />
+                        </Pressable>
+                    </View>
+
+                    <View style={styles.view_tags}>
+                        {currentFilter.map((tag) => (
+                            <Pressable style={styles.tags} key={tag.key} onPress={() => closeTag(tag.key)}>
+                                <View style={{ flexDirection: 'row' }}>
+                                    <Text style={styles.tags_text}>{tag.label}</Text>
+                                    <AntDesign name="close" size={15} color='#3FAE7C' />
+                                </View>
+                            </Pressable>
+                        ))}
+                    </View>
+
+                    <View style={styles.content}>
+                        <FlatList
+                            style={styles.list}
+                            data={items}
+                            renderItem={renderItem}
+                            onEndReached={onLoadMore}
+                            onEndReachedThreshold={2}
+                            windowSize={4}
+                            keyExtractor={keyExtractor}
+                            ListFooterComponent={() => (
+                                <View>{loading && <ActivityIndicator size="large" />}</View>
+                            )}
+                        />
+                    </View>
+                </>
+            )}
+
+        </SafeAreaView>
+    </SafeAreaProvider>
+);
 }
 
 const styles = StyleSheet.create({

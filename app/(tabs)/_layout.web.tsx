@@ -6,7 +6,7 @@ import { StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'r
 function WebNavBar() {
 
   const { width } = useWindowDimensions();
-const showText = width >= 400;
+const showText = width >= 480;
 
 
   return (

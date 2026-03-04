@@ -96,44 +96,44 @@ export default function ProductDetails() {
                     <ActivityIndicator size="large" />
                 ) :
                     (
-                        <View style={{flex: 1}}>
+                        <View style={{ flex: 1 }}>
 
-                                {
-                                    item.hasRepresentation ?
+                            {
+                                item.hasRepresentation ?
                                     <CarouselImage
                                         images={item.hasRepresentation}
                                     />
                                     :
-                                    <View style={{height:80}}></View>
-                                }
+                                    <View style={{ height: 80 }}></View>
+                            }
                             <View style={styles.floating_toolbar}>
                                 <TouchableOpacity onPress={handleBack}>
-                                <View style={styles.floating_button}>
-                                    <MaterialIcons name="arrow-back" size={30} color="white" />
-                                </View>
+                                    <View style={styles.floating_button}>
+                                        <MaterialIcons name="arrow-back" size={30} color="white" />
+                                    </View>
                                 </TouchableOpacity>
                                 <TouchableOpacity onPress={handleFavorite}>
-                                <View style={styles.floating_button}>
-                                   <Ionicons name="heart-outline" size={30} color= {isFavorite(item.uuid) ? 'red' : "white"}  />
-                                </View>
+                                    <View style={styles.floating_button}>
+                                        <Ionicons name="heart-outline" size={30} color={isFavorite(item.uuid) ? 'red' : "white"} />
+                                    </View>
                                 </TouchableOpacity>
-                            </View>    
+                            </View>
 
                             <View style={{
-                                flex:1,
+                                flex: 1,
                                 alignContent: 'center',
                                 alignItems: 'center'
                             }}>
 
 
-                            <View style={styles.toolbar} >
-                                <View style={styles.top_view}>
-                                    <Text style={styles.main_text}>{item.name}</Text>
-                                    <Text style={styles.description}>{item.address?.zip} - {item.address?.city}</Text>
+                                <View style={styles.toolbar} >
+                                    <View style={styles.top_view}>
+                                        <Text style={styles.main_text}>{item.name}</Text>
+                                        <Text style={styles.description}>{item.address?.zip} - {item.address?.city}</Text>
+                                    </View>
                                 </View>
-                            </View>           
-                 
-                                <QuickActionsBar 
+
+                                <QuickActionsBar
                                     {...item} />
                                 <ScrollView style={styles.card}>
 
@@ -174,7 +174,7 @@ export default function ProductDetails() {
                                             <Text style={styles.chapter}>Ouverture</Text>
                                             {openingInfo()}
                                         </View>
-                                    } 
+                                    }
                                     {item.address &&
                                         <>
                                             <View style={styles.divider} />
@@ -182,25 +182,26 @@ export default function ProductDetails() {
                                             <Text style={styles.location_text}>{item.address.streetAddress}</Text>
                                             <Text style={styles.location_text}>{item.address.zip} - {item.address.city}</Text>
                                             <View style={{ height: 200, marginTop: 10 }}>
-                                                <MapScreen 
-                                                items={[item]}
-                                                userAsInitialLocation={false}
-                                                type={item.mainType}
-                                                onRefreshRequest={() => {} }
+                                                <MapScreen
+                                                    items={[item]}
+                                                    userAsInitialLocation={false}
+                                                    type={item.mainType}
+                                                    onRefreshRequest={() => { }}
                                                 />
                                             </View>
                                         </>
-                                    }                                    
+                                    }
                                     {item.features &&
                                         <View >
                                             <View style={styles.divider} />
-                                            <Text style={styles.chapter}>Equipements</Text>
-
-                                            {item.features.map((feature, index) => (
-                                                <Text key={feature.key} style={styles.contact_text}>
-                                                    {feature.label}
-                                                </Text>
-                                            ))}
+                                            <Text style={styles.chapter}>Equipements Disponibles</Text>
+                                            <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginTop: 10, marginBottom: 20 }}>
+                                                {item.features.map((feature, index) => (
+                                                    <View key={index} style={styles.features_item}>
+                                                        <Text style={styles.features_item_text}>{feature.label}</Text>
+                                                    </View>
+                                                ))}
+                                            </View>
                                         </View>
                                     }
 
@@ -280,22 +281,35 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         marginLeft: 10,
         flexWrap: 'wrap',
-        flex:1
-        },
-        floating_toolbar: {
-            flexDirection: "row",
-            flex: 1,
-            width: "100%",
-            justifyContent: "space-between",
-            position: "absolute",
-            top : 0,
-            left: 0,
-            padding: 15
-        },
-        floating_button: {
-            backgroundColor: '#0000005b',
-            padding: 10,
-            borderRadius: 20
-        }
+        flex: 1
+    },
+    floating_toolbar: {
+        flexDirection: "row",
+        flex: 1,
+        width: "100%",
+        justifyContent: "space-between",
+        position: "absolute",
+        top: 0,
+        left: 0,
+        padding: 15
+    },
+    floating_button: {
+        backgroundColor: '#0000005b',
+        padding: 10,
+        borderRadius: 20
+    },
+    features_item: {
+        backgroundColor: '#ffffff1a',
+        padding: 10,
+        borderColor: '#ffffff1a',
+        borderWidth: 1,
+        borderRadius: 10,
+        margin: 5
+    },
+    features_item_text: {
+        color: "#fff",
+        fontSize: 14,
+        fontFamily: "f-regular"
+    },
 
 })

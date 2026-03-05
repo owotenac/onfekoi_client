@@ -1,6 +1,6 @@
 import Creator_component from '@/components/creator_component';
 import { BASE_URL_CLIENT } from '@/model/config';
-import { productFilterStore } from '@/model/current-filter';
+import { useFilterStore } from '@/model/current-filter';
 import { ProductProps, Type } from '@/model/products';
 import { useFavorites } from '@/services/favorites';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -10,7 +10,7 @@ import { Image, Pressable, Share, StyleSheet, Text, TouchableOpacity, View } fro
 
 const ProductCard = (item: ProductProps) => {
     const { toggleFavorite, isFavorite } = useFavorites();
-    const setProductFilter = productFilterStore((state) => state.setProductFilter);
+    const setProductFilter = useFilterStore((state) => state.setProductFilter);
 
     const openDetails = () => {
         router.push({

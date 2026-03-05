@@ -1,4 +1,6 @@
+import MapHeaderButton from '@/components/mapheaderbutton';
 import { TabBarTheme } from '@/model/global-css';
+
 import { useFonts } from 'expo-font';
 import { Stack } from "expo-router";
 
@@ -21,12 +23,12 @@ export default function RootLayout() {
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="filters" options={{ title: 'Filtres' }} />
       <Stack.Screen name="product-details" options={{ headerShown: false, title: '' }} />
-        <Stack.Screen name="foodEstablishment" options={{ title:"On mange" }} />
-        <Stack.Screen name="poi" options={{ title:"On visite"}} />
+        <Stack.Screen name="foodEstablishment" options={{ title:"On mange", headerRight: () =>  <MapHeaderButton />  }} />
+        <Stack.Screen name="poi" options={{ title:"On visite", headerRight: () =>  <MapHeaderButton /> }} />
 
-        <Stack.Screen name="events" options={{ title:"On sort" }} />
-        <Stack.Screen name="tours" options={{ title:"On bouge" }} />
-        <Stack.Screen name="rentalAccommodation" options={{ title:'On dort' }} />
+        <Stack.Screen name="events" options={{ title:"On sort" , headerRight: () =>  <MapHeaderButton /> }} />
+        <Stack.Screen name="tours" options={{ title:"On bouge" , headerRight: () =>  <MapHeaderButton /> }} />
+        <Stack.Screen name="rentalAccommodation" options={{ title:'On dort', headerRight: () =>  <MapHeaderButton />  }} />
         <Stack.Screen name="onfekoi" options={{ title:"ONFEKOI"}} />
         <Stack.Screen name="map" options={{ title:"Carte" }} />
     </Stack>

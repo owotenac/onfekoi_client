@@ -1,12 +1,11 @@
 // components/ItemsLayout.tsx
-import { productFilterStore } from '@/model/current-filter';
+import { useFilterStore } from '@/model/current-filter';
 import { global_styles } from '@/model/global-css';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import Entypo from '@expo/vector-icons/Entypo';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { router } from "expo-router";
 import React, { JSX } from 'react';
-import { ActivityIndicator, FlatList, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, FlatList, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { BackendErrorScreen } from './backenderrorscreen';
 
@@ -28,20 +27,24 @@ export default function ItemsLayout<T>({
     items, loading, searchTxt, setSearchTxt,
     onSearch, onLoadMore, typeFilter, renderItem, keyExtractor, error
 }: Props<T>) {
-    const currentFilter = productFilterStore((state) => state.currentProductFilter);
+    const currentFilter = useFilterStore((state) => state.currentProductFilter);
+    const geoLocalizedResults = useFilterStore((state) => state.geolocalizedResults);
 
     const openFilter = () => {
         router.push({ pathname: '/filters', params: { filters: JSON.stringify(typeFilter) } });
     };
 
-    const openMap = () => {
-        router.push({ pathname: '/map' });
-    }
-
     const closeTag = (key: string) => {
         const newFilters = currentFilter.filter((f) => f.key !== key);
-        productFilterStore.getState().setProductFilter(newFilters);
+        useFilterStore.getState().setProductFilter(newFilters);
     };
+
+    const allFilters = () => {
+        useFilterStore.getState().setGeolocalizedResults(false);
+    };
+    const nearFilters = () => {
+        useFilterStore.getState().setGeolocalizedResults(true);
+    }
 
 return (
     <SafeAreaProvider>
@@ -65,11 +68,16 @@ return (
                         <Pressable style={styles.button_menu} onPress={openFilter}>
                             <MaterialIcons name="filter-list" size={24} color="white" />
                         </Pressable>
-                        <Pressable style={styles.button_menu} onPress={openMap}>
-                            <Entypo name="map" size={24} color="white" />
-                        </Pressable>
                     </View>
-
+                    <View style={styles.view_tags}>
+                        <TouchableOpacity style={[styles.shortcut, !geoLocalizedResults && styles.shortcut_active]} onPress={allFilters}>
+                            <Text style={styles.text_shortcut}>Tous</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={[styles.shortcut, geoLocalizedResults && styles.shortcut_active]} onPress={nearFilters}>
+                            <Text style={styles.text_shortcut}>À proximité</Text>
+                        </TouchableOpacity>
+                    </View>
+                    { currentFilter.length > 0 && 
                     <View style={styles.view_tags}>
                         {currentFilter.map((tag) => (
                             <Pressable style={styles.tags} key={tag.key} onPress={() => closeTag(tag.key)}>
@@ -80,6 +88,7 @@ return (
                             </Pressable>
                         ))}
                     </View>
+                    }
 
                     <View style={styles.content}>
                         <FlatList
@@ -123,8 +132,13 @@ const styles = StyleSheet.create({
 
     },
     button_menu: {
-        margin: 5,
-        paddingLeft: 5
+        marginLeft: 10,
+        padding: 10,
+        borderColor: "#33334d",
+        backgroundColor: "#222232",        
+        borderWidth: 1,
+        borderRadius: 10,      
+            justifyContent: 'center',
     },
     view_tags: {
         padding: 5,
@@ -132,13 +146,13 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         gap: 10,
         marginTop: 5,
-        marginBottom: 10,
+        marginBottom: 5,
         width: '100%'
     },
     tags: {
         borderWidth: 1,
         borderColor: '#3FAE7C',
-        borderRadius: 999,
+        borderRadius: 10,
         paddingHorizontal: 10,
         paddingVertical: 4,
         marginRight: 6,
@@ -147,7 +161,8 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#3FAE7C',
         fontWeight: '500',
-        marginRight: 5
+        marginRight: 5,
+        fontFamily: "f-regular",
     },
     content: {
         flex: 1,
@@ -155,5 +170,24 @@ const styles = StyleSheet.create({
     },
     list: {
         flex: 1,
+    },
+    shortcut: {
+        borderWidth: 1,
+        borderColor: '#616161',
+        backgroundColor: '#414141',
+        borderRadius: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        marginRight: 1,
+    },
+    shortcut_active: {  
+        //borderColor: '#4a9eff',
+        backgroundColor: '#b9ae13',
+    },
+    text_shortcut: {
+        fontSize: 14,
+        color: '#1a1a1a',
+        fontWeight: '500',
+        fontFamily: "f-regular",
     }
 });

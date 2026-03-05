@@ -33,7 +33,7 @@ const showText = width >= 480;
 
 export default function WebTabLayout() {
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: "#15151D" }}>
       <WebNavBar />
       <Tabs
         screenOptions={{
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     //alignItems: 'center',
     padding: 16,
-    backgroundColor: "#15151D",
+    backgroundColor: "#15151d81",
   },
   navLinks: {
     flexDirection: 'row',

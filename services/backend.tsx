@@ -1,10 +1,11 @@
 import { BASE_URL_BACKEND, isFeatureEnabled } from "@/model/config";
-import { productFilterStore } from "@/model/current-filter";
+import { useFilterStore } from "@/model/current-filter";
 import { Platform } from "react-native";
 import { ProductProps } from "../model/products";
 
 
 import axios from 'axios';
+import { UserLocation } from "./location";
 
 const getBaseURL = () => {
   if (Platform.OS === 'android') {
@@ -37,9 +38,16 @@ export class BackEndService {
     };
 
     //filter if any
-    const filters = productFilterStore.getState().currentProductFilter;
+    const filters = useFilterStore.getState().currentProductFilter;
     if (filters.length > 0) {
       params['filters'] = filters.map((filter) => filter.key).join(',');
+    }
+
+    //geolocalized results
+    if (useFilterStore.getState().geolocalizedResults) {
+        const location = await UserLocation.getUserLocation();
+        params['lat'] = location.coords.latitude.toString();
+        params['lon'] = location.coords.longitude.toString();
     }
     try {
       const { data } = await BackEndService.api.get('/api/catalog', {
@@ -98,11 +106,19 @@ export class BackEndService {
     };
 
     //filter if any
-    const filters = productFilterStore.getState().currentProductFilter;
+    const filters = useFilterStore.getState().currentProductFilter;
     if (filters.length > 0) {
       params['filters'] = filters.map((filter) => filter.key).join(',');
     }
     params['search'] = keyword;
+
+    //geolocalized results
+    if (useFilterStore.getState().geolocalizedResults) {
+        const location = await UserLocation.getUserLocation();
+        params['lat'] = location.coords.latitude.toString();
+        params['lon'] = location.coords.longitude.toString();
+    }
+
     const { data } = await BackEndService.api.get('/api/search', {
       params: params
     });
@@ -128,7 +144,7 @@ export class BackEndService {
     params['lon'] = lon.toString();
 
     //filter if any
-    const filters = productFilterStore.getState().currentProductFilter;
+    const filters = useFilterStore.getState().currentProductFilter;
     if (filters.length > 0) {
       params['filters'] = filters.map((filter) => filter.key).join(',');
     }

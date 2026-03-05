@@ -1,20 +1,22 @@
 // hooks/useItemsList.ts
-import { productFilterStore } from '@/model/current-filter';
+import { useFilterStore } from '@/model/current-filter';
 import { BackEndService } from '@/services/backend';
 import { useEffect, useState } from 'react';
 
 export function useItemsList<T>(type: string, transformResult: (result: any) => T[]) {
+    const currentFilter = useFilterStore((state) => state.currentProductFilter);
+    const geolocalizedResults = useFilterStore((state) => state.geolocalizedResults);
+
     const [items, setItems] = useState<T[]>([]);
     const [loading, setLoading] = useState(true);
     const [nextPage, setNextPage] = useState('');
     const [searchTxt, setSearchTxt] = useState('');
-    const currentFilter = productFilterStore((state) => state.currentProductFilter);
-    const mainType = productFilterStore((state) => state.mainType);
+    const mainType = useFilterStore((state) => state.mainType);
     const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
         if (type === mainType) fetchItems();
-    }, [currentFilter]);
+    }, [currentFilter, geolocalizedResults]);
 
     const fetchItems = async () => {
         try {

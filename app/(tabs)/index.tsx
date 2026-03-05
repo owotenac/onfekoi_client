@@ -1,6 +1,6 @@
 import BottomBanner from '@/components/bottombanner/bottombanner';
 import CategoryButton from '@/components/category_button';
-import { productFilterStore } from '@/model/current-filter';
+import { useFilterStore } from '@/model/current-filter';
 import { getTheme, global_styles } from '@/model/global-css';
 import { router } from "expo-router";
 import { Image, ScrollView, StyleSheet, View } from "react-native";
@@ -11,8 +11,8 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 
 export default function Index() {
-  const setMainType = productFilterStore((state) => state.setMainType);
-  const setProductFilter = productFilterStore((state) => state.setProductFilter);
+  const setMainType = useFilterStore((state) => state.setMainType);
+  const setProductFilter = useFilterStore((state) => state.setProductFilter);
 
   const poi = () => {
     setProductFilter([])

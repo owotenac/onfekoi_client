@@ -1,5 +1,5 @@
 import MapScreen from '@/components/mapscreen';
-import { productFilterStore } from '@/model/current-filter';
+import { useFilterStore } from '@/model/current-filter';
 import { ProductProps } from '@/model/products';
 import { BackEndService } from '@/services/backend';
 import { UserLocation } from '@/services/location';
@@ -11,7 +11,7 @@ export default function Onfekoi() {
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState<ProductProps[]>([]);
   const [userLocation, setUserLocation] = useState<any>();
-  const mainType = productFilterStore((state) => state.mainType);
+  const mainType = useFilterStore((state) => state.mainType);
 
   const fetchItems = async (lat?: number, lng?: number) => {
     setLoading(true);

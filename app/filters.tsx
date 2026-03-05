@@ -1,5 +1,5 @@
 import { Checkbox } from '@/components/checkbox';
-import { productFilterStore } from '@/model/current-filter';
+import { useFilterStore } from '@/model/current-filter';
 import { global_styles } from '@/model/global-css';
 import { Type } from '@/model/products';
 import { router, useLocalSearchParams } from "expo-router";
@@ -10,8 +10,8 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 export default function Filters() {
 
     const { filters } = useLocalSearchParams();
-    const currentFilter = productFilterStore((state) => state.currentProductFilter);
-    const setProductFilter = productFilterStore((state) => state.setProductFilter);
+    const currentFilter = useFilterStore((state) => state.currentProductFilter);
+    const setProductFilter = useFilterStore((state) => state.setProductFilter);
 
     const productFilters = useMemo(() => {
         try {

@@ -8,7 +8,8 @@ import { Image, ScrollView, StyleSheet, View, useWindowDimensions } from "react-
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 
-const MAX_CONTENT_WIDTH = 900; 
+const MAX_CONTENT_WIDTH = 900;
+const BREAKPOINT_DESKTOP = 600; // en dessous = mobile, au dessus = desktop
 
 
 export default function Index() {
@@ -16,6 +17,11 @@ export default function Index() {
   const setProductFilter = useFilterStore((state) => state.setProductFilter);
   const { width } = useWindowDimensions();
   const contentWidth = Math.min(width, MAX_CONTENT_WIDTH);
+  const numColumns = contentWidth >= BREAKPOINT_DESKTOP ? 2 : 1;
+  const GUTTER = 20;
+  const PADDING = 40;
+  const buttonWidth = (contentWidth - PADDING - GUTTER * (numColumns - 1)) / numColumns;
+
 
   const poi = () => {
     setProductFilter([])
@@ -59,61 +65,69 @@ export default function Index() {
       pathname: '/onfekoi'
     })
   }
-  //router.n
-  //navigation.setOptions({ hearderShow : false })
+
+  // Boutons à afficher en grille (pas le premier ni le dernier)
+  const gridButtons = [
+    { title: "On mange",  imageSource: require('@/assets/images/mange.jpg'),  accentColor: getTheme('ALL').color,                   onPress: foodEstablishment },
+    { title: "On visite", imageSource: require('@/assets/images/visite.jpg'), accentColor: getTheme('PointOfInterest').color,        onPress: poi },
+    { title: "On sort",   imageSource: require('@/assets/images/sort.jpg'),   accentColor: getTheme('EntertainmentAndEvent').color,  onPress: events },
+    { title: "On bouge",  imageSource: require('@/assets/images/bouge.jpg'),  accentColor: getTheme('Tour').color,                  onPress: tours },
+  ];
+
+  // Regroupe en paires pour les rows
+  const rows = [];
+  for (let i = 0; i < gridButtons.length; i += numColumns) {
+    rows.push(gridButtons.slice(i, i + numColumns));
+  }
 
 
 
-  return (
-    <SafeAreaProvider >
+   return (
+    <SafeAreaProvider>
       <SafeAreaView style={global_styles.container}>
-        <ScrollView contentContainerStyle={{  alignItems:'center'}} style={{width:'100%'}}>
-        <View style={[styles.content, { width: contentWidth }]}>
+        <ScrollView contentContainerStyle={{ alignItems: 'center' }} style={{ width: '100%' }}>
+          <View style={[styles.content, { width: contentWidth }]}>
             <View style={styles.view_column}>
-          <Image source={require('../../assets/images/onfekoi_logo.png')} style={styles.image} resizeMode="contain" />
+              <Image source={require('../../assets/images/onfekoi_logo.png')} style={styles.image} resizeMode="contain" />
+              
+              {/* Bouton pleine largeur */}
               <CategoryButton
                 title="ONFEKOI dans le coin"
                 imageSource={require('@/assets/images/map.jpg')}
                 accentColor={getTheme('FoodEstablishment').color}
                 onPress={onfekoi}
-                sizeConstrains={false}
+                buttonWidth={buttonWidth} // ← on passe la largeur calculée
+
               />
 
-                <CategoryButton
-                  title="On mange"
-                  imageSource={require('@/assets/images/mange.jpg')}
-                  accentColor={getTheme('ALL').color}
-                  onPress={foodEstablishment}
-                />
-                <CategoryButton
-                  title="On visite"
-                  imageSource={require('@/assets/images/visite.jpg')}
-                  accentColor={getTheme('PointOfInterest').color}
-                  onPress={poi}
-                />
-                <CategoryButton
-                  title="On sort"
-                  imageSource={require('@/assets/images/sort.jpg')}
-                  accentColor={getTheme('EntertainmentAndEvent').color}
-                  onPress={events}
-                />
-                <CategoryButton
-                  title="On bouge"
-                  imageSource={require('@/assets/images/bouge.jpg')}
-                  accentColor={getTheme('Tour').color}
-                  onPress={tours}
-                />
-                <CategoryButton
-                  title="On dort"
-                  imageSource={require('@/assets/images/dors.jpg')}
-                  accentColor={getTheme('RentalAccommodation').color}
-                  onPress={rentalAccommodation}
-                  sizeConstrains={false}
-                />
+              {/* Grille responsive */}
+              {rows.map((row, rowIndex) => (
+                <View key={rowIndex} style={styles.view_row}>
+                  {row.map((btn, colIndex) => (
+                    <CategoryButton
+                      key={colIndex}
+                      title={btn.title}
+                      imageSource={btn.imageSource}
+                      accentColor={btn.accentColor}
+                      onPress={btn.onPress}
+                      buttonWidth={buttonWidth} // ← on passe la largeur calculée
+                    />
+                  ))}
+                </View>
+              ))}
+
+              {/* Bouton pleine largeur */}
+              <CategoryButton
+                title="On dort"
+                imageSource={require('@/assets/images/dors.jpg')}
+                accentColor={getTheme('RentalAccommodation').color}
+                onPress={rentalAccommodation}
+                buttonWidth={buttonWidth} // ← on passe la largeur calculée
+              />
             </View>
             <BottomBanner />
-      </View>                
-        <FooterWeb/>
+          </View>
+          <FooterWeb />
         </ScrollView>
       </SafeAreaView>
     </SafeAreaProvider>
@@ -129,7 +143,7 @@ const styles = StyleSheet.create({
         // overflow: 'hidden',
     },
   image: {
-    width: 350,
+    width: '80%',
     height: 250,
     marginBottom: 15,
     alignItems: 'center'

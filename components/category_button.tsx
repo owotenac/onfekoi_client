@@ -9,16 +9,15 @@ export type CategoryButtonProps = {
     imageSource: any;
     accentColor: ColorValue;
     onPress: () => void;
-    sizeConstrains?: boolean
+    sizeConstrains?: boolean;
+    buttonWidth?: number;
 };
 
-export default function CategoryButton ({ title, imageSource, accentColor, sizeConstrains = true,  onPress } : CategoryButtonProps) {
+export default function CategoryButton ({ title, imageSource, accentColor, sizeConstrains = true,  onPress, buttonWidth  } : CategoryButtonProps) {
     const { width } = useWindowDimensions();
 
-  // Calcul réactif : nb de colonnes selon la largeur disponible
-  const availableWidth = width - PADDING;
-  const contentWidth = Math.min(availableWidth, MAX_CONTENT_WIDTH);
-  const cardWidth = contentWidth;
+  // Fallback si buttonWidth pas fourni (rétrocompatibilité)
+  const cardWidth = buttonWidth ?? (sizeConstrains ? (width - 60) / 2 : width - 40);
 
   return (
     <TouchableOpacity style={[styles.card,{ width: cardWidth }]} onPress={onPress} activeOpacity={0.8}>

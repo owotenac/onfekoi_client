@@ -17,7 +17,9 @@ export default function CategoryButton ({ title, imageSource, accentColor, sizeC
     const { width } = useWindowDimensions();
 
   // Fallback si buttonWidth pas fourni (rétrocompatibilité)
-  const cardWidth = buttonWidth ?? (sizeConstrains ? (width - 60) / 2 : width - 40);
+const cardWidth = buttonWidth && buttonWidth > 50 
+  ? buttonWidth 
+  : (sizeConstrains ? (width - 60) / 2 : width - 40);
 
   return (
     <TouchableOpacity style={[styles.card,{ width: cardWidth }]} onPress={onPress} activeOpacity={0.8}>

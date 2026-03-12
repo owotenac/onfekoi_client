@@ -16,12 +16,12 @@ export default function Index() {
   const setMainType = useFilterStore((state) => state.setMainType);
   const setProductFilter = useFilterStore((state) => state.setProductFilter);
   const { width } = useWindowDimensions();
-  const contentWidth = Math.min(width, MAX_CONTENT_WIDTH);
+  const contentWidth = Math.min(width || 375, MAX_CONTENT_WIDTH);
   const numColumns = contentWidth >= BREAKPOINT_DESKTOP ? 2 : 1;
   const GUTTER = 20;
   const PADDING = 40;
   const buttonWidth = (contentWidth - PADDING - GUTTER * (numColumns - 1)) / numColumns;
-
+//console.log('contentWidth:', contentWidth, 'numColumns:', numColumns, 'buttonWidth:', buttonWidth);
 
   const poi = () => {
     setProductFilter([])

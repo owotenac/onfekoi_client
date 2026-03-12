@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
         // overflow: 'hidden',
     },
   image: {
-    width: '80%',
+    width: 350,
     height: 250,
     marginBottom: 15,
     alignItems: 'center'

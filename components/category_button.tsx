@@ -1,10 +1,10 @@
 import React from 'react';
 import { ColorValue, Image, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 
-const MIN_BUTTON_WIDTH = 150; // largeur minimale en px
+const MIN_BUTTON_WIDTH = 200; // largeur minimale en px
 const MAX_CONTENT_WIDTH = 800; 
 const GUTTER = 20;
-const PADDING = 60;
+const PADDING = 50;
 
 export type CategoryButtonProps = {
     title: string;
@@ -23,7 +23,7 @@ export default function CategoryButton ({ title, imageSource, accentColor, sizeC
   const idealColumnWidth = (contentWidth - GUTTER) / 2;
   const columnWidth = Math.max(idealColumnWidth, MIN_BUTTON_WIDTH);
 
-  const cardWidth = sizeConstrains ? columnWidth : contentWidth;
+  const cardWidth = contentWidth;
 
   return (
     <TouchableOpacity style={[styles.card,{ width: cardWidth }]} onPress={onPress} activeOpacity={0.8}>

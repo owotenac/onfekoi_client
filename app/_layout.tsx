@@ -22,7 +22,7 @@ export default function RootLayout() {
   return (
     <>
       <Head>
-        <title>OnFéKoi - Quoi faire près de chez toi ?</title>
+        <title>ONFEKOI - Quoi faire près de chez toi ?</title>
         <meta name="description" content="Découvrez les meilleures activités, sorties et événements près de chez vous." />
         <meta name="google-site-verification" content="9aO7EU-U11jWgoHXZnZOMDP_U_SDt9k7BhuoD319Va8" />
         <meta name="keywords" content="activités, événements, sorties, restaurants, hébergements, tours, points d'intérêt, ONFEKOI, Hérault, Herault" />

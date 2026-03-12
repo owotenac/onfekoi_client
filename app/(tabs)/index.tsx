@@ -3,16 +3,18 @@ import CategoryButton from '@/components/category_button';
 import { useFilterStore } from '@/model/current-filter';
 import { getTheme, global_styles } from '@/model/global-css';
 import { router } from "expo-router";
-import { Image, ScrollView, StyleSheet, View } from "react-native";
+import { Image, ScrollView, StyleSheet, View, useWindowDimensions } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 
-
+const MAX_CONTENT_WIDTH = 900; 
 
 
 export default function Index() {
   const setMainType = useFilterStore((state) => state.setMainType);
   const setProductFilter = useFilterStore((state) => state.setProductFilter);
+  const { width } = useWindowDimensions();
+  const contentWidth = Math.min(width, MAX_CONTENT_WIDTH);
 
   const poi = () => {
     setProductFilter([])
@@ -64,8 +66,8 @@ export default function Index() {
   return (
     <SafeAreaProvider >
       <SafeAreaView style={global_styles.container}>
-        <View style={styles.content}>
-        <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
+        <ScrollView contentContainerStyle={{ paddingBottom: 20 , alignItems:'center'}} style={{width:'100%'}}>
+        <View style={[styles.content, { width: contentWidth }]}>
             <View style={styles.view_column}>
           <Image source={require('../../assets/images/onfekoi_logo.png')} style={styles.image} resizeMode="contain" />
               <CategoryButton
@@ -115,8 +117,8 @@ export default function Index() {
               </View>
             </View>
             <BottomBanner />
-        </ScrollView>
       </View>                
+        </ScrollView>
       </SafeAreaView>
     </SafeAreaProvider>
   );
@@ -125,8 +127,10 @@ export default function Index() {
 const styles = StyleSheet.create({
         content: {
         flex: 1,
-        width: '100%',
-        overflow: 'hidden',
+        paddingRight: 50,
+        paddingLeft: 50
+        // width: '100%',
+        // overflow: 'hidden',
     },
   image: {
     width: 350,

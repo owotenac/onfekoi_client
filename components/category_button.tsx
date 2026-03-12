@@ -1,9 +1,10 @@
 import React from 'react';
-import { ColorValue, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ColorValue, Image, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 
-//const { width } = Dimensions.get('window');
-const  width  = 800//Dimensions.get('window');
-const COLUMN_WIDTH = (width - 40) / 2; 
+const MIN_BUTTON_WIDTH = 150; // largeur minimale en px
+const MAX_CONTENT_WIDTH = 800; 
+const GUTTER = 20;
+const PADDING = 60;
 
 export type CategoryButtonProps = {
     title: string;
@@ -14,8 +15,18 @@ export type CategoryButtonProps = {
 };
 
 export default function CategoryButton ({ title, imageSource, accentColor, sizeConstrains = true,  onPress } : CategoryButtonProps) {
+    const { width } = useWindowDimensions();
+
+  // Calcul réactif : nb de colonnes selon la largeur disponible
+  const availableWidth = width - PADDING;
+  const contentWidth = Math.min(availableWidth, MAX_CONTENT_WIDTH);
+  const idealColumnWidth = (contentWidth - GUTTER) / 2;
+  const columnWidth = Math.max(idealColumnWidth, MIN_BUTTON_WIDTH);
+
+  const cardWidth = sizeConstrains ? columnWidth : contentWidth;
+
   return (
-    <TouchableOpacity style={[styles.card, { width: sizeConstrains ? COLUMN_WIDTH : width - 20}]} onPress={onPress} activeOpacity={0.8}>
+    <TouchableOpacity style={[styles.card,{ width: cardWidth }]} onPress={onPress} activeOpacity={0.8}>
       <View style={styles.imageContainer}>
         <Image source={imageSource} style={styles.image} resizeMode="cover" />
       </View>

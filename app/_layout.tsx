@@ -3,6 +3,7 @@ import { TabBarTheme } from '@/model/global-css';
 
 import { useFonts } from 'expo-font';
 import { Stack } from "expo-router";
+import Head from 'expo-router/head';
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -19,6 +20,25 @@ export default function RootLayout() {
   }
 
   return (
+    <>
+      <Head>
+        <title>OnFéKoi - Quoi faire près de chez toi ?</title>
+        <meta name="description" content="Découvrez les meilleures activités, sorties et événements près de chez vous." />
+        <meta name="google-site-verification" content="9aO7EU-U11jWgoHXZnZOMDP_U_SDt9k7BhuoD319Va8" />
+        <meta name="keywords" content="activités, événements, sorties, restaurants, hébergements, tours, points d'intérêt, ONFEKOI, Hérault, Herault" />
+
+        {/* Open Graph */}
+        <meta property="og:title" content="ONFEKOI" />
+        <meta property="og:description" content="Découvrez quoi faire près de chez vous" />
+        <meta property="og:url" content="https://www.onfekoi.app" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://www.onfekoi.app/og-image.png" />
+
+        {/* Twitter/X */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="ONFEKOI" />
+        <meta name="twitter:description" content="Découvrez quoi faire près de chez vous" />
+      </Head>
     <Stack screenOptions={{ ...TabBarTheme, headerShown: true }}>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="filters" options={{ title: 'Filtres' }} />
@@ -32,5 +52,7 @@ export default function RootLayout() {
         <Stack.Screen name="onfekoi" options={{ title:"ONFEKOI"}} />
         <Stack.Screen name="map" options={{ title:"Carte" }} />
     </Stack>
+    </>
+
   );
 }

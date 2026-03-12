@@ -2,7 +2,7 @@ import React from 'react';
 import { ColorValue, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 //const { width } = Dimensions.get('window');
-const  width  = 400//Dimensions.get('window');
+const  width  = 800//Dimensions.get('window');
 const COLUMN_WIDTH = (width - 40) / 2; 
 
 export type CategoryButtonProps = {

@@ -51,6 +51,7 @@ export default function RootLayout() {
         <Stack.Screen name="rentalAccommodation" options={{ title:'On dort', headerRight: () =>  <MapHeaderButton />  }} />
         <Stack.Screen name="onfekoi" options={{ title:"ONFEKOI"}} />
         <Stack.Screen name="map" options={{ title:"Carte" }} />
+        <Stack.Screen name="legalpage" options={{ headerShown: false, title: ''}} />
     </Stack>
     </>
 

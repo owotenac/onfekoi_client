@@ -1,5 +1,6 @@
 import BottomBanner from '@/components/bottombanner/bottombanner';
 import CategoryButton from '@/components/category_button';
+import FooterWeb from '@/components/footer';
 import { useFilterStore } from '@/model/current-filter';
 import { getTheme, global_styles } from '@/model/global-css';
 import { router } from "expo-router";
@@ -66,7 +67,7 @@ export default function Index() {
   return (
     <SafeAreaProvider >
       <SafeAreaView style={global_styles.container}>
-        <ScrollView contentContainerStyle={{ paddingBottom: 20 , alignItems:'center'}} style={{width:'100%'}}>
+        <ScrollView contentContainerStyle={{  alignItems:'center'}} style={{width:'100%'}}>
         <View style={[styles.content, { width: contentWidth }]}>
             <View style={styles.view_column}>
           <Image source={require('../../assets/images/onfekoi_logo.png')} style={styles.image} resizeMode="contain" />
@@ -78,7 +79,6 @@ export default function Index() {
                 sizeConstrains={false}
               />
 
-              <View style={styles.view_row}>
                 <CategoryButton
                   title="On mange"
                   imageSource={require('@/assets/images/mange.jpg')}
@@ -91,8 +91,6 @@ export default function Index() {
                   accentColor={getTheme('PointOfInterest').color}
                   onPress={poi}
                 />
-              </View>
-              <View style={styles.view_row}>
                 <CategoryButton
                   title="On sort"
                   imageSource={require('@/assets/images/sort.jpg')}
@@ -105,8 +103,6 @@ export default function Index() {
                   accentColor={getTheme('Tour').color}
                   onPress={tours}
                 />
-              </View>
-              <View style={styles.view_row}>
                 <CategoryButton
                   title="On dort"
                   imageSource={require('@/assets/images/dors.jpg')}
@@ -114,10 +110,10 @@ export default function Index() {
                   onPress={rentalAccommodation}
                   sizeConstrains={false}
                 />
-              </View>
             </View>
             <BottomBanner />
       </View>                
+        <FooterWeb/>
         </ScrollView>
       </SafeAreaView>
     </SafeAreaProvider>
@@ -127,8 +123,8 @@ export default function Index() {
 const styles = StyleSheet.create({
         content: {
         flex: 1,
-        paddingRight: 50,
-        paddingLeft: 50
+        //paddingRight: 50,
+        //paddingLeft: 50
         // width: '100%',
         // overflow: 'hidden',
     },
@@ -151,7 +147,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 20
+    gap: 20,
+    alignSelf: 'stretch'
   },
 
 })

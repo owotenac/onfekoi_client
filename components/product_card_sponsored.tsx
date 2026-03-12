@@ -51,19 +51,6 @@ const ProductCardSponsored = () => {
             </NativeAsset>
             <NativeMediaView style={{height: 150, alignSelf:'center'}} />
         </NativeAdView>
-
-        // <Pressable
-        //     onPress={openDetails}>
-        //     <View style={styles.card}>
-        //         <Creator_component name={item.createdBy} />
-        //         <Text style={styles.main_text}>{item.name}</Text>
-        //         <Text style={styles.location_text}>{item.address.zip} - {item.address.city}</Text>
-        //         { item.image &&
-        //         <Image source={{ uri: item.image }} style={styles.image} resizeMode="cover" />
-        //         }
-        //         <Text numberOfLines={3} ellipsizeMode='tail' style={styles.description}>{item.shortDescription ? item.shortDescription : item.description}</Text>
-        //     </View>
-        // </Pressable>
     )
 }
 

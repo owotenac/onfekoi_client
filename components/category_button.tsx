@@ -1,9 +1,7 @@
 import React from 'react';
 import { ColorValue, Image, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 
-const MIN_BUTTON_WIDTH = 200; // largeur minimale en px
 const MAX_CONTENT_WIDTH = 800; 
-const GUTTER = 20;
 const PADDING = 50;
 
 export type CategoryButtonProps = {
@@ -20,9 +18,6 @@ export default function CategoryButton ({ title, imageSource, accentColor, sizeC
   // Calcul réactif : nb de colonnes selon la largeur disponible
   const availableWidth = width - PADDING;
   const contentWidth = Math.min(availableWidth, MAX_CONTENT_WIDTH);
-  const idealColumnWidth = (contentWidth - GUTTER) / 2;
-  const columnWidth = Math.max(idealColumnWidth, MIN_BUTTON_WIDTH);
-
   const cardWidth = contentWidth;
 
   return (

@@ -5,7 +5,7 @@ import { NativeAd, NativeAdView, NativeAsset, NativeAssetType, NativeMediaView, 
 
 const AD_UNIT_ID = __DEV__
     ? TestIds.NATIVE
-    : 'ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX'; // ton vrai ID plus tard
+    : 'ca-app-pub-5464098617109994/2829423131';
 
 
 const ProductCardSponsored = () => {
@@ -13,11 +13,11 @@ const ProductCardSponsored = () => {
     const [nativeAd, setNativeAd] = useState<NativeAd>();
 
     useEffect(() => {
-        NativeAd.createForAdRequest(TestIds.NATIVE)
+        NativeAd.createForAdRequest(AD_UNIT_ID)
             .then(setNativeAd)
             .catch(console.error);
     }, []);
-    
+
     useEffect(() => {
         if (!nativeAd) return;
         return () => {
@@ -28,18 +28,14 @@ const ProductCardSponsored = () => {
     if (!nativeAd) {
         return null;
     }
-    const openDetails = () => {
-    }
-
-
     return (
         // Wrap all the ad assets in the NativeAdView component, and register the view with the nativeAd prop
         <NativeAdView nativeAd={nativeAd} style={styles.card}>
             {nativeAd.icon && (
                 <NativeAsset assetType={NativeAssetType.ICON} >
-                    <View style={{flexDirection:'row', gap:10, alignItems:'center'}}>
-                    <Image source={{ uri: nativeAd.icon.url }} width={24} height={24} />
-                    <Text style={{ marginTop: 10,fontSize: 12, color: 'white' }}>Sponsored</Text>
+                    <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
+                        <Image source={{ uri: nativeAd.icon.url }} width={24} height={24} />
+                        <Text style={{ marginTop: 10, fontSize: 12, color: 'white' }}>Annonce</Text>
                     </View>
                 </NativeAsset>
             )}
@@ -49,7 +45,14 @@ const ProductCardSponsored = () => {
                     {nativeAd.headline}
                 </Text>
             </NativeAsset>
-            <NativeMediaView style={{height: 150, alignSelf:'center'}} />
+            <NativeMediaView style={{ height: 150, alignSelf: 'center' }} />
+            <NativeAsset assetType={NativeAssetType.CALL_TO_ACTION}>
+                <View style={{ backgroundColor: '#FFD700', padding: 10, borderRadius: 5 }}>
+                    <Text style={{ color: 'black', fontWeight: 'bold' }}>
+                        {nativeAd.callToAction}
+                    </Text>
+                </View>
+            </NativeAsset>
         </NativeAdView>
     )
 }

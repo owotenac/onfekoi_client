@@ -2,7 +2,7 @@ import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads'
 
 const AD_UNIT_ID = __DEV__
     ? TestIds.BANNER
-    : 'ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX'; // Replace with your actual AdMob ad unit ID
+    : 'ca-app-pub-5464098617109994/9921445097'; 
 
 
 export default function BottomBanner() {

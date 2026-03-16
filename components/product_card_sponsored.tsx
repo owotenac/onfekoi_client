@@ -13,17 +13,19 @@ const ProductCardSponsored = () => {
     const [nativeAd, setNativeAd] = useState<NativeAd>();
 
     useEffect(() => {
+        console.log('AD_UNIT_ID:', AD_UNIT_ID);
+        console.log('__DEV__:', __DEV__);
         NativeAd.createForAdRequest(AD_UNIT_ID)
-            .then(setNativeAd)
-            .catch(console.error);
-    }, []);
+            .then(ad => {
+                console.log('Ad loaded:', JSON.stringify(ad));
+                setNativeAd(ad);
+            })
+            .catch(err => console.error('Ad error:', err));
 
-    useEffect(() => {
-        if (!nativeAd) return;
         return () => {
-            nativeAd.destroy();
+            nativeAd?.destroy();
         };
-    }, [nativeAd]);
+    }, []);
 
     if (!nativeAd) {
         return null;

@@ -76,13 +76,11 @@ export class BackEndService {
 
 
   static getNextPage = async (url: string) => {
-    console.log("Next")
     const { data } = await BackEndService.api.get('/api/next_page', {
       params: {
         url: url
       }
     });
-    //console.log(data)
     const products = data['data'] as ProductProps[];
 
     return {

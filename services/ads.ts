@@ -16,6 +16,6 @@ export const injectAdSlots = (
       result.push({ type: 'ad', id: `ad-${index}` });
     }
   });
-  console.log("Ads injection" + result.length);
+  //console.log("Ads injection" + result.length);
   return result;
 };

@@ -91,7 +91,7 @@ const SECTIONS: SectionType[] = [
       {
         heading: "Données collectées",
         body: [
-          { type: "bullet", value: "Localisation approximative (si autorisée) pour afficher les bons plans à proximité" },
+          { type: "bullet", value: "Localisation précise et approximative (si autorisée) pour afficher les bons plans à proximité" },
         ],
       },
       {
@@ -100,7 +100,7 @@ const SECTIONS: SectionType[] = [
           {
             type: "text",
             value:
-              "Les données sont utilisées pour améliorer l'application, afficher des contenus pertinents et, dans le cadre de la version monétisée, diffuser des publicités contextuelles via Google AdMob.",
+              "Les données sont utilisées pour améliorer l'application, afficher des contenus pertinents et, dans le cadre de la version monétisée, diffuser des publicités contextuelles via Google AdMob. AdMob peut collecter des identifiants publicitaires (AAID) et des données techniques sur votre appareil pour personnaliser les annonces.",
           },
         ],
       },

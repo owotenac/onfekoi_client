@@ -96,7 +96,7 @@ return (
                             data={items}
                             renderItem={renderItem}
                             onEndReached={onLoadMore}
-                            onEndReachedThreshold={2}
+                            onEndReachedThreshold={0.5}
                             windowSize={4}
                             keyExtractor={keyExtractor}
                             ListFooterComponent={() => (

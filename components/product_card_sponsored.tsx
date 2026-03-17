@@ -13,11 +13,8 @@ const ProductCardSponsored = () => {
     const [nativeAd, setNativeAd] = useState<NativeAd>();
 
     useEffect(() => {
-        console.log('AD_UNIT_ID:', AD_UNIT_ID);
-        console.log('__DEV__:', __DEV__);
         NativeAd.createForAdRequest(AD_UNIT_ID)
             .then(ad => {
-                console.log('Ad loaded:', JSON.stringify(ad));
                 setNativeAd(ad);
             })
             .catch(err => console.error('Ad error:', err));
@@ -49,8 +46,8 @@ const ProductCardSponsored = () => {
             </NativeAsset>
             <NativeMediaView style={{ height: 150, alignSelf: 'center' }} />
             <NativeAsset assetType={NativeAssetType.CALL_TO_ACTION}>
-                <View style={{ backgroundColor: '#FFD700', padding: 10, borderRadius: 5 }}>
-                    <Text style={{ color: 'black', fontWeight: 'bold' }}>
+                <View style={{ marginTop: 10, backgroundColor: '#615f54', padding: 10, borderRadius: 5 }}>
+                    <Text style={{ color: 'white', fontWeight: 'bold' }}>
                         {nativeAd.callToAction}
                     </Text>
                 </View>

@@ -8,6 +8,7 @@ import { Stack } from "expo-router";
 import Head from 'expo-router/head';
 import { useEffect } from 'react';
 import { Platform } from 'react-native';
+import { Analytics } from '@vercel/analytics/react';
 
 // Empêche le splash de se masquer automatiquement
 SplashScreen.preventAutoHideAsync();
@@ -75,6 +76,7 @@ export default function RootLayout() {
         <Stack.Screen name="map" options={{ title: "Carte" }} />
         <Stack.Screen name="legalpage" options={{ headerShown: false, title: '' }} />
       </Stack>
+      {Platform.OS === 'web' && <Analytics />}
     </>
 
   );

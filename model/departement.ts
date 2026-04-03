@@ -113,4 +113,11 @@ export const REGION_LOGOS = {
   "provence-alpes-cote-d-azur": require("../assets/images/regions/provence-alpes-cote-d-azur.png")
 } as const
 
+
+export type Departement = {
+  code: string;   // "34"
+  nom: string;    // "Hérault"
+};
+
+
 export type RegionKey = keyof typeof REGION_LOGOS;

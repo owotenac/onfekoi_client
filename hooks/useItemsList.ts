@@ -1,5 +1,5 @@
 // hooks/useItemsList.ts
-import { useFilterStore } from '@/model/current-filter';
+import { useFilterStore } from '@/hooks/useFilterStore';
 import { BackEndService } from '@/services/backend';
 import { useEffect, useState } from 'react';
 

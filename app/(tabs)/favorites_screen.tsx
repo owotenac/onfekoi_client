@@ -1,4 +1,4 @@
-import { Favorite, useFavorites } from '@/services/favorites';
+import { Favorite, useFavorites } from '@/hooks/usefavorites';
 import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 //import { Trash2, MapPin } from 'lucide-react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';

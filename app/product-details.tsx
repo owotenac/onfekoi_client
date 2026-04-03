@@ -6,9 +6,9 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 import QuickActionsBar from '@/components/toolbar_actions';
-import { useFavorites } from '@/services/favorites';
+import { useFavorites } from '@/hooks/usefavorites';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { router, useLocalSearchParams, useNavigation } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState, } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
@@ -21,7 +21,6 @@ export default function ProductDetails() {
     const uuid = local.uuid as string;
     const [loading, setLoading] = useState(true);
     const [item, setItem] = useState<ProductProps | null>(null);
-    const navigation = useNavigation();
 
 
     useEffect(() => {

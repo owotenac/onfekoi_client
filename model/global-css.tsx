@@ -5,7 +5,7 @@ export const global_styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 2,
-        backgroundColor: "#15151D",
+        backgroundColor: "#0e1420",
         alignContent: 'center',
         alignItems: 'center',
       },
@@ -14,7 +14,7 @@ export const global_styles = StyleSheet.create({
 
 export const TabBarTheme = {
   headerStyle: {
-    backgroundColor: "#15151D",
+    backgroundColor: "#0e1420",
   },
   headerTitleStyle: {
     color: "#ffffffff",
@@ -24,7 +24,7 @@ export const TabBarTheme = {
   headerShadowVisible: false,
   headerTintColor: '#ffffffff',
   tabBarStyle: {
-    backgroundColor: '#15151D',
+    backgroundColor: '#0e1420',
   },
   headerShown: true,
 }

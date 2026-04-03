@@ -1,8 +1,8 @@
 import Creator_component from '@/components/creator_component';
+import { useFilterStore } from '@/hooks/useFilterStore';
+import { useFavorites } from '@/hooks/usefavorites';
 import { BASE_URL_CLIENT } from '@/model/config';
-import { useFilterStore } from '@/model/current-filter';
 import { ProductProps, Type } from '@/model/products';
-import { useFavorites } from '@/services/favorites';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { router } from "expo-router";
 import React from 'react';

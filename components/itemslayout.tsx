@@ -1,5 +1,5 @@
 // components/ItemsLayout.tsx
-import { useFilterStore } from '@/model/current-filter';
+import { useFilterStore } from '@/hooks/useFilterStore';
 import { global_styles } from '@/model/global-css';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';

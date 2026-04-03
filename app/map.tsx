@@ -1,5 +1,5 @@
 import MapScreen from '@/components/mapscreen';
-import { useFilterStore } from '@/model/current-filter';
+import { useFilterStore } from '@/hooks/useFilterStore';
 import { ProductProps } from '@/model/products';
 import { BackEndService } from '@/services/backend';
 import { UserLocation } from '@/services/location';

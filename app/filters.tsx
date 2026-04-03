@@ -1,5 +1,5 @@
 import { Checkbox } from '@/components/checkbox';
-import { useFilterStore } from '@/model/current-filter';
+import { useFilterStore } from '@/hooks/useFilterStore';
 import { global_styles } from '@/model/global-css';
 import { Type } from '@/model/products';
 import { router, useLocalSearchParams } from "expo-router";

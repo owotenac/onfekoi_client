@@ -1,5 +1,5 @@
+import { useFilterStore } from "@/hooks/useFilterStore";
 import { BASE_URL_BACKEND, isFeatureEnabled } from "@/model/config";
-import { useFilterStore } from "@/model/current-filter";
 import { Platform } from "react-native";
 import { ProductProps } from "../model/products";
 

@@ -102,7 +102,7 @@ export default function Index() {
             <View style={styles.view_column}>
               <View style={styles.header}>
                 <Image source={require('../../assets/images/splash-icon.png')} style={styles.image} resizeMode="contain" />
-                <View style={{ gap: 20 }}>
+                <View style={{ gap: 20, flex: 1 }}>
                   <Text style={styles.main_title}>Quoi faire près de chez toi ?</Text>
                   <TouchableOpacity style={styles.departement_button} onPress={() => router.push("/profile")}>
                     <View style={styles.dot}></View>
@@ -188,7 +188,9 @@ const styles = StyleSheet.create({
   main_title: {
     color: "#ffffff",
     fontSize: 20,
-    fontWeight: 600
+    fontWeight: 600,
+    flexWrap: "wrap",
+    flex: 1
   },
   small_title: {
     fontSize: 12,

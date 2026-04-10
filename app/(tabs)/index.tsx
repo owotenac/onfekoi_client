@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start"
   },
   dot: {
-    backgroundColor: "#d9ff00",
+    backgroundColor: "#1bbe28ff",
     borderRadius: 6,
     width: 12,
     height: 12,

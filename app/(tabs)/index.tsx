@@ -1,12 +1,13 @@
 import BottomBanner from '@/components/bottombanner/bottombanner';
 import CategoryButton from '@/components/category_button';
+import { DepartementSuggestionBanner } from '@/components/departementsuggestionbanner';
 import FooterWeb from '@/components/footer';
+import { useDepartementInit } from '@/hooks/useDepartementInit';
 import { useFilterStore } from '@/hooks/useFilterStore';
 import { getTheme, global_styles } from '@/model/global-css';
 import { router } from "expo-router";
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-
 
 const MAX_CONTENT_WIDTH = 900;
 const BREAKPOINT_DESKTOP = 600; // en dessous = mobile, au dessus = desktop
@@ -15,6 +16,7 @@ const BREAKPOINT_DESKTOP = 600; // en dessous = mobile, au dessus = desktop
 export default function Index() {
   const { width } = useWindowDimensions();
   const { department, setMainType, setProductFilter } = useFilterStore();
+  const { status, detected, confirmDepartement, dismissSuggestion } = useDepartementInit();
 
   const contentWidth = Math.min(width || 375, MAX_CONTENT_WIDTH);
   const numColumns = contentWidth >= BREAKPOINT_DESKTOP ? 2 : 1;
@@ -85,6 +87,13 @@ export default function Index() {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={global_styles.container}>
+        {status === 'confirm' && detected && (
+          <DepartementSuggestionBanner
+            departement={detected}
+            onConfirm={() => confirmDepartement(detected)}
+            onDismiss={dismissSuggestion}
+          />
+        )}
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ alignItems: 'center' }}

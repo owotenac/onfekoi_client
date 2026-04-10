@@ -2,7 +2,7 @@ import MapHeaderButton from '@/components/mapheaderbutton';
 import { TabBarTheme } from '@/model/global-css';
 import * as SplashScreen from 'expo-splash-screen';
 
-import { AppInitGate } from '@/components/app-init-gate';
+import { useDepartementInit } from '@/hooks/useDepartementInit';
 import mobileAds from '@/lib/mobileAds';
 import { Analytics } from '@vercel/analytics/react';
 import { useFonts } from 'expo-font';
@@ -37,6 +37,9 @@ export default function RootLayout() {
       SplashScreen.hideAsync();
     }
   }, [fontsLoaded]);
+
+  // Departement init
+  useDepartementInit();
 
   if (!fontsLoaded) {
     return null;
@@ -88,22 +91,20 @@ export default function RootLayout() {
         })}</script>
 
       </Head>
-      <AppInitGate>
-        <Stack screenOptions={{ ...TabBarTheme, headerShown: true }}>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="filters" options={{ title: 'Filtres' }} />
-          <Stack.Screen name="product-details" options={{ headerShown: false, title: '' }} />
-          <Stack.Screen name="foodEstablishment" options={{ title: "On mange", headerRight: () => <MapHeaderButton /> }} />
-          <Stack.Screen name="poi" options={{ title: "On visite", headerRight: () => <MapHeaderButton /> }} />
+      <Stack screenOptions={{ ...TabBarTheme, headerShown: true }}>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="filters" options={{ title: 'Filtres' }} />
+        <Stack.Screen name="product-details" options={{ headerShown: false, title: '' }} />
+        <Stack.Screen name="foodEstablishment" options={{ title: "On mange", headerRight: () => <MapHeaderButton /> }} />
+        <Stack.Screen name="poi" options={{ title: "On visite", headerRight: () => <MapHeaderButton /> }} />
 
-          <Stack.Screen name="events" options={{ title: "On sort", headerRight: () => <MapHeaderButton /> }} />
-          <Stack.Screen name="tours" options={{ title: "On bouge", headerRight: () => <MapHeaderButton /> }} />
-          <Stack.Screen name="rentalAccommodation" options={{ title: 'On dort', headerRight: () => <MapHeaderButton /> }} />
-          <Stack.Screen name="onfekoi" options={{ title: "ONFEKOI" }} />
-          <Stack.Screen name="map" options={{ title: "Carte" }} />
-          <Stack.Screen name="legalpage" options={{ headerShown: false, title: '' }} />
-        </Stack>
-      </AppInitGate>
+        <Stack.Screen name="events" options={{ title: "On sort", headerRight: () => <MapHeaderButton /> }} />
+        <Stack.Screen name="tours" options={{ title: "On bouge", headerRight: () => <MapHeaderButton /> }} />
+        <Stack.Screen name="rentalAccommodation" options={{ title: 'On dort', headerRight: () => <MapHeaderButton /> }} />
+        <Stack.Screen name="onfekoi" options={{ title: "ONFEKOI" }} />
+        <Stack.Screen name="map" options={{ title: "Carte" }} />
+        <Stack.Screen name="legalpage" options={{ headerShown: false, title: '' }} />
+      </Stack>
       {Platform.OS === 'web' && <Analytics />}
     </>
 

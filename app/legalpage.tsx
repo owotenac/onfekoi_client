@@ -166,7 +166,7 @@ const SECTIONS: SectionType[] = [
           {
             type: "text",
             value:
-              "ONFEKOI est une application mobile et web recensant des bons plans, sorties et événements dans l'Hérault (34). L'accès à l'application est gratuit.",
+              "ONFEKOI est une application mobile et web recensant des bons plans, sorties et événements dans toute la France. L'accès à l'application est gratuit.",
           },
         ],
       },
@@ -284,7 +284,7 @@ export default function LegalPage() {
 
         <View style={styles.footer}>
           <Text style={styles.footerText}>
-            © {new Date().getFullYear()} ONFEKOI — Hérault (34) · Occitanie
+            © {new Date().getFullYear()} ONFEKOI
           </Text>
           <Text style={styles.headerDate}>Dernière mise à jour : {today}</Text>
           <Pressable onPress={() => Linking.openURL("mailto:contact@e2digitalstudio.com")}>

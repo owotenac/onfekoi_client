@@ -20,7 +20,7 @@ type Props<T> = {
     renderItem: ({ item }: { item: T }) => JSX.Element | null;
     keyExtractor: (item: T, index: number) => string;
     error?: string | null;
-    
+
 }
 
 export default function ItemsLayout<T>({
@@ -46,70 +46,71 @@ export default function ItemsLayout<T>({
         useFilterStore.getState().setGeolocalizedResults(true);
     }
 
-return (
-    <SafeAreaProvider>
-        <SafeAreaView style={global_styles.container}>
+    return (
+        <SafeAreaProvider>
+            <SafeAreaView style={global_styles.container}>
 
-            {error ? (
-                <BackendErrorScreen message={error} onRetry={onSearch} />
-            ) : (
-                <>
-                    <View style={styles.search_view}>
-                        <TextInput
-                            style={styles.search_bar}
-                            onChangeText={setSearchTxt}
-                            value={searchTxt}
-                            placeholder='Rechercher'
-                            placeholderTextColor={'#555'}
-                            clearButtonMode='always'
-                            autoCorrect={false}
-                            onSubmitEditing={onSearch}
-                        />
-                        <Pressable style={styles.button_menu} onPress={openFilter}>
-                            <MaterialIcons name="filter-list" size={24} color="white" />
-                        </Pressable>
-                    </View>
-                    <View style={styles.view_tags}>
-                        <TouchableOpacity style={[styles.shortcut, !geoLocalizedResults && styles.shortcut_active]} onPress={allFilters}>
-                            <Text style={styles.text_shortcut}>Tous</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={[styles.shortcut, geoLocalizedResults && styles.shortcut_active]} onPress={nearFilters}>
-                            <Text style={styles.text_shortcut}>À proximité</Text>
-                        </TouchableOpacity>
-                    </View>
-                    { currentFilter.length > 0 && 
-                    <View style={styles.view_tags}>
-                        {currentFilter.map((tag) => (
-                            <Pressable style={styles.tags} key={tag.key} onPress={() => closeTag(tag.key)}>
-                                <View style={{ flexDirection: 'row' }}>
-                                    <Text style={styles.tags_text}>{tag.label}</Text>
-                                    <AntDesign name="close" size={15} color='#3FAE7C' />
-                                </View>
+                {error ? (
+                    <BackendErrorScreen message={error} onRetry={onSearch} />
+                ) : (
+                    <>
+                        <View style={styles.search_view}>
+                            <TextInput
+                                style={styles.search_bar}
+                                onChangeText={setSearchTxt}
+                                value={searchTxt}
+                                placeholder='Rechercher'
+                                placeholderTextColor={'#555'}
+                                clearButtonMode='always'
+                                autoCorrect={false}
+                                onSubmitEditing={onSearch}
+                            />
+                            <Pressable style={styles.button_menu} onPress={openFilter}>
+                                <MaterialIcons name="filter-list" size={24} color="white" />
                             </Pressable>
-                        ))}
-                    </View>
-                    }
+                        </View>
+                        <View style={styles.view_tags}>
+                            <TouchableOpacity style={[styles.shortcut, !geoLocalizedResults && styles.shortcut_active]} onPress={allFilters}>
+                                <Text style={styles.text_shortcut}>Tous</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={[styles.shortcut, geoLocalizedResults && styles.shortcut_active]} onPress={nearFilters}>
+                                <Text style={styles.text_shortcut}>À proximité</Text>
+                            </TouchableOpacity>
+                        </View>
+                        {currentFilter.length > 0 &&
+                            <View style={styles.view_tags}>
+                                {currentFilter.map((tag) => (
+                                    <Pressable style={styles.tags} key={tag.key} onPress={() => closeTag(tag.key)}>
+                                        <View style={{ flexDirection: 'row' }}>
+                                            <Text style={styles.tags_text}>{tag.label}</Text>
+                                            <AntDesign name="close" size={15} color='#3FAE7C' />
+                                        </View>
+                                    </Pressable>
+                                ))}
+                            </View>
+                        }
 
-                    <View style={styles.content}>
-                        <FlatList
-                            style={styles.list}
-                            data={items}
-                            renderItem={renderItem}
-                            onEndReached={onLoadMore}
-                            onEndReachedThreshold={0.5}
-                            windowSize={4}
-                            keyExtractor={keyExtractor}
-                            ListFooterComponent={() => (
-                                <View>{loading && <ActivityIndicator size="large" />}</View>
-                            )}
-                        />
-                    </View>
-                </>
-            )}
+                        <View style={styles.content}>
+                            <FlatList
+                                showsVerticalScrollIndicator={false}
+                                style={styles.list}
+                                data={items}
+                                renderItem={renderItem}
+                                onEndReached={onLoadMore}
+                                onEndReachedThreshold={0.5}
+                                windowSize={4}
+                                keyExtractor={keyExtractor}
+                                ListFooterComponent={() => (
+                                    <View>{loading && <ActivityIndicator size="large" />}</View>
+                                )}
+                            />
+                        </View>
+                    </>
+                )}
 
-        </SafeAreaView>
-    </SafeAreaProvider>
-);
+            </SafeAreaView>
+        </SafeAreaProvider>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -135,10 +136,10 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         padding: 10,
         borderColor: "#33334d",
-        backgroundColor: "#222232",        
+        backgroundColor: "#222232",
         borderWidth: 1,
-        borderRadius: 10,      
-            justifyContent: 'center',
+        borderRadius: 10,
+        justifyContent: 'center',
     },
     view_tags: {
         padding: 5,
@@ -180,7 +181,7 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         marginRight: 1,
     },
-    shortcut_active: {  
+    shortcut_active: {
         //borderColor: '#4a9eff',
         backgroundColor: '#b9ae13',
     },

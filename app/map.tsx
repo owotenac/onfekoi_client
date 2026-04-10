@@ -16,10 +16,10 @@ export default function Map() {
   const fetchItems = async (lat?: number, lng?: number) => {
     setLoading(true);
     try {
-      const location = lat && lng 
+      const location = lat && lng
         ? { coords: { latitude: lat, longitude: lng } }
         : await UserLocation.getUserLocation();
-      
+
       const result = await BackEndService.getGeolocationItems(
         mainType,
         location.coords.latitude,
@@ -49,9 +49,9 @@ export default function Map() {
   }
 
   return (
-    <MapScreen 
-      items={items} 
-      userLocation={userLocation} 
+    <MapScreen
+      items={items}
+      userLocation={userLocation}
       userAsInitialLocation={true}
       type={mainType}
       onRefreshRequest={handleMapRefresh}  // Pass the handler down

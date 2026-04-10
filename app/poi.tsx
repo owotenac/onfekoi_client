@@ -4,10 +4,8 @@ import { StyleSheet } from 'react-native';
 const productFilters = {
     'Site culturel': 'CulturalSite',
     "Musée": "Museum",
-    'Activités sportives': 'SportsAndLeisurePlace',
     'Site naturel': 'NaturalHeritage',
     'Service pratique': "ServiceArea",
-    "Parcours de Santé": "FitnessPath",
     "Site religieux": "ReligiousSite",
 }
 

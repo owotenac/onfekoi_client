@@ -7,24 +7,24 @@ import { router } from 'expo-router';
 import React, { useCallback } from 'react';
 
 export default function FavoritesScreen() {
-  const { favorites, removeFavorite , loadFavorites} = useFavorites();
+  const { favorites, removeFavorite, loadFavorites } = useFavorites();
 
   useFocusEffect(
-  useCallback(() => {
-    loadFavorites(); // On force la relecture du stockage
-  }, [])
-);
+    useCallback(() => {
+      loadFavorites(); // On force la relecture du stockage
+    }, [])
+  );
 
-  const renderFavorite = ( { item }: { item: Favorite } ) => (
-    <TouchableOpacity 
+  const renderFavorite = ({ item }: { item: Favorite }) => (
+    <TouchableOpacity
       style={styles.card}
-      onPress={() =>router.push({
-            pathname: '/product-details',
-            params: { uuid: item.uuid }
-        })}
+      onPress={() => router.push({
+        pathname: '/product-details',
+        params: { uuid: item.uuid }
+      })}
     >
       <Image source={{ uri: item.image }} style={styles.image} />
-      
+
       <View style={styles.content}>
         <Text style={styles.title} numberOfLines={1}>{item.name}</Text>
         <View style={styles.locationRow}>
@@ -32,8 +32,8 @@ export default function FavoritesScreen() {
         </View>
       </View>
 
-      <TouchableOpacity 
-        onPress={() => removeFavorite(item.uuid)} 
+      <TouchableOpacity
+        onPress={() => removeFavorite(item.uuid)}
         style={styles.deleteButton}
       >
         <FontAwesome name="trash-o" size={24} color="white" />
@@ -45,8 +45,8 @@ export default function FavoritesScreen() {
     return (
       <View style={styles.emptyContainer}>
         <Text style={styles.emptyText}>Aucun favori pour l'instant...</Text>
-        <TouchableOpacity style={styles.exploreBtn} onPress= {() => router.push({ pathname: '/(tabs)' })}>
-          <Text style={styles.exploreBtnText}>Découvrir l'Hérault</Text>
+        <TouchableOpacity style={styles.exploreBtn} onPress={() => router.push({ pathname: '/(tabs)' })}>
+          <Text style={styles.exploreBtnText}>Découvrir la France</Text>
         </TouchableOpacity>
       </View>
     );

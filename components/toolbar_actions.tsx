@@ -7,17 +7,17 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import React from 'react';
 import { Linking, Platform, Share, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 const QuickActionsBar = (item: ProductProps) => {
-  
+
   const handleCall = () => {
     if (item.contact.telephone) Linking.openURL(`tel:${item.contact.telephone}`);
   };
 
   const handleMap = () => {
     const scheme = Platform.select(
-      { 
-        ios: 'maps:0,0?q=', 
-        android: 'geo:0,0?q=', 
-        web:'https://www.google.com/maps/search/?api=1&query=' 
+      {
+        ios: 'maps:0,0?q=',
+        android: 'geo:0,0?q=',
+        web: 'https://www.google.com/maps/search/?api=1&query='
       });
     const url = `${scheme}${item.address.streetAddress + ', ' + item.address.city}`;
     Linking.openURL(url);
@@ -46,7 +46,7 @@ const QuickActionsBar = (item: ProductProps) => {
 
           <AntDesign name="phone" size={20} color="white" />
         </View>
-        <Text style={[styles.actionText, {color: item.contact.telephone ? 'white' : '#5a5958' }]}>Appeler</Text>
+        <Text style={[styles.actionText, { color: item.contact.telephone ? 'white' : '#5a5958' }]}>Appeler</Text>
       </TouchableOpacity>
 
       {/* Bouton Site Web */}
@@ -54,7 +54,7 @@ const QuickActionsBar = (item: ProductProps) => {
         <View style={[styles.iconCircle, { backgroundColor: item.contact.homepage ? '#4ECDC4' : '#5a5958' }]}>
           <MaterialCommunityIcons name="web" size={20} color="white" />
         </View>
-        <Text style={[styles.actionText, {color: item.contact.homepage ? 'white' : '#5a5958' }]}>Site web</Text>
+        <Text style={[styles.actionText, { color: item.contact.homepage ? 'white' : '#5a5958' }]}>Site web</Text>
       </TouchableOpacity>
 
       {/* Bouton Itinéraire */}
@@ -68,7 +68,7 @@ const QuickActionsBar = (item: ProductProps) => {
       {/* Bouton Partager */}
       <TouchableOpacity style={styles.actionButton} onPress={handleShare}>
         <View style={[styles.iconCircle, { backgroundColor: '#A29BFE' }]}>
-        <Ionicons name="paper-plane-outline" size={20} color="white" />          
+          <Ionicons name="paper-plane-outline" size={20} color="white" />
         </View>
         <Text style={styles.actionText}>Partager</Text>
       </TouchableOpacity>
@@ -81,11 +81,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingVertical: 10,
-    backgroundColor: '#1E1E26', // Fond légèrement gris pour ressortir du noir
+    backgroundColor: '#111111ff', // Fond légèrement gris pour ressortir du noir
     borderRadius: 15,
     marginHorizontal: 15,
     marginTop: 10,
-    width:"100%"
+    width: "100%"
   },
   actionButton: {
     alignItems: 'center',

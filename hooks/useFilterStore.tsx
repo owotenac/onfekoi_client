@@ -7,13 +7,13 @@ type CurrentProductsFilterState = {
     mainType: string;
     setMainType: (type: string) => void;
 
-    department : Departement;
+    department: Departement;
     setDepartment: (dept: Departement) => void;
 
     currentProductFilter: Type[];
     setProductFilter: (filterIds: Type[]) => void;
 
-    geolocalizedResults : boolean
+    geolocalizedResults: boolean
     setGeolocalizedResults: (geo: boolean) => void;
 }
 

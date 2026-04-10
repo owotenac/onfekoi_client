@@ -46,7 +46,7 @@ export default function Filters() {
 
     return (
         <SafeAreaProvider style={global_styles.container}>
-            <SafeAreaView style= {{width:"95%", margin: 10, gap:10}}>
+            <SafeAreaView style={{ width: "95%", margin: 10, gap: 10 }}>
                 <View style={styles.group_checkbox}>
                     {Object.entries(productFilters).map(([label, value]) => {
                         return (

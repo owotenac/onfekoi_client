@@ -16,16 +16,16 @@ export default function Onfekoi() {
   const fetchItems = async (lat?: number, lng?: number) => {
     setLoading(true);
     try {
-      const location = lat && lng 
+      const location = lat && lng
         ? { coords: { latitude: lat, longitude: lng } }
         : await UserLocation.getUserLocation();
-      
+
       const result = await BackEndService.getGeolocationItems(
         'ALL',
         location.coords.latitude,
         location.coords.longitude,
       );
-      
+
       setItems(result['data']);
       if (!lat && !lng) setUserLocation(location);
     } catch (error) {
@@ -35,9 +35,9 @@ export default function Onfekoi() {
     }
   };
 
-     useEffect(() => {
-            fetchItems();
-    }, [mainType]);
+  useEffect(() => {
+    fetchItems();
+  }, [mainType]);
 
   // useFocusEffect(
   //   useCallback(() => {
@@ -55,12 +55,12 @@ export default function Onfekoi() {
   }
 
   return (
-    <MapScreen 
-      items={items} 
-      userLocation={userLocation} 
+    <MapScreen
+      items={items}
+      userLocation={userLocation}
       userAsInitialLocation={true}
       type='ALL'
-      onRefreshRequest={handleMapRefresh} 
+      onRefreshRequest={handleMapRefresh}
     />
   );
 }

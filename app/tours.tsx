@@ -4,14 +4,17 @@ import { StyleSheet } from 'react-native';
 const tourFilters = {
     'Itinéraire cyclable': 'CyclingTour',
     'Itinéraire pédestre': 'WalkingTour',
-    'Itinéraire routier' : 'RoadTour'
+    'Itinéraire routier': 'RoadTour',
+    'Activités sportives': 'SportsAndLeisurePlace',
+    'Parcours de Santé': 'FitnessPath',
 }
+
 
 export default function Tours() {
     return (
         <ItemsComponents
-        type='Tour'
-        typeFilter={tourFilters} />
+            type='Tour'
+            typeFilter={tourFilters} />
     )
 }
 

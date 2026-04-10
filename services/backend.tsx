@@ -1,5 +1,5 @@
+import { useFilterStore } from "@/hooks/useFilterStore";
 import { BASE_URL_BACKEND, isFeatureEnabled } from "@/model/config";
-import { useFilterStore } from "@/model/current-filter";
 import { Platform } from "react-native";
 import { ProductProps } from "../model/products";
 
@@ -32,10 +32,18 @@ export class BackEndService {
     if (type == '') {
       throw new Error('type is empty')
     }
+
+
     //type of query: products, events, poi, tours
     const params: { [key: string]: string } = {
       'type': type
     };
+
+    //departements
+    const department = useFilterStore.getState().department;
+    if (department.code.length > 0) {
+      params['departement'] = department.code;
+    }
 
     //filter if any
     const filters = useFilterStore.getState().currentProductFilter;
@@ -45,9 +53,9 @@ export class BackEndService {
 
     //geolocalized results
     if (useFilterStore.getState().geolocalizedResults) {
-        const location = await UserLocation.getUserLocation();
-        params['lat'] = location.coords.latitude.toString();
-        params['lon'] = location.coords.longitude.toString();
+      const location = await UserLocation.getUserLocation();
+      params['lat'] = location.coords.latitude.toString();
+      params['lon'] = location.coords.longitude.toString();
     }
     try {
       const { data } = await BackEndService.api.get('/api/catalog', {
@@ -103,6 +111,12 @@ export class BackEndService {
       'type': type
     };
 
+    //departements
+    const department = useFilterStore.getState().department;
+    if (department.code.length > 0) {
+      params['departement'] = department.code;
+    }
+
     //filter if any
     const filters = useFilterStore.getState().currentProductFilter;
     if (filters.length > 0) {
@@ -112,9 +126,9 @@ export class BackEndService {
 
     //geolocalized results
     if (useFilterStore.getState().geolocalizedResults) {
-        const location = await UserLocation.getUserLocation();
-        params['lat'] = location.coords.latitude.toString();
-        params['lon'] = location.coords.longitude.toString();
+      const location = await UserLocation.getUserLocation();
+      params['lat'] = location.coords.latitude.toString();
+      params['lon'] = location.coords.longitude.toString();
     }
 
     const { data } = await BackEndService.api.get('/api/search', {

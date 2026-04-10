@@ -96,21 +96,7 @@ export const DEPARTEMENTS = [
   { "regionKey": "corse", "region": "Corse", "departementNumber": "2B", "departementName": "Haute-Corse" },
 ]
 
-
-export const REGION_LOGOS = {
-  "auvergne-rhone-alpes": require("../assets/images/regions/auvergne-rhone-alpes.png"),
-  "bourgogne-franche-comte": require("../assets/images/regions/bourgogne-franche-comte.png"),
-  "bretagne": require("../assets/images/regions/bretagne.png"),
-  "centre-val-de-loire": require("../assets/images/regions/centre-val-de-loire.png"),
-  "corse": require("../assets/images/regions/corse.png"),
-  "grand-est": require("../assets/images/regions/grand-est.png"),
-  "hauts-de-france": require("../assets/images/regions/hauts-de-france.png"),
-  "ile-de-france": require("../assets/images/regions/ile-de-france.png"),
-  "normandie": require("../assets/images/regions/normandie.png"),
-  "nouvelle-aquitaine": require("../assets/images/regions/nouvelle-aquitaine.png"),
-  "occitanie": require("../assets/images/regions/occitanie.png"),
-  "pays-de-la-loire": require("../assets/images/regions/pays-de-la-loire.png"),
-  "provence-alpes-cote-d-azur": require("../assets/images/regions/provence-alpes-cote-d-azur.png")
-} as const
-
-export type RegionKey = keyof typeof REGION_LOGOS;
+export type Departement = {
+  code: string;   // "34"
+  nom: string;    // "Hérault"
+};

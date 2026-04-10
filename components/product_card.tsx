@@ -1,8 +1,8 @@
 import Creator_component from '@/components/creator_component';
+import { useFavorites } from '@/hooks/usefavorites';
+import { useFilterStore } from '@/hooks/useFilterStore';
 import { BASE_URL_CLIENT } from '@/model/config';
-import { useFilterStore } from '@/model/current-filter';
 import { ProductProps, Type } from '@/model/products';
-import { useFavorites } from '@/services/favorites';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { router } from "expo-router";
 import React from 'react';
@@ -45,8 +45,8 @@ const ProductCard = (item: ProductProps) => {
                 <Creator_component name={item.createdBy} />
                 <Text style={styles.main_text}>{item.name}</Text>
                 <Text style={styles.location_text}>{item.address.zip} - {item.address.city}</Text>
-                { item.image &&
-                <Image source={{ uri: item.image }} style={styles.image} resizeMode="cover" />
+                {item.image &&
+                    <Image source={{ uri: item.image }} style={styles.image} resizeMode="cover" />
                 }
                 <Text numberOfLines={3} ellipsizeMode='tail' style={styles.description}>{item.shortDescription ? item.shortDescription : item.description}</Text>
                 <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10, marginTop: 20 }}>
@@ -60,10 +60,10 @@ const ProductCard = (item: ProductProps) => {
                 </View>
                 <View style={styles.interaction_view} >
                     <TouchableOpacity onPress={handleFavorites}>
-                        <Ionicons name="heart-outline" size={24} color= {isFavorite(item.uuid) ? 'red' : "white"}  />
+                        <Ionicons name="heart-outline" size={24} color={isFavorite(item.uuid) ? 'red' : "white"} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={handleShare}>
-                        <Ionicons name="paper-plane-outline" size={24} color="white"/>
+                        <Ionicons name="paper-plane-outline" size={24} color="white" />
                     </TouchableOpacity>
                 </View>
             </View>

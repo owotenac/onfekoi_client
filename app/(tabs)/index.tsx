@@ -1,10 +1,10 @@
 import BottomBanner from '@/components/bottombanner/bottombanner';
 import CategoryButton from '@/components/category_button';
 import FooterWeb from '@/components/footer';
-import { useFilterStore } from '@/model/current-filter';
+import { useFilterStore } from '@/hooks/useFilterStore';
 import { getTheme, global_styles } from '@/model/global-css';
 import { router } from "expo-router";
-import { Image, ScrollView, StyleSheet, View, useWindowDimensions } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 
@@ -13,15 +13,15 @@ const BREAKPOINT_DESKTOP = 600; // en dessous = mobile, au dessus = desktop
 
 
 export default function Index() {
-  const setMainType = useFilterStore((state) => state.setMainType);
-  const setProductFilter = useFilterStore((state) => state.setProductFilter);
   const { width } = useWindowDimensions();
+  const { department, setMainType, setProductFilter } = useFilterStore();
+
   const contentWidth = Math.min(width || 375, MAX_CONTENT_WIDTH);
   const numColumns = contentWidth >= BREAKPOINT_DESKTOP ? 2 : 1;
   const GUTTER = 20;
   const PADDING = 40;
   const buttonWidth = (contentWidth - PADDING - GUTTER * (numColumns - 1)) / numColumns;
-//console.log('contentWidth:', contentWidth, 'numColumns:', numColumns, 'buttonWidth:', buttonWidth);
+  //console.log('contentWidth:', contentWidth, 'numColumns:', numColumns, 'buttonWidth:', buttonWidth);
 
   const poi = () => {
     setProductFilter([])
@@ -68,10 +68,10 @@ export default function Index() {
 
   // Boutons à afficher en grille (pas le premier ni le dernier)
   const gridButtons = [
-    { title: "On mange",  imageSource: require('@/assets/images/mange.jpg'),  accentColor: getTheme('ALL').color,                   onPress: foodEstablishment },
-    { title: "On visite", imageSource: require('@/assets/images/visite.jpg'), accentColor: getTheme('PointOfInterest').color,        onPress: poi },
-    { title: "On sort",   imageSource: require('@/assets/images/sort.jpg'),   accentColor: getTheme('EntertainmentAndEvent').color,  onPress: events },
-    { title: "On bouge",  imageSource: require('@/assets/images/bouge.jpg'),  accentColor: getTheme('Tour').color,                  onPress: tours },
+    { title: "On mange", imageSource: require('@/assets/images/mange.jpg'), accentColor: getTheme('ALL').color, onPress: foodEstablishment },
+    { title: "On visite", imageSource: require('@/assets/images/visite.jpg'), accentColor: getTheme('PointOfInterest').color, onPress: poi },
+    { title: "On sort", imageSource: require('@/assets/images/sort.jpg'), accentColor: getTheme('EntertainmentAndEvent').color, onPress: events },
+    { title: "On bouge", imageSource: require('@/assets/images/bouge.jpg'), accentColor: getTheme('Tour').color, onPress: tours },
   ];
 
   // Regroupe en paires pour les rows
@@ -82,14 +82,28 @@ export default function Index() {
 
 
 
-   return (
+  return (
     <SafeAreaProvider>
       <SafeAreaView style={global_styles.container}>
-        <ScrollView contentContainerStyle={{ alignItems: 'center' }} style={{ width: '100%' }}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ alignItems: 'center' }}
+          style={{ width: '100%' }}>
           <View style={[styles.content, { width: contentWidth }]}>
             <View style={styles.view_column}>
-              <Image source={require('../../assets/images/onfekoi_logo.png')} style={styles.image} resizeMode="contain" />
-              
+              <View style={styles.header}>
+                <Image source={require('../../assets/images/splash-icon.png')} style={styles.image} resizeMode="contain" />
+                <View style={{ gap: 20 }}>
+                  <Text style={styles.main_title}>Quoi faire près de chez toi ?</Text>
+                  <TouchableOpacity style={styles.departement_button} onPress={() => router.push("/profile")}>
+                    <View style={styles.dot}></View>
+                    {department.code != '' ? (
+                      <Text style={styles.small_title}>{department.nom} - {department.code}</Text>
+                    ) : <Text style={styles.small_title}>Choisir le departement</Text>}
+                  </TouchableOpacity>
+                </View>
+              </View>
+
               {/* Bouton pleine largeur */}
               <CategoryButton
                 title="ONFEKOI dans le coin"
@@ -135,16 +149,45 @@ export default function Index() {
 }
 
 const styles = StyleSheet.create({
-        content: {
-        flex: 1,
-        //paddingRight: 50,
-        //paddingLeft: 50
-        // width: '100%',
-        // overflow: 'hidden',
-    },
+  content: {
+    flex: 1,
+  },
+  header: {
+    flex: 1,
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
+  departement_button: {
+    backgroundColor: "#e4db7d38",
+    padding: 10,
+    borderRadius: 20,
+    borderWidth: 0.5,
+    borderColor: "#d9ff00",
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    gap: 10,
+    alignSelf: "flex-start"
+  },
+  dot: {
+    backgroundColor: "#1bbe28ff",
+    borderRadius: 6,
+    width: 12,
+    height: 12,
+  },
+  main_title: {
+    color: "#ffffff",
+    fontSize: 20,
+    fontWeight: 600
+  },
+  small_title: {
+    fontSize: 12,
+    color: "#d9ff00",
+  },
   image: {
-    width: 350,
-    height: 250,
+    width: 150,
+    height: 100,
     marginBottom: 15,
     alignItems: 'center'
 
@@ -154,7 +197,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 20,
-    padding:20
+    padding: 20
     //margin: 30
   },
   view_row: {

@@ -2,22 +2,30 @@ import { AddressProps } from "./address";
 import { ContactProps } from "./contact";
 
 export type Type = {
-    key: string;
-    label : string
+    key: string
+    label: string
 }
 
 export type OpeningInfo = {
     additionalInformation: string,
-    validFrom : string,
+    validFrom: string,
     validThrough: string,
 }
 
 export type Representation = {
-	credits: string,
-	locator: string,
-    title: string
+    credits: string,
+    locator: string,
+    title: string,
+    type: string
 }
+export type PracticeCondition = {
+    difficultyLevel: Type,
+    duration: string,
+    durationDays: string,
+    hasRepresentation: Representation[],
+    locomotionMode: Type
 
+}
 export type ProductProps = {
     description: string;
     shortDescription: string;
@@ -27,9 +35,10 @@ export type ProductProps = {
     contact: ContactProps,
     address: AddressProps,
     createdBy: string,
-    features: Type[]
-    openingInfo: OpeningInfo
-    hasRepresentation: Representation[]
-    type: Type[]
-    mainType: string
+    features: Type[],
+    openingInfo: OpeningInfo,
+    hasRepresentation: Representation[],
+    type: Type[],
+    mainType: string,
+    practiceCondition: PracticeCondition,
 }

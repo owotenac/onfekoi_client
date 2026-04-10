@@ -5,10 +5,11 @@ import { BackEndService } from '@/services/backend';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
+import PracticeConditionView from '@/components/practicecondition';
 import QuickActionsBar from '@/components/toolbar_actions';
-import { useFavorites } from '@/services/favorites';
+import { useFavorites } from '@/hooks/usefavorites';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { router, useLocalSearchParams, useNavigation } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState, } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
@@ -21,18 +22,16 @@ export default function ProductDetails() {
     const uuid = local.uuid as string;
     const [loading, setLoading] = useState(true);
     const [item, setItem] = useState<ProductProps | null>(null);
-    const navigation = useNavigation();
 
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
+                setLoading(true);
                 //get the products from backend
                 const result = await BackEndService.getDetailledProduct(uuid);
                 setItem(result)
-
-                //navigation.setOptions({ title: result.name });
-
+                console.log(result)
                 setLoading(false);
 
             } catch (error) {
@@ -99,7 +98,7 @@ export default function ProductDetails() {
                         <View style={{ flex: 1 }}>
 
                             {
-                                item.hasRepresentation ?
+                                item.hasRepresentation && item.hasRepresentation.length > 0 ?
                                     <CarouselImage
                                         images={item.hasRepresentation}
                                     />
@@ -121,6 +120,7 @@ export default function ProductDetails() {
 
                             <View style={{
                                 flex: 1,
+                                width: '100%',
                                 alignContent: 'center',
                                 alignItems: 'center'
                             }}>
@@ -135,11 +135,18 @@ export default function ProductDetails() {
 
                                 <QuickActionsBar
                                     {...item} />
-                                <ScrollView style={styles.card}>
+                                <ScrollView style={styles.card} contentContainerStyle={{ width: '100%' }} showsVerticalScrollIndicator={false}>
 
+                                    {item.practiceCondition &&
+                                        <View style={{ flex: 1 }}>
+                                            <View style={styles.divider} />
+                                            <PracticeConditionView practiceCondition={item.practiceCondition} />
+                                        </View>
+
+                                    }
                                     <View style={styles.divider} />
                                     <Text style={styles.chapter}>Description</Text>
-                                    <Text style={styles.description}>{item.description}</Text>
+                                    <Text style={styles.description}>{item.description !== '' ? item.description : item.shortDescription}</Text>
 
                                     {/* <View style={styles.divider} />
                                     <Text style={styles.chapter}>Contact</Text>
@@ -219,9 +226,9 @@ export default function ProductDetails() {
 const styles = StyleSheet.create({
     card: {
         //padding: 20,
-        paddingLeft: 20,
-        paddingRight: 20,
+        paddingHorizontal: 20,
         flex: 1,
+        width: '100%',
     },
     location_text: {
         color: "#fff",
@@ -241,9 +248,8 @@ const styles = StyleSheet.create({
         lineHeight: 22
     },
     divider: {
-        height: 1,
-        borderColor: '#555',
-        borderWidth: 1,
+        borderColor: '#5555554d',
+        borderWidth: 0.5,
         marginTop: 15,
         marginBottom: 5,
     },

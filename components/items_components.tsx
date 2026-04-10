@@ -1,6 +1,6 @@
 import ProductCard from '@/components/product_card';
+import { useItemsList } from '@/hooks/useItemsList';
 import { ProductProps } from '@/model/products';
-import { useItemsList } from '@/services/useItemsList';
 import ItemsLayout from './itemslayout';
 
 export default function ItemsComponents({ type, typeFilter }: { type: string; typeFilter: Record<string, string>; }) {

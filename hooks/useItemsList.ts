@@ -1,5 +1,5 @@
 // hooks/useItemsList.ts
-import { useFilterStore } from '@/model/current-filter';
+import { useFilterStore } from '@/hooks/useFilterStore';
 import { BackEndService } from '@/services/backend';
 import { useEffect, useState } from 'react';
 
@@ -50,13 +50,13 @@ export function useItemsList<T>(type: string, transformResult: (result: any) => 
 
     const search = async () => {
         try {
-        setLoading(true);
-        const result = await BackEndService.searchItems(searchTxt, type);
-        setItems(transformResult(result));
-        setNextPage(result["next"]);
+            setLoading(true);
+            const result = await BackEndService.searchItems(searchTxt, type);
+            setItems(transformResult(result));
+            setNextPage(result["next"]);
         } catch (error) {
             console.error(error);
-            setError(error instanceof Error ? error.message : 'Unknown error'); 
+            setError(error instanceof Error ? error.message : 'Unknown error');
         } finally {
             setLoading(false);
         }

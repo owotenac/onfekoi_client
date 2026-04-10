@@ -1,5 +1,5 @@
 import { Checkbox } from '@/components/checkbox';
-import { useFilterStore } from '@/model/current-filter';
+import { useFilterStore } from '@/hooks/useFilterStore';
 import { global_styles } from '@/model/global-css';
 import { Type } from '@/model/products';
 import { router, useLocalSearchParams } from "expo-router";
@@ -46,7 +46,7 @@ export default function Filters() {
 
     return (
         <SafeAreaProvider style={global_styles.container}>
-            <SafeAreaView style= {{width:"95%", margin: 10, gap:10}}>
+            <SafeAreaView style={{ width: "95%", margin: 10, gap: 10 }}>
                 <View style={styles.group_checkbox}>
                     {Object.entries(productFilters).map(([label, value]) => {
                         return (

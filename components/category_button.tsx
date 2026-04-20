@@ -1,28 +1,18 @@
 import React from 'react';
-import { ColorValue, Image, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
-
-const MAX_CONTENT_WIDTH = 800; 
-const PADDING = 50;
+import { ColorValue, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export type CategoryButtonProps = {
-    title: string;
-    imageSource: any;
-    accentColor: ColorValue;
-    onPress: () => void;
-    sizeConstrains?: boolean;
-    buttonWidth?: number;
+  title: string;
+  imageSource: any;
+  accentColor: ColorValue;
+  onPress: () => void;
 };
 
-export default function CategoryButton ({ title, imageSource, accentColor, sizeConstrains = true,  onPress, buttonWidth  } : CategoryButtonProps) {
-    const { width } = useWindowDimensions();
+export default function CategoryButton({ title, imageSource, accentColor, onPress }: CategoryButtonProps) {
 
-  // Fallback si buttonWidth pas fourni (rétrocompatibilité)
-const cardWidth = buttonWidth && buttonWidth > 50 
-  ? buttonWidth 
-  : (sizeConstrains ? (width - 60) / 2 : width - 40);
 
   return (
-    <TouchableOpacity style={[styles.card,{ width: cardWidth }]} onPress={onPress} activeOpacity={0.8}>
+    <TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.8}>
       <View style={styles.imageContainer}>
         <Image source={imageSource} style={styles.image} resizeMode="cover" />
       </View>
@@ -37,20 +27,11 @@ const cardWidth = buttonWidth && buttonWidth > 50
 
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#121212', 
-    padding: 15,
-  },
-  grid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-  },
   card: {
-    //width: COLUMN_WIDTH,
+    width: '100%',
+    minWidth: 150,
     height: 160,
-    backgroundColor: '#1E1E26', 
+    backgroundColor: '#1E1E26',
     borderRadius: 15,
     overflow: 'hidden',
     marginBottom: 15,

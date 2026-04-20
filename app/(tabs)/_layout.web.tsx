@@ -1,31 +1,21 @@
-import { AntDesign, Entypo } from '@expo/vector-icons';
 import { router, Tabs } from 'expo-router';
-import { StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 
 function WebNavBar() {
 
-  const { width } = useWindowDimensions();
-  const showText = width >= 480;
-
   return (
     <View style={styles.navbar}>
-      <View style={styles.navLinks}>
-        <TouchableOpacity onPress={() => router.replace('/(tabs)')} style={styles.navItem}>
-          <AntDesign name="home" size={34} color='white' />
-          {showText && <Text style={styles.navText}>Home</Text>}
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.replace('/favorites_screen')} style={styles.navItem}>
-          <Entypo name="heart" size={34} color='white' />
-          {showText && <Text style={styles.navText}>Favoris</Text>}
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => router.replace('/profile')} style={styles.navItem}>
-          <Entypo name="user" size={34} color='white' />
-          {showText && <Text style={styles.navText}>Profil</Text>}
-        </TouchableOpacity>
-
-      </View>
+      <Text style={styles.navLogo}>ONFEKOI</Text>
+      <Pressable onPress={() => router.replace('/(tabs)')} style={({ pressed }) => [styles.navLink, styles.navLinkActive, pressed && styles.pressed]}>
+        <Text style={styles.navLinkActiveText}>Accueil</Text>
+      </Pressable>
+      <Pressable onPress={() => router.replace('/favorites_screen')} style={({ pressed }) => [styles.navLink, pressed && styles.pressed]}>
+        <Text style={styles.navLinkText}>Favoris</Text>
+      </Pressable>
+      <Pressable onPress={() => router.replace('/profile')} style={({ pressed }) => [styles.navLink, pressed && styles.pressed]}>
+        <Text style={styles.navLinkText}>Profil</Text>
+      </Pressable>
     </View>
   );
 }
@@ -48,26 +38,45 @@ export default function WebTabLayout() {
   );
 }
 
-
+const BG_PAGE = '#0e1420';
+const BG_NAV = '#0b1018';
+const ACCENT = '#eab308';
 const styles = StyleSheet.create({
   navbar: {
-    justifyContent: 'space-between',
-    padding: 16,
-    backgroundColor: "#0e1420",
-  },
-  navLinks: {
-    flexDirection: 'row',
-    gap: 24,
-  },
-  navItem: {
+    height: 52,
+    backgroundColor: BG_NAV,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
-    padding: 8,
+    gap: 24,
+    borderBottomWidth: 0.5,
+    borderBottomColor: 'rgba(255,255,255,0.07)',
+    marginHorizontal: 5,
+    paddingHorizontal: 10,
   },
-  navText: {
-    fontSize: 20,
-    color: '#ffffff',
-    fontFamily: 'f-regular'
+  navLogo: {
+    fontSize: 25,
+    fontWeight: '500',
+    color: ACCENT,
+    letterSpacing: -0.3,
+  },
+  navLink: {
+    paddingVertical: 4,
+    borderBottomWidth: 2,
+    borderBottomColor: 'transparent',
+  },
+  navLinkActive: {
+    borderBottomColor: ACCENT,
+  },
+  navLinkText: {
+    fontSize: 23,
+    color: 'rgba(255,255,255,0.5)',
+  },
+  navLinkActiveText: {
+    fontSize: 23,
+    color: '#fff',
+  },
+  navSpacer: { flex: 1 },
+  pressed: {
+    opacity: 0.75,
   },
 });

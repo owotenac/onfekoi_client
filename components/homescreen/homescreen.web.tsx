@@ -11,6 +11,7 @@ import {
     ScrollView,
     StyleSheet,
     Text,
+    TouchableOpacity,
     useWindowDimensions,
     View
 } from 'react-native';
@@ -54,7 +55,7 @@ export default function HomeScreen({
                 </View>
 
                 {/* Map band */}
-                <View style={styles.mapBand}>
+                <TouchableOpacity style={styles.mapBand} onPress={onfekoi}>
 
                     <CategoryButton
                         title="ONFEKOI dans le coin"
@@ -63,11 +64,9 @@ export default function HomeScreen({
                         onPress={onfekoi}
 
                     />
+                    <Text style={styles.mapBtnText}>Voir la carte des activités</Text>
 
-                    <View style={styles.mapBtn}>
-                        <Text style={styles.mapBtnText}>Voir la carte</Text>
-                    </View>
-                </View>
+                </TouchableOpacity>
 
                 {/* Grid 5 colonnes */}
                 <View style={[
@@ -152,7 +151,7 @@ const styles = StyleSheet.create({
         borderRadius: 6,
     },
     mapBtnText: {
-        fontSize: 11,
+        fontSize: 15,
         color: 'rgba(255,255,255,0.5)',
     },
     grid: {

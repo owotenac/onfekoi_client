@@ -7,9 +7,6 @@ import { useRouter } from 'expo-router';
 import { StyleSheet } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
-const MAX_CONTENT_WIDTH = 900;
-const BREAKPOINT_DESKTOP = 600; // en dessous = mobile, au dessus = desktop
-
 
 export default function Index() {
   const { status, detected, confirmDepartement, dismissSuggestion } = useDepartementInit();

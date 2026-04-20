@@ -1,20 +1,21 @@
-import { router, Tabs } from 'expo-router';
+import { router, Tabs, usePathname } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 
 function WebNavBar() {
+  const pathname = usePathname();
 
   return (
     <View style={styles.navbar}>
       <Text style={styles.navLogo}>ONFEKOI</Text>
-      <Pressable onPress={() => router.replace('/(tabs)')} style={({ pressed }) => [styles.navLink, styles.navLinkActive, pressed && styles.pressed]}>
-        <Text style={styles.navLinkActiveText}>Accueil</Text>
+      <Pressable onPress={() => router.replace('/(tabs)')} style={({ pressed }) => [styles.navLink, pathname === '/' && styles.navLinkActive, pressed && styles.pressed]}>
+        <Text style={pathname === '/' ? styles.navLinkActiveText : styles.navLinkText}>Accueil</Text>
       </Pressable>
-      <Pressable onPress={() => router.replace('/favorites_screen')} style={({ pressed }) => [styles.navLink, pressed && styles.pressed]}>
-        <Text style={styles.navLinkText}>Favoris</Text>
+      <Pressable onPress={() => router.replace('/favorites_screen')} style={({ pressed }) => [styles.navLink, pathname === '/favorites_screen' && styles.navLinkActive, pressed && styles.pressed]}>
+        <Text style={pathname === '/favorites_screen' ? styles.navLinkActiveText : styles.navLinkText}>Favoris</Text>
       </Pressable>
-      <Pressable onPress={() => router.replace('/profile')} style={({ pressed }) => [styles.navLink, pressed && styles.pressed]}>
-        <Text style={styles.navLinkText}>Profil</Text>
+      <Pressable onPress={() => router.replace('/profile')} style={({ pressed }) => [styles.navLink, pathname === '/profile' && styles.navLinkActive, pressed && styles.pressed]}>
+        <Text style={pathname === '/profile' ? styles.navLinkActiveText : styles.navLinkText}>Profil</Text>
       </Pressable>
     </View>
   );

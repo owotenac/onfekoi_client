@@ -8,7 +8,12 @@
     "scheme": "onfekoiclient",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "supportsTablet": true
+      "buildNumber": "1",
+      "supportsTablet": true,
+      "bundleIdentifier": "com.e2digitalstudio.onfekoi",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -37,7 +42,12 @@
       }
     },
     "plugins": [
-      "expo-router",
+      [
+        "expo-router",
+        {
+          "origin": "https://www.ascanet.fr"
+        }
+      ],
       [
         "expo-splash-screen",
         {

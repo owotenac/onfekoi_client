@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { StyleSheet, Text } from 'react-native';
 
 import { NativeAd, NativeAdView, NativeAsset, NativeAssetType, NativeMediaView, TestIds } from 'react-native-google-mobile-ads';
 
@@ -11,16 +11,18 @@ const AD_UNIT_ID = __DEV__
 const ProductCardSponsored = () => {
 
     const [nativeAd, setNativeAd] = useState<NativeAd>();
+    const nativeAdRef = useRef<NativeAd | undefined>(undefined);
 
     useEffect(() => {
         NativeAd.createForAdRequest(AD_UNIT_ID)
             .then(ad => {
+                nativeAdRef.current = ad;
                 setNativeAd(ad);
             })
             .catch(err => console.error('Ad error:', err));
 
         return () => {
-            nativeAd?.destroy();
+            nativeAdRef.current?.destroy();
         };
     }, []);
 
@@ -28,32 +30,38 @@ const ProductCardSponsored = () => {
         return null;
     }
     return (
-        // Wrap all the ad assets in the NativeAdView component, and register the view with the nativeAd prop
-        <NativeAdView nativeAd={nativeAd} style={styles.card}>
-            {nativeAd.icon && (
-                <NativeAsset assetType={NativeAssetType.ICON} >
-                    <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
-                        <Image source={{ uri: nativeAd.icon.url }} width={24} height={24} />
-                        <Text style={{ marginTop: 10, fontSize: 12, color: 'white' }}>Annonce</Text>
-                    </View>
-                </NativeAsset>
-            )}
+        <NativeAdView
+            nativeAd={nativeAd}
+            style={styles.card}
+        >
+
+            {/* <NativeAsset assetType={NativeAssetType.ICON}>
+                        {nativeAd.icon ? (
+                            <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
+                                <Image source={{ uri: nativeAd.icon.url }} width={24} height={24} />
+                                <Text style={{ fontSize: 12, color: 'white' }}>Annonce</Text>
+                            </View>
+                        ) : (
+                            <View />
+                        )}
+                    </NativeAsset> */}
 
             <NativeAsset assetType={NativeAssetType.HEADLINE}>
-                <Text style={styles.main_text}>
-                    {nativeAd.headline}
+                <Text style={styles.main_text}>{nativeAd.headline}</Text>
+            </NativeAsset>
+
+            <NativeAsset assetType={NativeAssetType.IMAGE}>
+                <NativeMediaView style={{ height: 150, alignSelf: 'center' }} />
+            </NativeAsset>
+
+            <NativeAsset assetType={NativeAssetType.CALL_TO_ACTION}>
+                <Text style={{ color: 'white', fontWeight: 'bold', marginTop: 10, backgroundColor: '#615f54', padding: 10, borderRadius: 5 }}>
+                    {nativeAd.callToAction}
                 </Text>
             </NativeAsset>
-            <NativeMediaView style={{ height: 150, alignSelf: 'center' }} />
-            <NativeAsset assetType={NativeAssetType.CALL_TO_ACTION}>
-                <View style={{ marginTop: 10, backgroundColor: '#615f54', padding: 10, borderRadius: 5 }}>
-                    <Text style={{ color: 'white', fontWeight: 'bold' }}>
-                        {nativeAd.callToAction}
-                    </Text>
-                </View>
-            </NativeAsset>
+
         </NativeAdView>
-    )
+    );
 }
 
 export default ProductCardSponsored
@@ -93,38 +101,5 @@ const styles = StyleSheet.create({
         color: "#fff",
         fontSize: 15,
         fontFamily: "f-regular",
-    },
-    divider: {
-        height: 1,
-        borderColor: '#777',
-        borderWidth: 1,
-        marginTop: 15,
-        marginBottom: 5,
-    },
-    tags: {
-        borderWidth: 1,
-        borderColor: '#3FAE7C',
-        borderRadius: 999,
-        paddingHorizontal: 10,
-        paddingVertical: 4,
-        marginRight: 6,
-    },
-    tags_text: {
-        fontSize: 12,
-        color: '#3FAE7C',
-        fontWeight: '500',
-    },
-    interaction_view: {
-        flexDirection: 'row',
-        //justifyContent: 'space-between',
-        alignItems: 'flex-end',
-        marginTop: 15,
-        gap: 15,
-    },
-    like_text: {
-        fontSize: 12,
-        color: 'white',
-        marginRight: 15,
-        verticalAlign: 'bottom'
     }
 })

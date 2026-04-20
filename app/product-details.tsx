@@ -31,7 +31,7 @@ export default function ProductDetails() {
                 //get the products from backend
                 const result = await BackEndService.getDetailledProduct(uuid);
                 setItem(result)
-                console.log(result)
+                //console.log(result)
                 setLoading(false);
 
             } catch (error) {

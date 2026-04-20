@@ -8,16 +8,13 @@ import axios from 'axios';
 import { UserLocation } from "./location";
 
 const getBaseURL = () => {
-  if (Platform.OS === 'android') {
-    return BASE_URL_BACKEND;
-  }
   if (Platform.OS === 'web') {
     if (isFeatureEnabled('isDeployed'))
       return BASE_URL_BACKEND;
     else
       return 'http://127.0.0.1:5002';
   }
-  // iOS or other platforms
+  // mobile platforms
   return BASE_URL_BACKEND;
 };
 

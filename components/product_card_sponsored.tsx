@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 
 import { NativeAd, NativeAdView, NativeAsset, NativeAssetType, NativeMediaView, TestIds } from 'react-native-google-mobile-ads';
 
@@ -35,16 +35,14 @@ const ProductCardSponsored = () => {
             style={styles.card}
         >
 
-            {/* <NativeAsset assetType={NativeAssetType.ICON}>
-                        {nativeAd.icon ? (
-                            <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
-                                <Image source={{ uri: nativeAd.icon.url }} width={24} height={24} />
-                                <Text style={{ fontSize: 12, color: 'white' }}>Annonce</Text>
-                            </View>
-                        ) : (
-                            <View />
-                        )}
-                    </NativeAsset> */}
+            <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
+                {nativeAd.icon ? (
+                    <NativeAsset assetType={NativeAssetType.ICON}>
+                        <Image source={{ uri: nativeAd.icon.url }} style={{ width: 24, height: 24 }} />
+                    </NativeAsset>
+                ) : null}
+                <Text style={{ fontSize: 12, color: 'white' }}>Annonce</Text>
+            </View>
 
             <NativeAsset assetType={NativeAssetType.HEADLINE}>
                 <Text style={styles.main_text}>{nativeAd.headline}</Text>

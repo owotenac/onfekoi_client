@@ -13,7 +13,8 @@
       "bundleIdentifier": "com.e2digitalstudio.onfekoi",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
-      }
+      },
+      "icon": "./assets/images/icon.png"
     },
     "android": {
       "adaptiveIcon": {
@@ -45,7 +46,7 @@
       [
         "expo-router",
         {
-          "origin": "https://www.ascanet.fr"
+          "origin": "https://www.onfekoi.app"
         }
       ],
       [
@@ -64,7 +65,8 @@
         "./node_modules/react-native-google-mobile-ads/plugin/build/index.js",
         {
           "androidAppId": "ca-app-pub-5464098617109994~4738600282",
-          "iosAppId": "ca-app-pub-3940256099942544~1458002511"
+          "iosAppId": "ca-app-pub-3940256099942544~1458002511",
+          "userTrackingUsageDescription": "ONFEKOI uses your data to deliver personalized ads to you."
         }
       ]
     ],

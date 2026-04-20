@@ -5,15 +5,15 @@ import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 export default function MapHeaderButton() {
 
-      const openMap = () => {
-        router.push({ pathname: '/map' });
-    }
+  const openMap = () => {
+    router.push({ pathname: '/map' });
+  }
 
   return (
-    <TouchableOpacity 
+    <TouchableOpacity
       onPress={openMap}
-      style={{ 
-        flexDirection: 'row', 
+      style={{
+        flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: 'rgba(74,158,255,0.15)',
         borderWidth: 1,

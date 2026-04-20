@@ -1,6 +1,6 @@
 //BACKEND URL
 export const BASE_URL_BACKEND = 'https://onfekoi-server.vercel.app/'
-export const BASE_URL_CLIENT = 'https://onfekoi-client.vercel.app/'
+export const BASE_URL_CLIENT = 'https://www.onfekoi.app/'
 
 //BACKEND ENV VAR
 const BACK_END_MODE = process.env.EXPO_PUBLIC_BACKEND === 'Vercel';

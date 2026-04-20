@@ -2,13 +2,13 @@ import { StyleSheet, } from 'react-native';
 
 
 export const global_styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 2,
-        backgroundColor: "#0e1420",
-        alignContent: 'center',
-        alignItems: 'center',
-      },
+  container: {
+    flex: 1,
+    padding: 2,
+    backgroundColor: "#0e1420",
+    alignContent: 'center',
+    alignItems: 'center',
+  },
 })
 
 
@@ -30,25 +30,25 @@ export const TabBarTheme = {
 }
 
 export const globalTheme = {
-  ALL : {
+  ALL: {
     color: '#1c1485',
   },
-  FoodEstablishment : {
+  FoodEstablishment: {
     color: '#FFA500',
   },
-  EntertainmentAndEvent :{
+  EntertainmentAndEvent: {
     color: '#8f207c',
   },
-  PointOfInterest :{
+  PointOfInterest: {
     color: '#487197',
   },
-  Tour :{
+  Tour: {
     color: '#418a45',
   },
-  RentalAccommodation :{
+  RentalAccommodation: {
     color: '#a13628',
-  } 
-}  as const;
+  }
+} as const;
 
 // Derive the type from the data — no need to maintain both separately
 export type ThemeKey = keyof typeof globalTheme;
